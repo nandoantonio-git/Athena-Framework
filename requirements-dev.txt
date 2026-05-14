@@ -1,0 +1,12 @@
+ipykernel
+jupyter
+jupyterlab
+notebook
+nbformat
+nbconvert
+jupytext
+
+pytest
+ruff
+black
+mypy

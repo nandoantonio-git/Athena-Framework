@@ -1,0 +1,44 @@
+# estado do loop
+scripts/.current-provider
+scripts/.last-story
+scripts/.story-attempts
+scripts/.prompt.md
+scripts/.last-message.md
+scripts/.model-check.log
+scripts/run.log
+scripts/events.log
+scripts/audit/
+
+# banco de trajectories
+memory/sessions.db
+memory/.active-session
+memory/trajectories.jsonl
+
+# candidatos aguardando revisão NÃO são gitignored — ficam no repo
+# skills/pending/*.md  <- intencional: visíveis para revisão
+
+# backup do AGENTS.md
+AGENTS.md.backup
+AGENTS.md.candidate
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# macOS
+.DS_Store
+
+# variáveis de ambiente
+.env
+.env.*
+
+# dados sensíveis
+data/raw/
+models/

@@ -1,0 +1,21 @@
+{
+  "project": "{{PROJECT_NAME}}",
+  "branchName": "loom/initial",
+  "description": "Backlog inicial — use /prd para gerar as user stories, /ralph para converter",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Exemplo — delete este item",
+      "description": "Como desenvolvedor, quero entender o formato para que eu possa escrever meu próprio backlog.",
+      "acceptanceCriteria": [
+        "Arquivo compila sem erros (gate.sh passa)",
+        "Funcionalidade X está implementada",
+        "Testes unitários passam"
+      ],
+      "priority": 1,
+      "passes": false,
+      "fix": "",
+      "notes": "Cada story deve ser completável em 1 iteração do Ralph (1 context window)"
+    }
+  ]
+}
