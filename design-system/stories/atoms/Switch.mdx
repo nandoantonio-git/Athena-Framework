@@ -1,0 +1,66 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SwitchStories from './Switch.stories';
+
+<Meta of={SwitchStories} />
+
+# Switch (`atom/switch`)
+
+**Status: ✅ aligned** — Figma-confirmado nesta US (US-013, releitura pontual
+de 2026-08-10), nó `1454:20959`, descrição verbatim: "botao de switch(liga e
+desliga funções)".
+
+**Reverificado em 2026-08-12 (US-026, 3ª passada de auditoria de
+ponto-fixo)** — nó marcado como editado pelo usuário no Figma em
+2026-08-10; `get_design_context` refeito do zero (sem reaproveitar leitura
+anterior) confirma as mesmas 2 variantes, mesmas cores (`on`=`#007e96`,
+`off`=cinza) e geometria (track 36×20, thumb 16×16 deslizando 18px) —
+nenhuma divergência nova encontrada, estrutura já era Figma-atual.
+
+<Canvas of={SwitchStories.Interactive} />
+<Controls />
+
+## Variantes (Figma-confirmado)
+
+2 variantes: `State=off` (`1454:20955`) e `State=on` (`1454:20965`). Track
+36×20px, thumb 16×16px deslizando 18px ao ligar. `On` usa preenchimento
+`#007e96` (`brand-teal`); `Off` usa o cinza literal `#d9d9d9`
+Figma-confirmado neste node.
+
+## API
+
+Prop `checked` (controlado) + `onCheckedChange`, em vez de replicar `State`
+como enum de string — mais idiomático para um controle binário real em
+React/HTML (`role="switch"`, `aria-checked`), sem perder fidelidade visual
+das 2 variantes Figma.
+
+## Estados (Regra 8)
+
+| Estado | Aplicável? | Nota |
+| --- | --- | --- |
+| Default (off) | ✅ | Track cinza, thumb à esquerda |
+| On | ✅ | Track `brand-teal`, thumb à direita — Figma-confirmado |
+| Hover | ✅ | Puramente CSS, sem prop dedicada |
+| Active/Pressed | ✅ | `active:scale-90` no thumb — feedback imediato no press, antes do release completar a transição de posição (fluid-interface, Regra 8) |
+| Disabled | 🧩 Extensão de engenharia | Não há variante `Disabled` confirmada no Figma para este nó — implementado por necessidade de produto (`disabled:opacity-50`), nunca apresentado como Figma-confirmado |
+| Loading | ❌ Não aplicável | Controle síncrono, sem estado assíncrono |
+| Error | ❌ Não aplicável | Não é um campo validável |
+
+## Fluid interface (Regra 8)
+
+Transição de posição do thumb (`translate-x`) e cor do track são
+interruptíveis (`transition-colors`/`transition-transform` padrão do
+navegador, sem animação customizada bloqueante) — soltar o clique no meio da
+transição não trava o controle. **reduced-motion: não documentado no
+Figma** — nenhuma variante ou nota de `prefers-reduced-motion` foi
+encontrada no nó consultado; a transição usa `motion-safe:` para já
+respeitar a preferência do usuário no nível de engenharia, sem que isso seja
+uma confirmação Figma.
+
+## Material Liquid Glass
+
+Não aplicável — track/thumb sólidos, sem efeito de vidro (Regra 10).
+
+## Fidelidade code-level
+
+100% reproduzível em código — sem asset exportado, geometria simples
+(track+thumb), cores confirmadas via `get_design_context`.

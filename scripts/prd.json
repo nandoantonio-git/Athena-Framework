@@ -1,21 +1,492 @@
 {
-  "project": "{{PROJECT_NAME}}",
-  "branchName": "loom/initial",
-  "description": "Backlog inicial — use /prd para gerar as user stories, /ralph para converter",
+  "project": "kandrive-design-system",
+  "branchName": "loom/kandrive-design-pattern-docs",
+  "description": "Backlog gerado a partir do prompt de auditoria da página Figma '✏️Design Pattern' — documentação Storybook local do Kandrive Design System, pronta para deploy no Vercel. Cada US foi cortada para caber em 1 iteração do Ralph (1 context window). Regras globais válidas para todas as US abaixo: nunca resolver um conflito com decisão travada silenciosamente (logar em design-system/docs/conflicts.md); distinguir sempre 'confirmado pelo Figma' de 'inferido'; logar checkpoint compacto ao final de cada camada em design-system/docs/checkpoints.md.",
   "userStories": [
     {
       "id": "US-001",
-      "title": "Exemplo — delete este item",
-      "description": "Como desenvolvedor, quero entender o formato para que eu possa escrever meu próprio backlog.",
+      "title": "Scaffold do Storybook + infraestrutura de logs (conflicts/checkpoints)",
+      "description": "Como front-end engineer sênior, quero um projeto Storybook inicializado com a estrutura de pastas padrão e os arquivos de log já preparados, para que as próximas US só precisem preencher conteúdo, não montar infraestrutura.",
       "acceptanceCriteria": [
-        "Arquivo compila sem erros (gate.sh passa)",
-        "Funcionalidade X está implementada",
-        "Testes unitários passam"
+        "design-system/ criado como projeto Node autocontido (package.json, tsconfig.json próprios) dentro deste repo — sem mexer em src/, data/, models/, notebooks/ da raiz (scaffold Python/ML do Athena-Framework)",
+        "React + TypeScript + Tailwind configurados em design-system/; shadcn/ui inicializado (components.json, cn util, tema base) como biblioteca de primitivos (Radix + CVA) para os componentes das próximas US",
+        "Storybook inicializado (CSF3 + addon-docs + addon-controls); `npm run build-storybook` gera build estático sem erros",
+        "Estrutura de pastas criada: design-system/stories/atoms, design-system/stories/molecules, design-system/stories/organisms, design-system/stories/tokens",
+        "Config de deploy para Vercel presente (design-system/vercel.json ou output dir compatível) e comando documentado no design-system/README.md",
+        "design-system/docs/conflicts.md criado com cabeçalho de tabela: | Componente | Conflito | Urgência | Justificativa da urgência |",
+        "design-system/docs/checkpoints.md criado com cabeçalho: | Camada | Componentes documentados | Conflitos logados | Tokens flagados como não usados |",
+        "Nenhum conteúdo de componente é escrito nesta US — apenas infraestrutura",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
       ],
       "priority": 1,
+      "passes": true,
+      "fix": "",
+      "notes": "Circuit breaker disparou por falso-negativo no gate (bug no matcher de run_acceptance_checks do ralph.sh, corrigido depois da run — pegava a substring 'npm run build-storybook' dentro do critério em prosa da linha 13 e tentava rodar a frase inteira como comando). tsc e build-storybook reais confirmados manualmente passando limpos após a run."
+    },
+    {
+      "id": "US-002",
+      "title": "Inventário completo da página Figma '✏️Design Pattern'",
+      "description": "Como product designer, quero ler a página inteira '✏️Design Pattern' via Figma MCP e catalogar todo componente e node — incluindo peças node-canvas parciais ou informalmente documentadas — para que as camadas atômicas sejam documentadas sem precisar reler o Figma a cada iteração.",
+      "acceptanceCriteria": [
+        "design-system/docs/figma-inventory.md lista cada componente/node da página com: nome, camada atômica (atom/molecule/organism/indefinido), descrição do Figma verbatim (entre aspas), e se é componente formal ou elemento node-canvas solto",
+        "Cada item marcado explicitamente como 'Figma-confirmado' ou 'inferido' quando a descrição do Figma estiver incompleta ou ausente",
+        "Itens sem nenhuma descrição no Figma são listados com nota 'sem descrição — intenção inferida abaixo' e a inferência do designer, nunca apresentada como fato",
+        "Inventário cobre 100% dos nodes visíveis na página, não só os componentizados formalmente",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 2,
+      "passes": true,
+      "fix": "",
+      "notes": "RESET em 2026-08-09: a primeira run não tinha o fileKey/URL do Figma persistido em nenhum arquivo (só existia na conversa com o usuário), então a iteração corretamente se recusou a inventar conteúdo e devolveu o controle — mas o gate automático (só tsc/build-storybook) não percebeu que design-system/docs/figma-inventory.md nunca foi criado, e a US foi marcada passes:true por engano. Fonte do Figma agora persistida em AGENTS.md (seção 'Fonte Figma') — use-a diretamente, não pergunte ao usuário. Este arquivo é a fonte única de verdade para US-004/005/006 — evita reler o Figma."
+    },
+    {
+      "id": "US-003",
+      "title": "Documentação de tokens (cor, tipografia, espaçamento, material) + tokens não usados",
+      "description": "Como front-end engineer, quero documentar os tokens de cor/tipografia/espaçamento/material da Kandrive em stories MDX somente-doc, para que o time tenha referência viva dos valores semânticos e visibilidade de tokens órfãos.",
+      "acceptanceCriteria": [
+        "design-system/stories/tokens/Colors.mdx documenta a paleta usando só nomes semânticos no formato cor/categoria/papel/valor-semântico (nunca nomes que vazam implementação, ex.: nunca $primaria-100)",
+        "Colors.mdx confirma: teal #2A7A8C como primária, cinza wordmark #3A3C38 como secundária, rosa reservado só para branding (nunca estado de UI), neutros na rampa Zinc do Tailwind — qualquer cor no Figma fora dessa lista é logada em design-system/docs/conflicts.md",
+        "design-system/stories/tokens/Typography.mdx documenta família Figtree, escala Major Third (1.25) e piso de 16px em todos os tokens, com nota de conformidade WCAG 1.4.4",
+        "design-system/stories/tokens/Spacing.mdx documenta a escala de espaçamento observada nos componentes do inventário (US-002)",
+        "design-system/stories/tokens/Materials.mdx documenta o material 'Liquid Glass' da seção homônima do Figma como spec compartilhada (blur, opacidade/vibrancy, camadas, borda) — não como componente isolado, e sim como padrão reaplicável; onde a especificação do Figma estiver incompleta, a inferência fica marcada como tal, nunca como confirmada",
+        "design-system/stories/tokens/unused.mdx lista toda cor/variável da biblioteca não referenciada por nenhum componente da página '✏️Design Pattern', com o motivo — nada é removido do Figma ou do código sem confirmação separada do usuário",
+        "RECONCILIAÇÃO OBRIGATÓRIA: se Colors.mdx/Typography.mdx/Spacing.mdx/Materials.mdx/unused.mdx já existirem de uma run anterior sem acesso ao Figma (conteúdo 🧩 Inferido, não Figma-confirmado), não pular — reabrir cada um, comparar contra o Figma real (get_variable_defs, get_design_context na seção Typography/Pallete/Material - Liquid Glass do inventário de US-002) e promover para Figma-confirmado o que bater, ou logar CONFLICT em design-system/docs/conflicts.md o que divergir (ex.: cor fora da paleta travada)",
+        "Checkpoint registrado em design-system/docs/checkpoints.md: camada=tokens",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 3,
+      "passes": true,
+      "fix": "",
+      "notes": "RESET em 2026-08-09 junto com US-002 — os 5 arquivos de tokens existentes foram escritos sem acesso real ao Figma (só a partir das Regras travadas em AGENTS.md), e precisam ser reconciliados contra o inventário real agora que a Fonte Figma está persistida em AGENTS.md. Depende de US-002 (inventário) para saber quais tokens estão realmente em uso."
+    },
+    {
+      "id": "US-004",
+      "title": "Documentar e implementar camada Atoms",
+      "description": "Como front-end engineer sênior, quero implementar e documentar todos os átomos do inventário Figma como stories reais (CSF3 + MDX), cruzando cada um contra as decisões travadas do design system, para que o Storybook sirva de spec viva e machine-readable.",
+      "acceptanceCriteria": [
+        "CONDICIONAL DE SKIP (checar antes de criar qualquer arquivo): para cada átomo do inventário real (design-system/docs/figma-inventory.md, gerado por US-002 com acesso Figma de verdade), verificar se já existe design-system/stories/atoms/<Componente>.stories.tsx + .mdx E se o status badge desse .mdx já é ✅ aligned (ou seja, já foi reconciliado contra o Figma real, não só 🆕 undocumented-until-now / 🧩 Inferido de uma run anterior sem acesso ao Figma). Só pular se AMBAS as condições forem verdadeiras. Se algum átomo existir mas ainda estiver 🧩 Inferido, reabrir e reconciliar contra o Figma real em vez de pular. Se TODOS os átomos da lista real já estiverem ✅ aligned, marcar US-004 como atendida e seguir para a próxima US disponível",
+        "Todo átomo listado em design-system/docs/figma-inventory.md (US-002) que AINDA NÃO existir em design-system/stories/atoms/ (conforme checagem acima) ganha .stories.tsx (componente React real renderizado, Controls addon ligado a props/tokens reais, não mockup) + .mdx co-localizado com nome, descrição de uma linha e status badge (✅ aligned / ⚠️ conflict logged / 🆕 undocumented-until-now)",
+        "atom/PushButton documentado como único componente de botão do MVP; qualquer button/primary, button/secondary ou button/destructive encontrado no Figma é logado em design-system/docs/conflicts.md como CONFLICT, sem resolução automática (urgência alta se usado em fluxo ao vivo como Guardar)",
+        "Para cada componente interativo: os 6 estados (default, hover, active/pressed, disabled, loading, error) são checados contra o Figma; estado ausente no Figma é logado como gap, nunca inventado",
+        "Para componente animado/gestual: nota comparando comportamento atual vs. baseline de fluid-interface (feedback no press, motion interrompível, transições a partir do valor atual na tela); reduced-motion documentado se visível no Figma, senão marcado 'não documentado'",
+        "Peças não reproduzíveis com fidelidade code-level (vetores customizados, efeitos node-canvas) seguem o fallback: estrutura + tokens em código real, e imagem estática do Figma só para o detalhe específico não recriável — decisão registrada no arquivo antes do fallback",
+        "Todo texto visível nos átomos é conferido contra a terminologia travada (nunca freezer/congelado/frio/camada/elegível/'Liberar Espaço'/'CTA' como texto visível)",
+        "Todo átomo que exibir visualmente o efeito 'Liquid Glass' referencia design-system/stories/tokens/Materials.mdx no seu .mdx (não reimplementa a spec do material isolado no componente)",
+        "Checkpoint registrado em design-system/docs/checkpoints.md: camada=atoms, componentes documentados, conflitos logados, tokens flagados",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 4,
+      "passes": true,
+      "fix": "",
+      "notes": "RESET em 2026-08-09 — a run anterior só documentou o único átomo citado em AGENTS.md (PushButton), sem acesso real ao Figma (inventário não existia). Fonte Figma agora em AGENTS.md. Reconciliar PushButton contra o Figma real (não é 'já feito', é 🧩 Inferido) e cobrir qualquer outro átomo que apareça no inventário real. Depende de US-002 e US-003. Não reler o Figma do zero — usar o inventário."
+    },
+    {
+      "id": "US-005",
+      "title": "Documentar e implementar camada Molecules",
+      "description": "Como front-end engineer sênior, quero implementar e documentar todas as moléculas do inventário Figma, com atenção específica aos gaps já conhecidos (badge/storage-tier, input/search, chip/folder-tag), cruzando cada uma contra as decisões travadas.",
+      "acceptanceCriteria": [
+        "CONDICIONAL DE SKIP (checar antes de criar qualquer arquivo): para cada molecule do inventário real (design-system/docs/figma-inventory.md, gerado por US-002 com acesso Figma de verdade), verificar se já existe design-system/stories/molecules/<Componente>.stories.tsx + .mdx E se o status badge já é ✅ aligned (reconciliado contra o Figma real, não só 🆕/🧩 Inferido de run anterior sem Figma). Só pular se AMBAS forem verdadeiras. Se existir mas ainda 🧩 Inferido, reabrir e reconciliar em vez de pular. Se TODAS as molecules reais já estiverem ✅ aligned, marcar US-005 como atendida e seguir para a próxima US disponível",
+        "Todo molecule listado no inventário (US-002) que AINDA NÃO existir em design-system/stories/molecules/ (conforme checagem acima) ganha .stories.tsx (render real + Controls) + .mdx com status badge, seguindo o mesmo padrão de fidelidade e fallback da US-004",
+        "badge/storage-tier documentado com os 3 rótulos confirmados (Acesso rápido, Longo prazo, Pronto para guardar) e status explícito de NÃO aplicado a nenhuma tela ainda — badge 🆕 undocumented-until-now, nunca ✅ aligned",
+        "input/search documentado citando o placeholder atual do Figma verbatim; pendência 'placeholder ainda não atualizado' logada em design-system/docs/conflicts.md como urgência baixa (gap de polish, sem conflito de decisão travada)",
+        "chip/folder-tag documentado com o residual opacity:0 e a ausência da variante isExpanded, ambos logados em design-system/docs/conflicts.md como urgência baixa (gap de polish, sem conflito de decisão)",
+        "Estados de interação, fluid-interface e reduced-motion documentados por componente, igual critério da US-004",
+        "Terminologia de UI conferida contra a lista travada em todo texto visível",
+        "Toda molecule que exibir visualmente o efeito 'Liquid Glass' referencia design-system/stories/tokens/Materials.mdx no seu .mdx (não reimplementa a spec do material isolado no componente)",
+        "Checkpoint registrado em design-system/docs/checkpoints.md: camada=molecules, componentes documentados, conflitos logados, tokens flagados",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 5,
+      "passes": true,
+      "fix": "",
+      "notes": "RESET em 2026-08-09 — a run anterior só documentou as 3 moléculas citadas em AGENTS.md, sem acesso real ao Figma. Fonte Figma agora em AGENTS.md. Reconciliar as 3 existentes (🧩 Inferido, não confirmado) e cobrir qualquer outra molecule do inventário real. Depende de US-002/003/004. Os 3 gaps conhecidos (badge/storage-tier, input/search, chip/folder-tag) vêm do contexto do prompt — não são conflitos de decisão, são gaps abertos já sabidos."
+    },
+    {
+      "id": "US-006",
+      "title": "Documentar e implementar camada Organisms",
+      "description": "Como front-end engineer sênior, quero implementar e documentar todos os organismos do inventário Figma, compostos pelos atoms/molecules já documentados, cruzando cada um contra as decisões travadas e os fluxos reais (ex.: Guardar, Arquivar).",
+      "acceptanceCriteria": [
+        "CONDICIONAL DE SKIP (checar antes de criar qualquer arquivo): para cada organism do inventário real (design-system/docs/figma-inventory.md, gerado por US-002 com acesso Figma de verdade), verificar se já existe design-system/stories/organisms/<Componente>.stories.tsx + .mdx E se o status badge já é ✅ aligned (reconciliado contra o Figma real, não só 🆕/🧩 Inferido de run anterior sem Figma). Só pular se AMBAS forem verdadeiras. Se existir mas ainda 🧩 Inferido, reabrir e reconciliar em vez de pular. Se TODOS os organisms reais já estiverem ✅ aligned, marcar US-006 como atendida e seguir para a próxima US disponível",
+        "Todo organism listado no inventário (US-002) que AINDA NÃO existir em design-system/stories/organisms/ (conforme checagem acima) ganha .stories.tsx (render real, composto pelos atoms/molecules já implementados em US-004/005) + .mdx com status badge",
+        "Qualquer uso de button/primary, button/secondary, button/destructive ou terminologia proibida dentro de um organismo é logado em design-system/docs/conflicts.md com urgência alta se o organismo pertence a um fluxo ao vivo (ex.: fluxo Guardar/Arquivar)",
+        "Estados de interação, fluid-interface e reduced-motion documentados por componente, igual critério da US-004",
+        "Composição do organismo referencia os tokens e sub-componentes já documentados, sem redocumentar do zero peças já cobertas em US-004/005",
+        "Todo organism que exibir visualmente o efeito 'Liquid Glass' referencia design-system/stories/tokens/Materials.mdx no seu .mdx (não reimplementa a spec do material isolado no componente)",
+        "Checkpoint registrado em design-system/docs/checkpoints.md: camada=organisms, componentes documentados, conflitos logados, tokens flagados",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 6,
+      "passes": true,
+      "fix": "",
+      "notes": "RESET em 2026-08-09 — os 2 organismos existentes foram inferidos a partir da descrição de domínio, sem acesso real ao Figma (nem mencionados em AGENTS.md, diferente dos átomos/moléculas). Fonte Figma agora em AGENTS.md, incluindo a seção 'Pages' que provavelmente contém as composições de tela reais. Reconciliar os 2 existentes e cobrir qualquer outro organism do inventário real. Depende de US-002/003/004/005. É a camada com maior risco de conflito de alta urgência, pois representa fluxos reais."
+    },
+    {
+      "id": "US-007",
+      "title": "Auditoria final de terminologia UI em toda a documentação gerada",
+      "description": "Como product designer, quero uma varredura final de todos os stories/mdx gerados (atoms/molecules/organisms) contra a lista de terminologia travada, para pegar qualquer termo proibido que tenha escapado durante a documentação por camada.",
+      "acceptanceCriteria": [
+        "Todo texto visível em stories/*.mdx e *.stories.tsx revisado contra a lista permitida (Acesso rápido, Longo prazo, Guardar, Arquivar, Pronto para guardar, Ver duplicados, Buscar arquivos, pastas ou templates) e a lista proibida (freezer, congelado, frio, camada como rótulo de UI, elegível como rótulo de UI, Liberar Espaço, CTA como texto visível)",
+        "Toda violação encontrada é logada em design-system/docs/conflicts.md (urgência alta se em fluxo ao vivo, média/baixa caso contrário) — nenhuma correção de copy é aplicada nesta US, só o log",
+        "Relatório de auditoria (design-system/docs/terminology-audit.md) lista quantos arquivos foram revisados e quantas violações foram encontradas",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 7,
+      "passes": true,
+      "fix": "",
+      "notes": "RESET em 2026-08-09 — precisa reauditar depois que US-004/005/006 reconciliarem contra o Figma real (conteúdo pode mudar). Depende de US-004/005/006 estarem completas. Rede de segurança contra violação de terminologia que tenha passado despercebida camada a camada."
+    },
+    {
+      "id": "US-008",
+      "title": "QA final e prontidão de deploy no Vercel",
+      "description": "Como front-end engineer sênior, quero validar que a documentação Storybook está completa, consistente e pronta para deploy no Vercel, encerrando o loop de auditoria da página '✏️Design Pattern'.",
+      "acceptanceCriteria": [
+        "`npm run build-storybook` roda sem erros com todas as stories de atoms/molecules/organisms/tokens incluídas",
+        "design-system/docs/checkpoints.md contém checkpoint para as 3 camadas atômicas + tokens, sem pendência de releitura",
+        "design-system/docs/conflicts.md consolidado, ordenado por urgência (alta > média > baixa), sem entradas duplicadas",
+        "Cada arquivo .mdx tem status badge coerente com o conteúdo (nenhum ✅ aligned em componente com conflito aberto logado)",
+        "Toda inferência permanece marcada explicitamente como inferida em cada arquivo tocado (nenhuma inferência apresentada como confirmação do Figma)",
+        "design-system/README.md ou design-system/vercel.json documenta o comando de deploy para Vercel",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 8,
+      "passes": true,
+      "fix": "",
+      "notes": "RESET em 2026-08-09 junto com US-002/003/004/005/006/007 — precisa revalidar o estado final depois da reconciliação real contra o Figma. Última US do backlog. Depende de todas as anteriores."
+    },
+    {
+      "id": "US-009",
+      "title": "Reconciliar cores com o Figma real (Regra 3 atualizada)",
+      "description": "Como front-end engineer sênior, quero propagar a decisão humana de 2026-08-10 (Figma como fonte de verdade para cor) para toda a documentação e código restante, para que a marca visual pare de divergir do arquivo real.",
+      "acceptanceCriteria": [
+        "design-system/stories/tokens/Colors.mdx atualizado: primária #007e96 (era #2A7A8C) e secundária #31302d (era #3A3C38) marcadas como valores atuais; #2A7A8C/#3A3C38 marcados 'descontinuado 2026-08-10' (não apagados do histórico da doc, só não usados como valor ativo)",
+        "Colors.mdx documenta o rosa (--brand-pink-dark #b5254a / --brand-pink-light #e8476a, já em src/index.css) como cor semântica de dado/estado da categoria 'Acesso rápido', não mais 'só branding'",
+        "Colors.mdx documenta a cor de perigo Figma-confirmada (--destructive #bc3426, já corrigida em src/index.css) como cor/feedback/perigo/padrão",
+        "molecule/StorageBar (ou onde a barra de armazenamento estiver implementada) usa --brand-pink-dark/--brand-pink-light para o(s) segmento(s) 'Acesso rápido' explicitamente — se o componente ainda não existir no código, criar seguindo o padrão de fidelidade das US-004/005 (node Figma 1421:17904, 'Style=Expanded')",
+        "grep de verificação: nenhuma referência a #2A7A8C ou #3A3C38 sobra em src/ ou stories/ fora de comentários/notas históricas explicitamente marcadas como descontinuadas",
+        "Checkpoint atualizado em design-system/docs/checkpoints.md notando a reconciliação de cores",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 9,
+      "passes": true,
+      "fix": "",
+      "notes": "Regra 3 em AGENTS.md já atualizada. src/index.css e push-button.tsx já foram corrigidos manualmente em 2026-08-10 (--brand-teal=#007e96, --brand-pink-dark/light, --destructive=#bc3426) — esta US é sobre propagar pro resto (Colors.mdx, StorageBar, sweep de valores antigos), não repetir esse trabalho."
+    },
+    {
+      "id": "US-010",
+      "title": "Terminologia Liberar/Gerir Espaço — propagar pros componentes restantes",
+      "description": "Como front-end engineer sênior, quero terminar de propagar a decisão humana de 2026-08-10 sobre os rótulos de 'espaço' (Sidebar='Gerir Espaço', Armazenamento='Liberar Espaço'), incluindo o botão isDestructive já implementado, para os componentes que ainda não foram atualizados.",
+      "acceptanceCriteria": [
+        "Reler via Figma MCP (get_design_context) os nodes de Sidebar (1421:17946) e StorageSidebar (1421:19167) especificamente pelo botão de espaço, antes de decidir se ele usa variant='primary'/'neutral' e isDestructive — não presumir, o node do modal (1439:16908) só confirma a cor destrutiva dos botões INTERNOS ('Excluir'/'Excluir cópias'), não do botão gatilho",
+        "organism/Sidebar.tsx mantém 'Gerir Espaço' (Figma-confirmado, já correto) — sem mudança de texto, só confirmar/atualizar comentários se a leitura acima trouxer novo dado",
+        "organism/StorageSidebar.tsx atualizado de 'Gerir Espaço' para 'Liberar Espaço' (o rótulo correto neste contexto, por decisão humana); botão 'Comprar Espaço' mantido sem mudança",
+        "organism/CleanSpaceStorage.tsx (node 1439:16908) atualizado: título já é 'Liberar Espaço' no Figma real (não mais 'Limpar Espaço' — já confirmado em 2026-08-10, só propagar pro código); os 5 botões internos ('Desfazer seleção', 'Selecionar todos', 'Excluir', 'Excluir cópias' x2) implementados com os variants/isDestructive corretos: 'Excluir'/'Excluir cópias' usam PushButton com isDestructive=true (chrome neutral, texto --destructive), 'Selecionar todos' usa cor primária (--brand-teal, var(--brand-primary-default) no Figma), 'Desfazer seleção' fica desabilitado/neutro conforme o Figma (texto cinza claro no estado lido)",
+        "Estrutura de conteúdo do modal reconciliada com a leitura completa já feita (2 seções: 'Arquivos grandes' com lista de arquivos + tag Acesso rápido/Longo prazo por item via pill inline — US-012 ainda não rodou nesta ordem, então o atom/StorageTierBadge formal ainda não existe; trocar pill por esse componente fica a cargo da própria US-012 quando ela rodar; 'Arquivos duplicados' com nota 'Detecção de duplicados ainda não existe de verdade, os grupos abaixo são exemplos ilustrativos' e badge 'Prévia' via atom/badge/TypeLabel)",
+        "Nenhuma ocorrência de 'Limpar Espaço' como texto visível em nenhum arquivo .tsx/.mdx do projeto (grep de verificação)",
+        "Todo texto visível conferido contra a lista de terminologia atualizada (Regra 5 em AGENTS.md)",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 10,
+      "passes": true,
+      "fix": "",
+      "notes": "Regra 5 em AGENTS.md já atualizada. O título 'Liberar Espaço' já está correto no Figma (confirmado 2026-08-10) — o que falta é propagar pro código (CleanSpaceStorage.tsx ainda tem 'Limpar Espaço' hardcoded) e pro StorageSidebar.tsx. US-012 (novo atom/StorageTierBadge) roda depois desta, então o pill inline é o caminho padrão aqui — trocar pelo componente formal fica pro escopo da própria US-012, não desta."
+    },
+    {
+      "id": "US-011",
+      "title": "Corrigir piso de acessibilidade tipográfico (Type/Button/MD e Type/Tag)",
+      "description": "Como front-end engineer sênior, quero aplicar a política de exceção de 16px definida em 2026-08-10 (piso obrigatório pra texto primário/interativo, exceção documentada só pra microtexto decorativo), para que o design system não carregue uma violação real de acessibilidade em um componente interativo.",
+      "acceptanceCriteria": [
+        "design-system/stories/tokens/Typography.mdx atualizado com a política de exceção completa (piso 16px pra texto primário/ação; exceção documentada pra badge/tag/caption, nunca <11px, sempre rem) — substituindo a nota genérica anterior",
+        "Type/Button/MD corrigido para >=16px na implementação real de atom/PushButton (não é mais tratado como exceção) — se isso quebrar o layout/hierarquia visual do botão, documentar a mudança no .mdx do PushButton, não só no token",
+        "Type/Tag corrigido para >=11px (estava em 8px, abaixo até do piso de exceção) em qualquer componente que o use (ex.: FolderTagChip, badges)",
+        "Type/Caption/SM, Type/Body/XS, Type/Body/XS/Bold, Type/Body/SM permanecem como exceção documentada (nenhuma mudança de valor necessária), mas confirmar que estão implementados com unidade rem, não px fixo — corrigir se estiverem em px",
+        "Linha de tipografia em design-system/docs/conflicts.md atualizada refletindo o que foi corrigido nesta US vs. o que permanece como exceção documentada",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 11,
+      "passes": true,
+      "fix": "",
+      "notes": "Decisão travada em AGENTS.md Regra 4 (atualizada 2026-08-10)."
+    },
+    {
+      "id": "US-012",
+      "title": "Substituir StorageTierBadge: descontinuar o antigo, implementar o novo (Figma-confirmado)",
+      "description": "Como front-end engineer sênior, quero remover a versão antiga (inferida, nunca usada em tela) do badge de tier e implementar a versão nova que o usuário criou no Figma (node 1457:21014), para que o design system reflita o componente real em uso, não uma suposição descontinuada.",
+      "acceptanceCriteria": [
+        "design-system/stories/molecules/StorageTierBadge.stories.tsx e .mdx (versão antiga, molecule, 3 rótulos) removidos, junto com src/components/molecules/storage-tier-badge.tsx",
+        "Reler via Figma MCP (get_design_context, skillNames=figma-design-to-code) o node 1457:21014 (atom/StorageTierBadge, variantes tier=current/tier=long term) — já parcialmente lido em 2026-08-10 (ver notas), confirmar/completar antes de implementar",
+        "Novo componente criado em design-system/src/components/atoms/storage-tier-badge.tsx (camada ATOM, não molecule — Figma classifica como atom) com prop tier: 'current' | 'long term', rótulos 'Acesso rápido'/'Longo prazo' (só 2 variantes, sem 'Pronto para guardar' — essa suposição da versão antiga não existe no componente real)",
+        "design-system/stories/atoms/StorageTierBadge.stories.tsx + .mdx novos, status ✅ aligned (Figma-confirmado, não mais 🆕 undocumented-until-now)",
+        ".mdx documenta o escopo real conforme o usuário esclareceu: uso em contextos de detalhe de arquivo/específico (ex.: dentro de organism/cleanSpaceStorage, rótulo por item), não como badge de navegação/filtro sistêmico — a segmentação sistêmica 'guardado'/'corrente' continua sendo por diretório, conforme Regra 6",
+        "Se organism/CleanSpaceStorage (US-010) já estiver implementado quando esta US rodar, atualizar os pills inline de 'Acesso rápido'/'Longo prazo' pra usar o novo atom/StorageTierBadge em vez de markup duplicado",
+        "design-system/docs/checkpoints.md atualizado: remove StorageTierBadge (molecule) da contagem de molecules, adiciona StorageTierBadge (atom) na contagem de atoms, com nota da substituição",
+        "Nenhuma referência quebrada à versão antiga sobra em outros .mdx/.stories.tsx (grep de verificação)",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 12,
+      "passes": true,
+      "fix": "",
+      "notes": "Regra 6 em AGENTS.md já atualizada com a distinção antigo/novo. Roda antes de US-013 porque aquela US (os 10 componentes atualizados) pode referenciar este novo atom (StorageStatus/badge/TypeLabel têm sobreposição conceitual)."
+    },
+    {
+      "id": "US-013",
+      "title": "Reler e implementar os 10 componentes atualizados no Figma em 2026-08-10",
+      "description": "Como product designer + front-end engineer sênior, quero reler via Figma MCP os componentes que o usuário editou diretamente no Figma depois da última leitura, e documentá-los/implementá-los do zero (não confiar no inventário de 2026-08-09 pra estes), para que o Storybook reflita o estado atual do arquivo, não um estado desatualizado.",
+      "acceptanceCriteria": [
+        "Antes de qualquer coisa: rodar get_metadata (fileKey oFp2TLeCG4GJeCOFVhBvjg, nodeId 1421:17272) de novo pra localizar os node IDs atuais dos 10 componentes listados em AGENTS.md ('Componentes atualizados no Figma em 2026-08-10') — os IDs podem ter mudado desde a run anterior",
+        "Para cada um dos 10 (atom/switch, atom/firstUploadSymbol, organism/CardNeedMoreHelp, organism/FAQ/info/cards/colapsed, organism/card/login, atom/badge/TypeLabel, molecule/StorageStatus/Current, molecule/StorageStatus, molecule/radiobutton, organism/FAQ/info/Card): rodar get_design_context (com skillNames=figma-design-to-code) node-a-node pra descrição/conteúdo/código real, não inferir só pelo nome — usar a description do componente quando disponível (achado de 2026-08-10: get_metadata NÃO retorna description, só get_design_context retorna; não repetir esse erro)",
+        "Cada componente ganha .stories.tsx + .mdx na camada atômica correta (atom/molecule/organism conforme o nome sugere, reclassificar se a composição real divergir do prefixo do Figma, como já aconteceu em US-004/005/006 — justificar a reclassificação no .mdx se houver)",
+        "atom/badge/TypeLabel: já usado em código (CleanSpaceStorage) — reconciliar contra a leitura fresca desta US, não duplicar implementação",
+        "molecule/StorageStatus + molecule/StorageStatus/Current: reconciliar contra o que já existe no design system relacionado a status de armazenamento (ver achados de badge/storage-tier em figma-inventory.md, US-002) — pode haver sobreposição conceitual com atom/StorageTierBadge (US-012, já implementado antes desta), documentar a relação entre os dois se houver",
+        "Status badge de cada um: ✅ aligned (Figma-confirmado, lido nesta US) — não 🆕/🧩, já que a leitura é direta e fresca",
+        "Estados de interação, fluid-interface e reduced-motion documentados por componente, igual critério das US-004/005/006 (atom/switch e molecule/radiobutton são claramente interativos — não pular essa parte)",
+        "Terminologia de UI conferida contra a Regra 5 atualizada em todo texto visível encontrado nesses 10 componentes",
+        "Checkpoint novo registrado em design-system/docs/checkpoints.md: leitura pontual dos 10 componentes atualizados (2026-08-10)",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 13,
+      "passes": true,
+      "fix": "",
+      "notes": "Estes 10 nomes vêm direto do usuário. Roda depois de US-012 (novo atom/StorageTierBadge) já implementado, já que atom/badge/TypeLabel e StorageStatus podem se relacionar com ele."
+    },
+    {
+      "id": "US-014",
+      "title": "Ligar cada story ao frame real do Figma (aba Design, @storybook/addon-designs)",
+      "description": "Como front-end engineer sênior, quero que cada story tenha uma aba 'Design' com o frame Figma real embutido (interativo, com Inspect nativo), para que o dev consiga comparar/inspecionar o componente vivo contra o Figma sem sair do Storybook — decisão humana de 2026-08-10.",
+      "acceptanceCriteria": [
+        "@storybook/addon-designs já está instalado e registrado em .storybook/main.ts (feito manualmente antes desta US — não reinstalar, só usar)",
+        "Para cada .stories.tsx com Meta (CSF3): adicionar parameters: { design: { type: 'figma', url: 'https://www.figma.com/design/oFp2TLeCG4GJeCOFVhBvjg/KanDrive?node-id=<X-Y>' } } no objeto Meta, usando o node ID PRIMÁRIO já documentado no comentário de topo do próprio componente .tsx (não um node secundário citado de passagem) — converter o formato 'X:Y' do comentário pra 'X-Y' na URL (padrão Figma)",
+        "Para os 4 arquivos com múltiplos node IDs no comentário (DialogSaveOrganizationModal, DropNewTag, DropdownMenu, OrganizePanelDropZone, FileListContainer/FileListItem, PreviewPane, SaveLongTermFileStorage, Sidebar/StorageSidebar) — usar o node do PRÓPRIO organism/molecule (geralmente o primeiro citado no comentário 'organism/X (`node`)'), não de um sub-componente que ele compõe",
+        "Para as 4 páginas de tokens somente-doc (Colors.mdx, Typography.mdx, Materials.mdx, Spacing.mdx — MDX puro, sem .stories.tsx): adicionar parameters={{design: {type: 'figma', url: '...'}}} direto na tag <Meta> do MDX, apontando pro node da seção Figma correspondente (Colors→Pallete `1427:16958`, Typography→Typography `1427:16951`, Materials→Material - Liquid Glass `1431:17276`; Spacing não tem seção própria no Figma — pode deixar sem design tab, ou apontar pro node `1421:17904` já usado como amostra, documentar a escolha)",
+        "unused.mdx não recebe design tab (é lista de tokens não usados, sem componente/frame único correspondente)",
+        "stories/organisms/SearchToolbar.mdx/.stories.tsx NÃO recebe design tab — já documentado como composição própria do design system sem paralelo Figma exato (ver docs/conflicts.md) — não inventar um node pra ele",
+        "Verificação: abrir o Storybook (npm run storybook) e confirmar visualmente que pelo menos 5 stories de camadas diferentes (1 atom, 1 molecule, 1 organism, 1 token) mostram a aba 'Design' funcionando com o frame Figma carregando de verdade, não um erro/tela em branco",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 14,
+      "passes": true,
+      "fix": "",
+      "notes": "Decisão humana 2026-08-10 (Q1 da rodada de grilling). Trabalho mecânico — a maioria dos node IDs já está documentada no comentário de topo de cada componente, não precisa reler o Figma pra descobrir nada novo."
+    },
+    {
+      "id": "US-015",
+      "title": "Corrigir os 7 bugs encontrados pelo usuário em auditoria manual (Regra 11 obrigatória)",
+      "description": "Como front-end engineer sênior, quero corrigir divergências reais encontradas pelo usuário depois que minha própria auditoria (feita sem o protocolo da Regra 11) deixou passar, para que o design system pare de ter elementos inventados ou faltando.",
+      "acceptanceCriteria": [
+        "SEGUIR A REGRA 11 (AGENTS.md) PARA CADA ITEM ABAIXO: get_design_context real + screenshot Playwright + checklist elemento-a-elemento antes de considerar corrigido — não repetir o erro da auditoria rasa anterior",
+        "organism/Sidebar: falta o ícone superior de minimizar/colapsar a sidebar — reler o node real, confirmar o ícone exato (provavelmente relacionado a atom/Icon/ArrowBackIos ou um ícone dedicado de collapse) e implementar",
+        "molecule/action-pill: falta um ícone de 'info' confirmado no Figma — reler o node 1421:19027 via get_design_context (não só get_metadata) e adicionar o ícone que estiver faltando na composição real",
+        "organism/file-list-item: tem um botão inventado que não existe no Figma — remover, e implementar só o que o node real confirma (reler via get_design_context, não confiar na implementação anterior)",
+        "organism/Header: usa texto 'Kandrive' em vez do SVG real do logo — exportar o vetor real do logo via download_assets e usar como asset, não como texto estilizado",
+        "organism/upload-popover: tem uma barra de progresso inventada que não bate com o Figma real — reler o node 1421:19292 via get_design_context e implementar só os elementos confirmados",
+        "organism/OrganizePanel/DropZone: cor de fundo e material estão errados — reler o node 1421:18781 via get_design_context, confirmar os tokens reais de cor/Liquid Glass e corrigir",
+        "organism/OrganizeFreeModeCanvas: botões da toolbar inferior sem espaçamento correto, e confirmar de novo (screenshot Playwright fresco, não assumir) que o fundo de pontos e o Mini-Map adicionados em 2026-08-10 estão realmente renderizando — se não estiverem, investigar causa raiz (build/cache), não só reafirmar que o código existe",
+        "Cada correção documentada no .mdx do componente com nota 'corrigido em 2026-08-11 após achado do usuário — auditoria anterior não seguia a Regra 11'",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 15,
+      "passes": true,
+      "fix": "",
+      "notes": "Prioridade máxima — são bugs reais confirmados pelo usuário, não hipóteses. Regra 11 (AGENTS.md) é obrigatória aqui e em todas as US seguintes."
+    },
+    {
+      "id": "US-016",
+      "title": "Implementar família Organize/Canvas ausente (boxIconButton, nodoContextMenu, buttonAdd)",
+      "description": "Como front-end engineer sênior, quero implementar os componentes da família de contexto/canvas de Organização que o usuário confirmou estarem totalmente ausentes, para fechar a lacuna mais crítica encontrada na auditoria.",
+      "acceptanceCriteria": [
+        "Seguir a Regra 11 (AGENTS.md) para cada item — get_design_context real + screenshot Playwright + checklist elemento-a-elemento",
+        "atom/boxIconButton (node 1431:20102) — implementar como novo atom, Figma-confirmado",
+        "molecule/nodoContextMenu (node 1440:23821) — implementar como nova molecule",
+        "celule/nodoContextMenuItem (node 1421:20528) — implementar como peça própria da camada 'celule' (ver Estrutura de arquivos em AGENTS.md — não forçar em atom nem molecule)",
+        "atom/buttonAdd (node 1421:20509) — implementar como novo atom",
+        "Se algum desses já estiver em uso implícito em outro componente (ex.: OrganizePanelDropZone, OrganizeFreeModeCanvas), reconciliar essas composições para usar o componente real em vez de markup duplicado",
+        "Status de cada um: ✅ aligned (Figma-confirmado nesta US)",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 16,
+      "passes": true,
+      "fix": "",
+      "notes": "Os 2 itens que o usuário nomeou explicitamente como ausentes (boxIconButton, ContextMenu/FreeMode) — node IDs já em AGENTS.md, não precisa rebuscar no get_metadata."
+    },
+    {
+      "id": "US-017",
+      "title": "Novos atoms — família de item de arquivo (ArchiveItem, FolderItem, ImageItem, SelectState, Tag)",
+      "description": "Como front-end engineer sênior, quero implementar os atoms de item de arquivo/pasta/imagem que nunca foram catalogados, para reduzir a lacuna de ~40 componentes encontrada em 2026-08-11.",
+      "acceptanceCriteria": [
+        "Seguir a Regra 11 (AGENTS.md) para cada item — get_design_context real (não só get_metadata) + screenshot Playwright + checklist elemento-a-elemento",
+        "atom/ArchiveItem (`1421:18214`), atom/FolderItem (`1440:24306`), atom/ImageItem (`1421:18311`), atom/SelectState (`1421:18292`), atom/Tag (`1421:17929`) — implementar cada um como atom Figma-confirmado",
+        "Se a composição real de algum divergir muito do prefixo 'atom/' (ex.: for mais complexo que um átomo — já aconteceu antes com organisms mal classificados), reclassificar e justificar no .mdx, mesmo critério já usado em US-004/005/006",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 17,
+      "passes": true,
+      "fix": "",
+      "notes": "Parte da lacuna de ~40 componentes (checkpoints.md, 2026-08-11). Node IDs já em AGENTS.md."
+    },
+    {
+      "id": "US-018",
+      "title": "Novos atoms — tags de organização e labels de alerta",
+      "description": "Como front-end engineer sênior, quero implementar os atoms de tag/label restantes da lacuna de 2026-08-11.",
+      "acceptanceCriteria": [
+        "Seguir a Regra 11 (AGENTS.md) para cada item",
+        "atom/TagOrgMode (`1421:18769`), atom/TagOrgTemplateName (`1421:18778`), atom/Label/Duplicated (`1439:16874`), atom/Label/Storage/Alert (`1439:16885`), atom/UploadFolder (`1439:17053`) — implementar cada um como atom Figma-confirmado",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 18,
+      "passes": true,
+      "fix": "",
+      "notes": "Parte da lacuna de ~40 componentes (checkpoints.md, 2026-08-11). Node IDs já em AGENTS.md."
+    },
+    {
+      "id": "US-019",
+      "title": "Novos atoms — itens de dropdown e tags de sidebar",
+      "description": "Como front-end engineer sênior, quero implementar os últimos atoms da lacuna: itens internos de dropdown e tags da sidebar.",
+      "acceptanceCriteria": [
+        "Seguir a Regra 11 (AGENTS.md) para cada item",
+        "atom/buttonAdd já foi coberto na US-016 — não duplicar",
+        "atom/DropdownSelect/GroupBy/Item (`1444:21587`), atom/DropdownSelect/Label/Item (`1444:21704`) — implementar como atoms Figma-confirmados; reconciliar molecule/DropdownSelectGroupBy (já implementada) para usar o item real se divergir do que já existe",
+        "atom/Sidebar/Tags/Items — node não capturado no get_metadata anterior; buscar via get_design_context na área da Sidebar (organism/Sidebar, node 1421:17946) antes de implementar — não inventar node ID",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 19,
+      "passes": true,
+      "fix": "",
+      "notes": "Última leva de atoms da lacuna de 2026-08-11."
+    },
+    {
+      "id": "US-020",
+      "title": "Nova camada 'celule' — sub-peças do canvas de Organização Livre",
+      "description": "Como front-end engineer sênior, quero implementar as 4 sub-peças reais do organism/OrganizeFreeModeCanvas (ItemNode, ListItem, OutputNode, Buttons) e reconciliar esse organism pra usá-las, em vez do markup aproximado atual.",
+      "acceptanceCriteria": [
+        "Seguir a Regra 11 (AGENTS.md) para cada item",
+        "celule/MainCanvas/Organization/FreeMode/ItemNode (`1421:20108`), /ListItem (`1421:20757`), /OutputNode (`1421:20262`), /Buttons (`1431:20043`) — implementar cada um como peça própria da camada 'celule'",
+        "Reconciliar organism/OrganizeFreeModeCanvas (já implementado) para compor esses 4 componentes reais em vez do markup genérico atual (cards com Filter/GitMerge/Archive/Package do lucide) — isso deve resolver a divergência de estrutura/espaçamento apontada pelo usuário",
+        "Manter o fundo de pontos e o Mini-Map já adicionados em 2026-08-10 (confirmar que sobrevivem à reconciliação, via screenshot)",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 20,
+      "passes": true,
+      "fix": "",
+      "notes": "Resolve a divergência estrutural do OrganizeFreeModeCanvas com peças reais em vez de aproximação genérica."
+    },
+    {
+      "id": "US-021",
+      "title": "Nova camada 'celule' — Callout, TagColor, dropListItem e demais",
+      "description": "Como front-end engineer sênior, quero implementar o restante da camada 'celule' nunca categorizada antes.",
+      "acceptanceCriteria": [
+        "Seguir a Regra 11 (AGENTS.md) para cada item",
+        "celule/Callout (`1421:20028`), celule/TagColor (`1444:21979`), celule/dropListItem (`1440:23803`), celule/cleanSpaceStorage/listSelection (`1436:20496`), celule/Pages/Lead (`1439:17048`) — implementar cada um como peça própria da camada 'celule'",
+        "celule/nodoContextMenuItem já foi coberto na US-016 — não duplicar",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 21,
+      "passes": true,
+      "fix": "",
+      "notes": "Fecha a camada 'celule' inteira (10 peças, 4 na US-020 + 1 na US-016 + 5 aqui)."
+    },
+    {
+      "id": "US-022",
+      "title": "Novas molecules — dropdown de Label, FileList e FolderCard",
+      "description": "Como front-end engineer sênior, quero implementar as molecules de listagem de arquivo/pasta ainda ausentes.",
+      "acceptanceCriteria": [
+        "Seguir a Regra 11 (AGENTS.md) para cada item",
+        "molecule/DropdownSelect/Label (`1439:19650`) — segundo tipo de dropdown, diferente do molecule/DropdownSelectGroupBy já implementado (não confundir os dois)",
+        "molecule/FileList (`1421:19200`), molecule/FileList/Header (`1421:19184`), molecule/FolderCard (`1421:18595`) — implementar cada um como molecule Figma-confirmada",
+        "Se molecule/FileList divergir conceitualmente de organism/FileListContainer (já implementado), documentar a diferença no .mdx — não assumir que são a mesma coisa",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 22,
+      "passes": true,
+      "fix": "",
+      "notes": "Parte da lacuna de ~40 componentes. Node IDs já em AGENTS.md."
+    },
+    {
+      "id": "US-023",
+      "title": "Novas molecules — notificações e cabeçalhos de contexto",
+      "description": "Como front-end engineer sênior, quero implementar as molecules de notificação e cabeçalho de contexto ainda ausentes.",
+      "acceptanceCriteria": [
+        "Seguir a Regra 11 (AGENTS.md) para cada item",
+        "molecule/Notification (`1439:19748`), molecule/popover/Notification (`1421:19626`), molecule/context-header (`1421:19589`), molecule/thumbnail-large (`1421:19570`) — implementar cada um como molecule Figma-confirmada",
+        "molecule/nodoContextMenu já foi coberto na US-016 — não duplicar",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 23,
+      "passes": true,
+      "fix": "",
+      "notes": "Parte da lacuna de ~40 componentes. Node IDs já em AGENTS.md."
+    },
+    {
+      "id": "US-024",
+      "title": "Novas molecules — FileArchive, Label genérica e sub-peças do ArchiveBrowserModal",
+      "description": "Como front-end engineer sênior, quero implementar as últimas molecules da lacuna: variantes de arquivo, label genérica e as sub-peças reais do ArchiveBrowserModal.",
+      "acceptanceCriteria": [
+        "Seguir a Regra 11 (AGENTS.md) para cada item",
+        "molecule/FileArchive1 (`1439:19655`), molecule/FileArchive2 (`1439:19656`), molecule/Label (`1421:18687`) — implementar cada um como molecule Figma-confirmada",
+        "molecule/ArchiveBrowserModal/ListItem (`1421:20896`), molecule/ArchiveBrowserModal/Search (`1485:21074`) — implementar e reconciliar organism/ArchiveBrowserModal (já implementado) pra usar essas peças reais em vez de markup aproximado, se divergir",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 24,
+      "passes": true,
+      "fix": "",
+      "notes": "Última leva de molecules da lacuna de 2026-08-11."
+    },
+    {
+      "id": "US-025",
+      "title": "Novos organisms — FAQ/FastLinks e planSelection (Configurações de Plano)",
+      "description": "Como front-end engineer sênior, quero implementar os 2 organisms novos, com destaque para planSelection — a página de Configurações de Plano mencionada na decisão de terminologia 'Liberar Espaço' (Regra 5) mas nunca implementada.",
+      "acceptanceCriteria": [
+        "Seguir a Regra 11 (AGENTS.md) rigorosamente aqui — planSelection é a peça mais importante da lacuna inteira",
+        "organism/FAQ/FastLinks (`1454:25006`) — implementar como organism Figma-confirmado",
+        "organism/planSelection (`1454:25057`) — implementar como organism Figma-confirmado; conferir explicitamente se o botão 'Liberar Espaço' (Regra 5) aparece nesta tela e usa o termo/variant corretos (isDestructive do atom/PushButton, ver Regra 5 e docs/conflicts.md) — esta é a tela que a decisão de terminologia de 2026-08-10 presumia existir",
+        "Se planSelection tiver conflito com alguma Regra travada, logar em docs/conflicts.md normalmente — não resolver sozinho",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 25,
+      "passes": true,
+      "fix": "",
+      "notes": "planSelection é a peça mais importante de toda a lacuna de ~40 componentes — conecta diretamente com a decisão de terminologia já tomada."
+    },
+    {
+      "id": "US-026",
+      "title": "Auditoria de ponto-fixo — repetir até uma passada inteira não achar divergência nova",
+      "description": "Como front-end engineer sênior, quero uma auditoria final rigorosa (Regra 11) de TODOS os componentes agora existentes (44 originais + todos os novos das US-015 a US-025), corrigindo qualquer divergência encontrada, para fechar o ciclo de fidelidade iniciado pelo usuário em 2026-08-11.",
+      "acceptanceCriteria": [
+        "Seguir a Regra 11 (AGENTS.md) SEM EXCEÇÃO para cada componente: get_design_context real + screenshot Playwright + checklist elemento-a-elemento — é a mesma disciplina que faltou na auditoria original (a causa desta rodada inteira de US)",
+        "Passar por TODOS os componentes de stories/atoms, stories/molecules, stories/organisms (não só os novos) — a auditoria anterior (2026-08-11, antes desta rodada de US) foi rasa demais e não pode ser reaproveitada como 'já verificado'",
+        "Toda divergência encontrada (elemento inventado, faltando, cor/espaçamento/fonte errados) deve ser CORRIGIDA nesta mesma US, não só logada — o critério de sucesso desta US é sair com zero divergências pendentes, não uma lista de pendências",
+        "Se esta US corrigir qualquer coisa, marcar explicitamente no checkpoint que uma nova passada completa é recomendada (o usuário pediu ponto-fixo: repetir até uma passada inteira não achar nada) — registrar isso em design-system/docs/checkpoints.md para orientar se o loop deve continuar",
+        "Checkpoint final consolidado em design-system/docs/checkpoints.md com a contagem real de componentes (deve bater ou superar 90, conforme o usuário confirmou em 2026-08-11)",
+        "cd design-system && npx tsc --noEmit passa sem erros",
+        "cd design-system && npm run build-storybook passa sem erros"
+      ],
+      "priority": 26,
       "passes": false,
       "fix": "",
-      "notes": "Cada story deve ser completável em 1 iteração do Ralph (1 context window)"
+      "notes": "Última US do backlog atual. REABERTA após inspeção humana em 2026-08-13: ler e cumprir design-system/docs/audits/user-recheck-2026-08-13.md. O CLEAN anterior é inválido porque antecede esse checklist. Só concluir com todas as linhas verified-clean, manifesto integral, zero descobertas novas, gates verdes e <fixed-point>CLEAN</fixed-point>. US-026 nunca pode ser skipped. Sem commit, push, deploy, PR ou escrita no Figma."
     }
   ]
 }

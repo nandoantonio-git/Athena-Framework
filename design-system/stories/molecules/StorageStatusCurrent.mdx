@@ -1,0 +1,101 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as StorageStatusCurrentStories from './StorageStatusCurrent.stories';
+
+<Meta of={StorageStatusCurrentStories} />
+
+# StorageStatusCurrent (`molecule/StorageStatus/Current`)
+
+**Status: ✅ aligned** — Figma-confirmado nesta US (US-013, releitura
+pontual de 2026-08-10), nó `1439:17044`, descrição verbatim: "componente
+que possibilita o usuário visualizar espaço utilizado em curto prazo. há
+também botão comprar espaço- abre página de pagamento."
+
+**Retomada da 12ª passada ativa (2026-08-13)** — `get_design_context`
+fresco confirmou a largura do widget em `468px`. A implementação usava
+`max-w-md` (448px), comprimindo levemente a barra e a linha de valores.
+Corrigido para `w-[468px] max-w-full` e recapturado nas stories
+`Default`/`NearLimit`.
+
+<Canvas of={StorageStatusCurrentStories.Default} />
+<Controls />
+
+## Composição (Figma-confirmado)
+
+"Armazenamento usado: 40GB de 100GB AC" + botão "Comprar espaço" + barra de
+progresso + legenda "X%". `"AC"` é uma abreviação literal do Figma (provável
+"Acesso rápido") — mantida como prop `scopeAbbr`, sem expandir por extenso
+(Regra 9: o texto literal do Figma é `"AC"`, expandir seria inventar).
+
+## Cor da barra — 🔧 divergência do átomo `StorageBar` corrigida em 2026-08-11
+
+Este widget confirma preenchimento **rosa**
+(`var(--brand/theme/pink/light,#e8476a)`) para a categoria "Acesso rápido" —
+consistente com a Regra 3 (decisão humana 2026-08-10) e com
+`molecule/StorageBar` (`Style=Expanded`, já implementado). O átomo
+`StorageBar` (`storage-bar.tsx`) na sua variante de barra única
+(`tier="quick-access"`) tinha o mesmo tom errado (`brand-pink-dark`,
+`#b5254a`) — corrigido nesta auditoria (Regra 11, US-026) para
+`brand-pink-light` (`#e8476a`), o mesmo tom Figma-confirmado que este
+widget já usava. Este componente continua **sem reutilizar `<StorageBar>`**
+— é um widget "irmão" autônomo por composição própria (não por causa da cor,
+ver "Relação com `molecule/StorageStatus`" abaixo), com barra local só para
+manter a anatomia simples de 1 linha.
+
+## Relação com `molecule/StorageStatus`
+
+Este é um componente **irmão**, não uma variante de
+`molecule/StorageStatus` — são 2 frames Figma separados (confirmado via
+`get_metadata`, sem relação pai/filho), apesar do nome compartilhado. Ver
+`Molecules/StorageStatus.mdx` para o widget maior com seletor de escopo
+(Global/Acesso Rápido/Longo Prazo).
+
+## Terminologia (Regra 5)
+
+Nenhum termo proibido — "Comprar espaço" não consta na lista aprovada nem
+proibida (fora do domínio regulado pela Regra 5, gap de cobertura já
+registrado para outros botões em `docs/conflicts.md`, ex. `organism/Header`
+"Organizar").
+
+## Tipografia (Regra 4 — exceção documentada)
+
+Botão e legenda em `10px` (`text-[0.625rem]`) — mesma categoria de exceção
+já documentada para badges/tags complementares (nunca único portador da
+informação: o valor numérico "40GB de 100GB" já está em `text-base`/`20px`,
+acima do piso).
+
+## Estados (Regra 8)
+
+| Estado | Aplicável? | Nota |
+| --- | --- | --- |
+| Default | ✅ | Valores/percentual via props |
+| Hover (botão) | ✅ | Puramente CSS |
+| Active/Pressed (botão) | ✅ | `active:scale-95` |
+| Near-limit/Empty | 🧩 Inferido | Sem variante Figma confirmada — o widget aceita qualquer `percent`, tratamento visual (ex. cor de alerta perto do limite) não confirmado, não implementado |
+| Disabled/Loading/Error | ❌ Não aplicável | Widget de leitura, sem input do usuário além do botão |
+
+## Fluid interface (Regra 8)
+
+Barra usa `transition-[width]` (interruptível). **reduced-motion: não
+documentado no Figma.**
+
+## Material Liquid Glass
+
+Não aplicável — fundo transparente, sem efeito de vidro confirmado neste nó.
+
+## Fidelidade code-level
+
+100% reproduzível em código — o único asset retornado pelo Figma é o ponto
+da legenda, reproduzido como círculo CSS de 7px na cor confirmada.
+
+## 3ª auditoria de ponto-fixo (2026-08-12, US-026, pass 3)
+
+`get_design_context` re-executado ao vivo no nó `1439:17044` (componente
+editado pelo usuário em 2026-08-10). Checklist item a item contra o
+screenshot das stories `Default`/`NearLimit`: textos ("Armazenamento
+usado:" 16px, valor 25px, "de 100GB" 20px, `"AC"` 10px bold), botão
+"Comprar espaço" (teal, `#007e96`, texto literal minúsculo confirmado igual
+ao código), cor da barra (`brand-pink-light`, `#e8476a`), trilho, ponto +
+`"X%"` da legenda — todos batendo exatamente com a resposta fresca do
+Figma. Reverificação do achado da 2ª auditoria (cor rosa da barra):
+**permanece correta, sem regressão. Nenhuma divergência nova encontrada —
+componente permanece 100% alinhado.**

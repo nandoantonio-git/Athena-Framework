@@ -1,0 +1,60 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as VideoItemStories from './VideoItem.stories';
+
+<Meta of={VideoItemStories} />
+
+# VideoItem (Figma: `atom /VideoItem`, `1442:7858`)
+
+**Status: ✅ aligned (Figma-confirmado, US-026 pass 6)** — adicionado após
+achado material de catálogo: o node formal existia no Figma desde o
+inventário (`atom /VideoItem`, com espaço antes da barra), mas não tinha
+componente nem story pública.
+
+**Reverificado em 2026-08-13 (US-026, 12ª passada ativa)** —
+`get_design_context` fresco reconfirmou a variante
+`favicon_header_Thumbnail`. Divergência corrigida: essa variante estava
+documentada como gap e ausente do union/stories; agora existe como
+`state="favicon-header-thumbnail"` e aparece no agregado.
+
+<Canvas of={VideoItemStories.Idle} />
+<Controls />
+
+## Figma (Figma-confirmado)
+
+Descrição verbatim: *"Simbolo para representar arquivos de formatos vídeos.
+Suporta seleção e badge de tier. Variantes: state e tier."*
+
+<Canvas of={VideoItemStories.AllStates} />
+
+## Checklist elemento-a-elemento (Regra 11)
+
+| Elemento Figma | Implementado | Fonte |
+| --- | --- | --- |
+| Corpo do item de vídeo idle/hover/pressed/disabled | ✅ 4 assets SVG reais exportados | ✅ Figma-confirmado |
+| Lente/câmera sobreposta | ✅ `video-item-camera.svg` constante em todos os estados | ✅ Figma-confirmado |
+| Badge de seleção | ✅ `<SelectState />` nos estados `selected*` | ✅ Figma-confirmado |
+| Nome abaixo do glifo | ✅ `text-[0.625rem]`, cor secundária/terciária conforme estado | ✅ Figma-confirmado |
+| `tier` | ❌ Não implementado como prop interna | Gap documentado: descrição cita badge de tier, mas o node renderizado não mostra badge |
+| `favicon_header_Thumbnail` | ✅ `state="favicon-header-thumbnail"` | ✅ Figma-confirmado |
+
+## Estados (Regra 8)
+
+| Estado | Implementado | Fonte |
+| --- | --- | --- |
+| Idle | ✅ | ✅ Figma-confirmado |
+| Hover | ✅ | ✅ Figma-confirmado |
+| Pressed/Active | ✅ | ✅ Figma-confirmado |
+| Disabled | ✅ | ✅ Figma-confirmado |
+| Selected / Selected-Hover / Selected-Pressed | ✅ | ✅ Figma-confirmado |
+| Loading/Error | ❌ Não aplicável | Glifo de item estático |
+
+## Fluid interface (Regra 8)
+
+Sem nota de `reduced-motion` visível no Figma. Transição de estado
+instantânea, controlada externamente via prop `state`.
+
+## Material Liquid Glass
+
+O corpo do item já vem bake-ado nos SVGs exportados do Figma. O componente
+não reimplementa a especificação de Liquid Glass localmente; ver
+`stories/tokens/Materials.mdx` para a spec única.

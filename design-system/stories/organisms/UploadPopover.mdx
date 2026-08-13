@@ -1,0 +1,86 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as UploadPopoverStories from './UploadPopover.stories';
+
+<Meta of={UploadPopoverStories} />
+
+# UploadPopover (`organism/upload-popover`)
+
+**Status: ✅ aligned (estrutura) — reverificado 3ª passada (US-026,
+2026-08-12)** · **⚠️ gap de terminologia aberto — urgência baixa** (ver
+seção abaixo e `docs/conflicts.md`) — Figma-confirmado, nó `1421:19292`,
+descrição verbatim: *"pop over que se preenche dinamicamente conforme
+status de upload. usado no canto inferior esquerdo."* Duas variantes Figma
+(`Toast (The Focused Component)`\|`Variant2`) — implementadas como um único
+componente com lista de arquivos opcional (a diferença entre variantes é
+só a presença da lista detalhada).
+
+Releitura completa via `get_design_context` fresco nas 2 variantes +
+screenshots Playwright reais das stories `InProgress`/`WithFileList`:
+anel circular de progresso, fileira de 4 ícones de ação
+(Pausar/Maximizar/Mais opções/divisor/Fechar), rótulos de progresso e as 2
+linhas de arquivo com ícone de tipo + indicador de status conferidos.
+
+> 🔧 **Corrigido na pass13 da US-026 (2026-08-13)**: o anel circular
+> renderizado não mostrava a porcentagem no centro, embora o Figma confirme
+> `62%` dentro do badge. O texto central foi adicionado e as stories
+> `InProgress`/`WithFileList` foram recapturadas via Playwright.
+
+> ⚠️ **Corrigido em 2026-08-11 após achado do usuário — auditoria anterior
+> não seguia a Regra 11.** O badge de porcentagem era texto solto (sem o
+> anel circular de progresso real) e a fileira de ações só tinha 2 botões
+> (Pausar/Fechar). Repetindo `get_design_context` no node real: o badge é um
+> anel circular (SVG `stroke-dasharray` — técnica padrão, já que o valor é
+> dinâmico e o Figma não exporta um vetor por `%`) e a fileira real tem 4
+> ícones — Pausar, Maximizar, Mais opções, um divisor, e Fechar. Ambos
+> corrigidos; a barra "IN PROGRESS"/lista de arquivos (variante
+> `Toast (The Focused Component)`) segue condicionada a `files.length > 0`.
+> Re-verificado na auditoria Regra 11 seguinte (US-026) via screenshot
+> Playwright real — confirmado genuinamente corrigido (não apenas no
+> código).
+
+> 🔧 **Corrigido na auditoria Regra 11 seguinte (US-026)**: cada linha da
+> lista de arquivos tinha só 1 ícone (status, à esquerda) — `get_design_context`
+> real mostra 2 ícones por linha: tipo de arquivo à esquerda + indicador de
+> status à direita (check quando concluído, ponto sólido quando em
+> andamento). Reordenado; a cor do ponto (`#006377` bruto no Figma, sem
+> variável semântica) foi mapeada para o token `brand-teal` já usado no
+> resto do componente (Regra 2), não um hex novo solto.
+
+<Canvas of={UploadPopoverStories.InProgress} />
+<Canvas of={UploadPopoverStories.WithFileList} />
+<Controls />
+
+## ⚠️ Gap de terminologia — Regra 9, urgência baixa (ver `docs/conflicts.md`)
+
+O texto Figma-confirmado deste nó está **100% em inglês** ("Uploading 3
+files", "6 seconds left", "IN PROGRESS", "62% • 18MB OF 29MB") —
+inconsistente com o restante da página (português). Este componente usa a
+tradução direta ("Enviando N arquivos", "N segundos restantes", "Em
+andamento"), nunca o texto literal do Figma — nunca apresentar uma
+tradução própria como se fosse o texto Figma-confirmado (Regra 9).
+
+## Composição
+
+Peça isolada — não compõe outros atoms/molecules documentados desta
+reconciliação.
+
+## Conflito de variantes (Regra 1)
+
+Botões de pausa/fechar são ícones sem chrome de botão — não são
+`PushButton`, não fragmentam a Regra 1.
+
+## Estados e fluid interface (Regra 8)
+
+| Estado | Implementado |
+| --- | --- |
+| Em andamento | ✅ prop `percent`, barra de progresso animável (`transition-[width]`) |
+| Concluído (por arquivo) | ✅ prop `files[].done`, ícone `CheckCircle2` |
+| Disabled/Error | Não documentado no Figma — não implementado |
+
+**reduced-motion**: não documentado no Figma; a barra de progresso muda de
+`width` via CSS transition nativa (interruptível, parte do valor atual).
+
+## Material Liquid Glass
+
+Fundo usa `bg-effect-glass-white-70` + `backdrop-blur-md` — ver
+`Tokens/Materials` (Regra 10).

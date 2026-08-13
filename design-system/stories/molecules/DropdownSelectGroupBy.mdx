@@ -1,0 +1,111 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DropdownSelectGroupByStories from './DropdownSelectGroupBy.stories';
+
+<Meta of={DropdownSelectGroupByStories} />
+
+# DropdownSelectGroupBy (Figma: `molecule/DropdownSelect/GroupBy`, `1421:18719`)
+
+Dropdown "Agrupar por" — usado para selecionar o critério de agrupamento do
+grid/lista de arquivos.
+
+**Status: 🆕 undocumented-until-now** — não existia código nem story antes
+desta US. Listado no inventário real (`docs/figma-inventory.md`, elementos
+soltos no canvas) com descrição Figma verbatim coletada nesta US.
+
+**Reverificado em auditoria de ponto-fixo (12ª passada, 2026-08-13):**
+`get_design_context` fresco no nó `1421:18719` + screenshot Storybook
+(`Default`/`Expanded`/`Disabled`) comparados elemento-a-elemento — ícone
+`Group` (confirmado byte-a-byte contra o asset SVG exportado do Figma,
+mesmo path), ordem das 4 opções, textos "AGRUPAR"/"Agrupar" e Liquid Glass
+batem. Achado material desta retomada: o estado `Disabled` mede 54px e usa
+opacidade 0.32 no Figma, mas a implementação media 51px e usava
+`opacity-50`. Corrigido para `h-[54px]` nos estados fechados e
+`opacity-[0.32]` quando desabilitado.
+
+<Canvas of={DropdownSelectGroupByStories.Default} />
+<Controls />
+
+## Figma (Figma-confirmado)
+
+`get_design_context` no nó `1421:18719` retorna descrição verbatim: *"item
+da pilula de agrupar, no qual você seleciona a condição de agrupamento"*.
+Eixo de variante confirmado: `state1` (`Default`\|`Expanded`\|`Disabled`).
+Textos confirmados: rótulo de seção **"AGRUPAR"**, botão **"Agrupar"**,
+ícone `atom/Icon/Group` (já documentado em `atom/Icon`), e as 4 opções do
+estado `Expanded`: **"Data de modificação"**, **"Tipo"**, **"Tamanho"**,
+**"Data de adição"**.
+
+<Canvas of={DropdownSelectGroupByStories.Expanded} />
+<Canvas of={DropdownSelectGroupByStories.Disabled} />
+
+## Material Liquid Glass
+
+Fundo usa `var(--effect-glass-light-45)` (`#f7f7f773`, Figma-confirmado em
+`get_variable_defs` do nó) + `backdrop-blur-sm` como aproximação do
+"frost" — ver spec completa em `Tokens/Materials` (Regra 10, não
+reimplementada aqui).
+
+## Estados (Regra 8)
+
+| Estado | Implementado | Fonte |
+| --- | --- | --- |
+| Default (fechado) | ✅ | ✅ Figma-confirmado (`state1=Default`) |
+| Expanded (aberto) | ✅ prop `expanded` + lista de opções | ✅ Figma-confirmado (`state1=Expanded`), incluindo os 4 textos de opção |
+| Disabled | ✅ prop `disabled` → `data-[disabled]:opacity-[0.32] data-[disabled]:pointer-events-none` | ✅ Figma-confirmado (`state1=Disabled`, `opacity` reduzida no export) |
+| Hover | ❌ Não implementado | Sem eixo `Hover` próprio confirmado neste component set — gap, não inventado (Regra 9) |
+| Loading/Error | ❌ Não aplicável | Seletor síncrono, sem operação assíncrona nem validação |
+
+## Fluid interface (Regra 8)
+
+- **Feedback no press**: sim — o chevron gira (`rotate-180`) imediatamente
+  ao alternar `expanded`, via `transition-transform`.
+- **Interruptibilidade**: sim, por construção — transição CSS nativa
+  reagindo a mudança de classe.
+- **reduced-motion**: **não documentado no Figma** — nenhuma variável
+  encontrada no nó consultado (Regra 8); a rotação do chevron não é
+  suprimida por `prefers-reduced-motion` no componente atual (gap).
+
+## Terminologia
+
+"AGRUPAR"/"Agrupar"/"Tipo"/"Data de modificação"/"Tamanho"/"Data de adição"
+são texto Figma-confirmado — nenhum termo da lista proibida (Regra 5)
+aparece. Não fazem parte da lista de terminologia aprovada/proibida
+(vocabulário de organização de arquivos, não de storage-tier), sem
+CONFLICT a registrar.
+
+## Fidelidade code-level
+
+Ícone via `atom/Icon` (nome `Group`, já documentado). Chevron via
+`lucide-react` (`ChevronDownIcon`). Sem vetor customizado. Fallback de
+imagem estática não se aplica.
+
+## Reconciliação (US-019)
+
+Cada opção da lista expandida agora renderiza
+[`atom/DropdownSelect/GroupBy/Item`](../atoms/DropdownSelectGroupByItem.mdx)
+(`1444:21587`) — node Figma próprio achado nesta US, antes desconhecido
+(o `<button>` da versão anterior era 100% inferido). Estado `selected`
+(fundo `rgba(107,107,104,0.45)`) substitui a aproximação anterior de texto
+colorido sem fundo.
+
+## Opacity token incomum — reproduzido neste component set
+
+Mesmo padrão já documentado em
+[`DropdownSelectLabel`](./DropdownSelectLabel.mdx#gap-encontrado-no-figma-não-reproduzido):
+o wrapper raiz do node no estado `Disabled` retorna
+`opacity-[var(--radius-3xl,0.32)]` no `get_design_context` — um valor de
+opacidade (`0.32`) amarrado a uma variável cujo nome (`radius-3xl`) não tem
+relação semântica com opacidade (binding incorreto no arquivo fonte
+Figma). Como aqui esse valor pertence a uma variante formal `Disabled` do
+component set, a implementação reproduz o `0.32` bruto. A exceção de
+`DropdownSelectLabel` continua travada separadamente em `docs/conflicts.md`,
+porque aquele node é uma instância única sem eixo `Disabled` confirmado.
+
+## 🔧 Corrigido — auditoria Regra 11 (US-026, 2026-08-11)
+
+`DEFAULT_OPTIONS` listava as 4 opções na ordem `["Tipo", "Data de
+modificação", "Tamanho", "Data de adição"]` — releitura de
+`get_design_context` confirma que a ordem real da árvore Figma (estado
+`Expanded`) é **"Data de modificação", "Tipo", "Tamanho", "Data de
+adição"** (Tipo é a 2ª opção, não a 1ª). Corrigido em
+`dropdown-select-group-by.tsx`.

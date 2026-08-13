@@ -109,9 +109,12 @@ run_with_provider() {
 }
 
 is_rate_limited() {
-  grep -qi \
-    "rate.limit\|quota.exceeded\|too.many.requests\|usage.limit\|limit.reached\|No capacity\|hit your usage\|upgrade to pro" \
-    "$LAST_MESSAGE_FILE" 2>/dev/null
+  local pattern="rate.limit\|quota.exceeded\|too.many.requests\|usage.limit\|limit.reached\|No capacity\|hit your usage\|upgrade to pro"
+  # A quota error from the CLI often kills the run before it writes a last-message
+  # (empty-output failure), so check the recent run.log tail too, not just the
+  # (possibly empty) last-message file.
+  grep -qi "$pattern" "$LAST_MESSAGE_FILE" 2>/dev/null && return 0
+  tail -n 30 "$RUN_LOG" 2>/dev/null | grep -qi "$pattern"
 }
 
 # ── Security check ────────────────────────────────────────────────────────────
@@ -183,6 +186,11 @@ mark_story_skipped() {
 }
 
 check_circuit_breaker() {
+  # US-026 is a fixed-point audit: it may only finish after a fully clean pass.
+  # Never convert repeated non-clean passes into an administrative skip.
+  if [ "$1" == "US-026" ]; then
+    return 1
+  fi
   local attempts; attempts=$(get_story_attempts "$1")
   if [ "$attempts" -ge "$MAX_ATTEMPTS_PER_STORY" ]; then
     mark_story_skipped "$1" "$MAX_ATTEMPTS_PER_STORY"
@@ -234,6 +242,20 @@ run_acceptance_checks() {
       fi
     elif [[ "$cmd" == bash\ -n* ]]; then
       if eval "$cmd" 2>/dev/null; then
+        echo "  OK: $cmd"
+      else
+        echo "  FAIL: $cmd"
+        failed=1
+      fi
+    elif [[ "$cmd" == cd\ design-system\ &&\ npx\ tsc* ]]; then
+      if (cd "$REPO_ROOT" && eval "$cmd") > /dev/null 2>&1; then
+        echo "  OK: $cmd"
+      else
+        echo "  FAIL: $cmd"
+        failed=1
+      fi
+    elif [[ "$cmd" == cd\ design-system\ &&\ npm\ run\ build-storybook* ]]; then
+      if (cd "$REPO_ROOT" && eval "$cmd") > /dev/null 2>&1; then
         echo "  OK: $cmd"
       else
         echo "  FAIL: $cmd"
@@ -298,6 +320,31 @@ $([ -n "$fix" ] && printf "\n## Known Fix\n%s" "$fix")
 5. If a Known Fix is provided, apply it exactly
 6. After implementing, verify gate checks pass (bash scripts/gate.sh <file>)
 7. Do NOT commit changes. Only implement and verify the code.
+$([ "$story_id" == "US-026" ] && cat <<'FIXED_POINT'
+
+## Fixed-point protocol (US-026 only)
+- Read design-system/docs/audits/user-recheck-2026-08-13.md before any US-026 work. Its rows are mandatory across codex, gemini and claude and invalidate earlier CLEAN claims that predate it.
+- Never emit CLEAN while any recheck row is pending or corrected-needs-clean-pass. Persist row status and evidence paths in that file or a linked current-pass manifest.
+- Sidebar requirement is unambiguous: add the missing top margin; collapse control is on its own upper row and Adicionar is on a separate row below. They must not share a row.
+- A fixed-point pass is an audit unit, not one provider invocation. It may span as many Ralph attempts as needed; never start a new pass merely because a model turn ended.
+- Persist active-pass coverage under design-system/.audit-artifacts/us-026-active/ and resume the first uncovered component on every retry.
+- Complete the active pass only after all current Figma nodes and all current Storybook states have fresh evidence. Use parallel Figma batches; do not stop after a sample.
+- An invocation ending with incomplete coverage must report exact progress and NON-CLEAN, then the next invocation resumes the same pass without recapturing evidence already fresh in it.
+- Close the active pass only at full coverage: archive NON-CLEAN and initialize another pass if it found a material issue; otherwise CLEAN is allowed after gates.
+- Audit the complete current catalog, including every Figma-confirmed variant and state; do not reuse a prior pass as evidence.
+- Follow Regra 11 for every component: fresh get_design_context with skillNames=figma-design-to-code, real Storybook/Playwright rendering, and an element-by-element comparison.
+- Write a per-pass manifest under design-system/docs/audits/ with component, node ID, story ID, variants/states, evidence paths or hashes, result, and locked-exception links.
+- Store regenerable screenshots only under design-system/.audit-artifacts/ (gitignored).
+- Any material new finding (code, visual, docs, conflict, catalog, or incomplete evidence) makes this pass NON-CLEAN, even if fixed immediately. Reverify the fix and impacted consumers now, then let Ralph start another full pass.
+- If this pass has any material finding, end the response with exactly <fixed-point>NON-CLEAN</fixed-point>.
+- Emit <fixed-point>CLEAN</fixed-point> only if the entire current catalog completed with zero material new findings and no unverifiable component.
+- A locked human-rule exception already implemented and correctly linked to docs/conflicts.md is not a new divergence.
+- Before changing any apparent divergence, read its existing entry in design-system/docs/conflicts.md. A row marked as an explicit human decision is authoritative and MUST NOT be reopened or changed by the audit.
+- In particular, preserve the explicit 2026-08-10 decision to keep compact PushButton consumers below 16px. Audit them as aligned-with-locked-exception; do not remove their text-size overrides or rewrite that conflict.
+- After three failed verification attempts for the same structural limitation, document the evidence and end with <fixed-point>BLOCKED</fixed-point>; never claim clean.
+- Do not set passes=true yourself. Ralph owns PRD state.
+FIXED_POINT
+)
 PROMPT
 }
 
@@ -465,9 +512,14 @@ for i in $(seq 1 "$MAX_ITERATIONS"); do
 
   # Verifica acceptance criteria
   if run_acceptance_checks "$CURRENT_STORY"; then
-    mark_story_passed "$CURRENT_STORY"
-    log_event "STORY COMPLETE id=$CURRENT_STORY provider=$ACTIVE_PROVIDER attempt=$ATTEMPTS"
-    echo "Story $CURRENT_STORY passed. Marked complete."
+    if [ "$CURRENT_STORY" == "US-026" ] && ! grep -qx '<fixed-point>CLEAN</fixed-point>' "$LAST_MESSAGE_FILE"; then
+      log_event "STORY NON_CLEAN id=$CURRENT_STORY provider=$ACTIVE_PROVIDER attempt=$ATTEMPTS"
+      echo "Story $CURRENT_STORY passed build gates but did not report a clean fixed-point pass. Will retry."
+    else
+      mark_story_passed "$CURRENT_STORY"
+      log_event "STORY COMPLETE id=$CURRENT_STORY provider=$ACTIVE_PROVIDER attempt=$ATTEMPTS"
+      echo "Story $CURRENT_STORY passed. Marked complete."
+    fi
   else
     log_event "STORY FAIL id=$CURRENT_STORY provider=$ACTIVE_PROVIDER attempt=$ATTEMPTS"
     echo "Story $CURRENT_STORY failed acceptance checks. Will retry."

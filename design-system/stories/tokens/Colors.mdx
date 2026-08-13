@@ -1,0 +1,188 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Tokens/Colors" parameters={{ design: { type: 'figma', url: 'https://www.figma.com/design/oFp2TLeCG4GJeCOFVhBvjg/KanDrive?node-id=1427-16958' } }} />
+
+# Cores
+
+Paleta semântica do Kandrive Design System. Todo token semântico do design
+system segue o formato `cor/categoria/papel/valor-semântico` (Regra 2) —
+**nunca** um nome que vaza detalhe de implementação (nunca `$primaria-100`,
+`zinc-500-hover`, etc.).
+
+> ✅ **Reconciliado com o Figma em 2026-08-09.** Esta página foi originalmente
+> escrita sem acesso ao arquivo Figma (só a partir das decisões travadas em
+> `AGENTS.md`). Com a Fonte Figma persistida em `AGENTS.md` e o MCP do Figma
+> ativo nesta sessão, os valores abaixo foram lidos diretamente da seção
+> "Pallete" (`get_variable_defs`, nó `1427:16958`) e cruzados nó-a-nó contra
+> componentes reais (`atom/PushButton`, `celule/chip/folder-tag`,
+> `molecule/SearchBar`, `organism/Sidebar`, `molecule/StorageBar`). Toda
+> divergência contra a Regra 3/Regra 2 está logada em `docs/conflicts.md`,
+> nunca resolvida aqui (Regra 9).
+>
+> ✅ **Reconciliado novamente em 2026-08-10 (US-009), decisão humana.** O
+> CONFLICT de cor primária/secundária e o CONFLICT de rosa-como-dado (ambos
+> abertos na reconciliação acima) foram **resolvidos por decisão humana**:
+> Figma é a fonte de verdade para cor. `#007e96`/`#31302d` viram os valores
+> ativos da Regra 3 (código já corrigido em `src/index.css`); rosa vira cor
+> semântica oficial de "Acesso rápido". Esta página foi atualizada para
+> refletir a decisão — os valores antigos (`#2A7A8C`/`#3A3C38`) ficam
+> registrados abaixo só como histórico **descontinuado**, nunca como valor
+> ativo (Regra 9).
+
+## Legenda
+
+| Legenda | Significado |
+| --- | --- |
+| ✅ Figma-confirmado | Lido diretamente de `get_variable_defs`/`get_design_context` nesta reconciliação |
+| 🔒 Decisão travada | Vem literalmente de `AGENTS.md` (Regra 3) |
+| 🧩 Inferido | Papel/uso extrapolado, não é o nome literal da variável Figma |
+| ⚠️ CONFLICT | Diverge de uma Regra travada — ver `docs/conflicts.md` |
+| 🗄️ Descontinuado 2026-08-10 | Valor antigo da Regra 3 original, substituído pela decisão humana de usar o Figma como fonte de verdade — mantido só como histórico, nunca como valor ativo |
+
+## Marca
+
+| Token semântico (Regra 2) | Variável Figma real | Valor | Papel | Fonte |
+| --- | --- | --- | --- | --- |
+| `cor/marca/primária/teal-base` | `var(--brand-primary-default)` | `#007e96` | Cor primária de marca e de ação | ✅ Figma-confirmado — valor **ativo** da Regra 3 desde 2026-08-10 (decisão humana). 🗄️ `#2A7A8C` descontinuado (era o valor original da Regra 3, nunca bateu com o Figma real) |
+| `cor/marca/primária/teal-dark` | `var(--brand-primary-dark)` | `#1a5e6e` | Hover/pressed do primário, modo escuro | ✅ Figma-confirmado |
+| `cor/marca/primária/teal-mid` | `var(--brand-primary-mid)` | `#337084` | Tom intermediário | ✅ Figma-confirmado |
+| `cor/marca/primária/teal-light` | `var(--brand-primary-light)` | `#c8dce3` | Borda/realce sutil sobre superfícies primárias | ✅ Figma-confirmado |
+| `cor/marca/primária/teal-hover` | `var(--color-brand-primary-hover)` | `#006b80` | Estado hover explícito (variável própria, distinta de `-dark`) | ✅ Figma-confirmado |
+| `cor/marca/primária/teal-focus` | `var(--brand-primary-focus)` | `#92ccff` | Anel de foco (azul, não teal — nome da variável diverge da cor real) | ✅ Figma-confirmado |
+| `cor/marca/primária/teal-disabled` | `var(--brand-primary-disabled)` | `#ecfbfde5` | Fundo do primário desabilitado | ✅ Figma-confirmado |
+| `cor/marca/secundária/wordmark` | `var(--brand-secondary-default)` | `#31302d` | Cinza do wordmark — uso tipográfico/identidade | ✅ Figma-confirmado — valor **ativo** da Regra 3 desde 2026-08-10 (decisão humana). 🗄️ `#3A3C38` descontinuado (era o valor original da Regra 3, nunca bateu com o Figma real) |
+| `cor/marca/secundária/wordmark-dark` | `var(--brand-secondary-dark)` | `#1a1714` | Variante escura do wordmark | ✅ Figma-confirmado |
+| `cor/marca/secundária/wordmark-light` | `var(--brand-secondary-light)` | `#6b6b68` | Variante clara do wordmark | ✅ Figma-confirmado |
+| `cor/categoria/acesso-rápido/rosa-dark` | `Brand/Theme/Pink/Dark` (`--brand-pink-dark`) | `#b5254a` | Cor semântica de dado/estado da categoria **"Acesso rápido"** (Regra 3 atualizada 2026-08-10) | ✅ Figma-confirmado |
+| `cor/categoria/acesso-rápido/rosa-light` | `Brand/Theme/Pink/Light` (`--brand-pink-light`) | `#e8476a` | Cor semântica de dado/estado da categoria **"Acesso rápido"** (Regra 3 atualizada 2026-08-10) | ✅ Figma-confirmado |
+
+**✅ RESOLVIDO em 2026-08-10 (decisão humana), era CONFLICT de urgência alta:**
+`Brand/Theme/Pink/Dark` e `Brand/Theme/Pink/Light` são usados como cor de
+**dado/estado** — não branding — em `molecule/StorageBar` (`1421:17904`),
+variante `Style=Expanded` ("barras de armazenamento global, segmentada por
+tipos de arquivos": 4 segmentos de cor diferentes, dois deles rosa). A
+decisão humana resolveu o CONFLICT invertendo a regra em vez do Figma: rosa
+deixa de ser "só branding" e vira a cor semântica oficial da categoria
+"Acesso rápido", usada propositalmente em `StorageBar` (variante
+`StorageBarExpanded`, implementada na US-009 — ver `Molecules/StorageBar`) e
+qualquer componente futuro dessa categoria. Ver `docs/conflicts.md` para o
+histórico da decisão.
+
+**⚠️ CONFLICT ainda aberto (achado #9 do inventário US-002, urgência alta,
+nomenclatura — não valor):** o formato de nome real das variáveis Figma é
+`var(--categoria-papel-valor)` (kebab-case, ex.: `--brand-primary-default`),
+não `cor/categoria/papel/valor-semântico` como a Regra 2 prescreve. As duas
+variáveis de rosa usam ainda um **terceiro** formato (`Brand/Theme/Pink/Dark`).
+A coluna "Token semântico" desta página é a tradução para o formato-alvo da
+Regra 2 — não é o nome literal encontrado no arquivo Figma. (O CONFLICT de
+*valor* hex de primária/secundária — achado #8 — foi resolvido em 2026-08-10,
+ver nota no topo da página; este aqui é só sobre o *formato do nome*, e
+segue sem decisão.)
+
+## Feedback
+
+| Token semântico | Variável Figma real | Valor | Papel | Fonte |
+| --- | --- | --- | --- | --- |
+| `cor/feedback/perigo/padrão` | `var(--brand-feedback-danger-default)` | `#bc3426` | Erro, ação destrutiva | ✅ Figma-confirmado (2026-08-10, achado em `organism/cleanSpaceStorage`, botões "Excluir"/"Excluir cópias" — corrige a amostragem anterior desta página, que lia `#ac3a2e` para a mesma variável na seção Pallete) |
+| `cor/feedback/perigo/sutil` | `var(--brand-feedback-danger-subtle)` | `#c0392b59` | Fundo sutil de erro (com alpha) | ✅ Figma-confirmado |
+| `cor/feedback/sucesso/base` | `var(--brand-feedback-success-default)` | `#009966` | Confirmação, sucesso | ✅ Figma-confirmado |
+| `cor/feedback/sucesso/sutil` | `Brand/Feedback/Success/Subtle` | `#00996659` | Fundo sutil de sucesso | ✅ Figma-confirmado |
+| `cor/feedback/aviso/base` | `var(--color-feedback-warning)` | `#c38418` | Aviso | ✅ Figma-confirmado |
+| `cor/feedback/aviso/sutil` | `var(--color-feedback-warning-subtle)` | `#f59e0b33` | Fundo sutil de aviso | ✅ Figma-confirmado |
+
+Nenhuma das 6 variáveis de feedback está nas Regras travadas explicitamente
+(a Regra 3 só fixa marca + neutros) — não é CONFLICT, é cobertura adicional
+Figma-confirmada que a decisão travada não previa.
+
+## Neutros
+
+🔒 A Regra 3 declara "neutros na rampa Zinc do Tailwind". A reconciliação
+encontrou uma paleta neutra Figma própria (~30 variáveis `neutral-*` e
+`ui-*`), **não** a rampa Zinc:
+
+| Variável Figma real | Valor | Zinc equivalente (Tailwind) | Bate exato? |
+| --- | --- | --- | --- |
+| `var(--neutral-text-primary)` | `#09090b` | `zinc-950` `#09090b` | ✅ sim |
+| `var(--neutral-text-secondary)` | `#3f3f46` | `zinc-700` `#3f3f46` | ✅ sim |
+| `var(--neutral-text-tertiary)` | `#71717a` | `zinc-500` `#71717a` | ✅ sim |
+| `var(--neutral-surface-medium)` | `#52525b` | `zinc-600` `#52525b` | ✅ sim |
+| `var(--neutral-surface-background)` | `#f3f3f3` | `zinc-100` `#f4f4f5` | ❌ não (1 dígito de diferença) |
+| `var(--neutral-surface-subtle-alt)` | `#e2e2e5` | `zinc-200` `#e4e4e7` | ❌ não (próximo, não exato) |
+| `var(--neutral-border-subtle)` | `#ececf0` | `zinc-200` `#e4e4e7` | ❌ não |
+| `var(--neutral-border-light)` | `#bbbbbb` | — (entre `zinc-300`/`zinc-400`) | ❌ não — sem equivalente Zinc |
+| `var(--neutral-border-default)` | `#707070` | — (cinza puro, Zinc tem leve tom violeta) | ❌ não |
+| `var(--neutral-border-strong)` | `#3a3a3a` | — (entre `zinc-700`/`zinc-800`) | ❌ não |
+| `var(--neutral-text-disabled)` | `#ccced6` | — | ❌ não — tom azulado, fora da família Zinc |
+| `var(--neutral-text-placeholder)` | `#bfc7d2` | — | ❌ não — tom azulado, fora da família Zinc |
+| `var(--neutral-text-ondark-deep)` | `#001d31` | — | ❌ não — azul-marinho, não é cinza |
+| `var(--ui-input-border)` | `#3f4850` | — | ❌ não — família `ui-*` distinta, tom azulado |
+| `var(--ui-connector-border)` / `var(--ui-button-border-ghost)` | `#3f48504d` / `#3f485026` | — | ❌ não — mesma família `ui-*` acima, com alpha |
+| `var(--neutral-surface-dark*)` (6 variáveis, modo escuro) | `#222226`…`#333537` | próximos de `zinc-800`/`zinc-900`, não exatos | ❌ não |
+| `var(--neutral-surface-card)` / `color-surface-elevated` | `#ffffff` | branco puro (fora da rampa Zinc) | — |
+| `var(--neutral-text-ink)` | `#000000` | preto puro (fora da rampa Zinc) | — |
+
+**⚠️ CONFLICT (urgência média):** só 4 dos ~30 papéis neutros batem
+exatamente com um degrau da rampa Zinc do Tailwind (texto primário/secundário/
+terciário e superfície média). A maioria — incluindo toda a família `ui-*`
+(`--ui-input-border`, `--ui-connector-border`, `--ui-button-border-ghost`) e
+vários papéis de borda/superfície/placeholder — usa uma paleta neutra própria
+do Figma, com tons ligeiramente azulados (`#bfc7d2`, `#3f4850`, `#001d31`)
+que não pertencem à família Zinc. Logado em `docs/conflicts.md`.
+
+Para os 4 papéis que batem exatamente, mantém-se o mapeamento para a rampa
+Zinc já documentado nesta página (não removido — Regra 9, promovido de
+🧩 inferido para ✅ Figma-confirmado):
+
+| Token semântico | Valor (Tailwind Zinc) | Papel Figma-confirmado |
+| --- | --- | --- |
+| `cor/neutro/texto/zinc-950` | `#09090b` | Texto principal (`neutral-text-primary`) |
+| `cor/neutro/texto/zinc-700` | `#3f3f46` | Texto de corpo alternativo (`neutral-text-secondary`) |
+| `cor/neutro/texto-secundário/zinc-500` | `#71717a` | Texto secundário/terciário (`neutral-text-tertiary`) |
+| `cor/neutro/superficie/zinc-600` | `#52525b` | Superfície média (`neutral-surface-medium`) |
+
+Os demais degraus Zinc documentados anteriormente (`zinc-50`…`zinc-400`,
+`zinc-800`, `zinc-950` como modo escuro) continuam 🧩 **inferidos** — não
+foram encontrados como correspondência exata de nenhuma variável Figma nesta
+amostragem de componentes (`atom/PushButton`, `celule/chip/folder-tag`,
+`molecule/SearchBar`, `organism/Sidebar`, `molecule/StorageBar`).
+
+## Fora da paleta confirmada
+
+A Regra 3 autoriza só: teal (primária), cinza do wordmark (secundária), rosa
+(cor semântica da categoria "Acesso rápido", desde 2026-08-10) e a rampa
+Zinc para neutros. A reconciliação encontrou 3
+famílias adicionais no Figma que não se encaixam nessa lista e não são,
+por si só, CONFLICT (são cobertura funcional que a Regra 3 não previu — cores
+de feedback e de efeito):
+
+- **Feedback** (`danger`/`success`/`warning`, ver tabela acima) — necessário para estado de formulário/validação, fora do escopo original da Regra 3.
+- **Efeitos glass/overlay** (`effect-glass-*`, `effect-overlay-*`) — cobertos em `Tokens/Materials` (Liquid Glass), não em Colors.
+- **Família `ui-*`** (`ui-input-border`, `ui-connector-border`, `ui-button-border-ghost`) — já contabilizada como CONFLICT de neutro acima, não uma quarta família nova.
+
+## Implementação atual no código
+
+O tema padrão do shadcn/ui em `src/index.css` (gerado pelo scaffold da
+US-001) ainda usa a paleta cinza/`oklch` genérica do shadcn para
+`--primary`/`--secondary`/`--accent`/etc. (ver
+`design-system/stories/tokens/unused.mdx` para o levantamento de tokens
+genéricos não substituídos) — isso não é um gap desta reconciliação, é o
+primitivo shadcn base, não usado pelo `atom/PushButton` dedicado (Regra 1).
+
+Os tokens de marca Kandrive Figma-confirmados **já estão propagados** em
+`src/index.css` (reconciliação de 2026-08-10, decisão humana, US-009):
+
+| Variável CSS | Valor atual | Papel |
+| --- | --- | --- |
+| `--brand-teal` | `#007e96` | primária — nome de variável mantido por compatibilidade (histórico `teal`), valor é o Figma-confirmado |
+| `--brand-teal-dark` | `#1a5e6e` | ✅ Figma-confirmado (US-021, achado 2x em `celule/Callout` e `celule/TagColor` — substitui a aproximação derivada anterior, `color-mix(in oklab, var(--brand-teal), black 20%)`), usado em `StorageBar` tier "long-term" |
+| `--brand-secondary` | `#31302d` | secundária/wordmark — ainda sem consumo em componente implementado |
+| `--brand-pink-dark` | `#b5254a` | categoria "Acesso rápido", usado em `StorageBarExpanded` |
+| `--brand-pink-light` | `#e8476a` | categoria "Acesso rápido", usado em `StorageBarExpanded` |
+| `--destructive` | `#bc3426` | perigo/destrutivo, usado em `atom/PushButton` (`isDestructive`) |
+
+Todas as 5 variáveis de marca/perigo acima têm equivalente Tailwind exposto
+em `@theme inline` (`--color-brand-teal`, `--color-brand-teal-dark`,
+`--color-brand-secondary`, `--color-brand-pink-dark`,
+`--color-brand-pink-light`, `--color-destructive`) para uso via classe
+utilitária (`bg-brand-pink-dark`, `text-destructive`, etc.), não só
+`var(...)` inline.

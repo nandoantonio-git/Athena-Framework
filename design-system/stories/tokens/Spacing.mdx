@@ -1,0 +1,97 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Tokens/Spacing" parameters={{ design: { type: 'figma', url: 'https://www.figma.com/design/oFp2TLeCG4GJeCOFVhBvjg/KanDrive?node-id=1421-17904' } }} />
+
+# Espaçamento
+
+> 🧩 **Aba "Design" (US-014):** Spacing não tem uma seção própria no Figma —
+> o frame acima é `molecule/StorageBar` (`1421:17904`), usado só como amostra
+> de referência visual, não como fonte da escala abaixo (que vem de
+> `get_variable_defs`, ver nota seguinte).
+
+> ✅ **Reconciliado com o Figma em 2026-08-09.** Diferente da versão anterior
+> desta página (que documentava a escala padrão de 4px do Tailwind, por não
+> ter acesso ao Figma), os valores abaixo vêm de `get_variable_defs` rodado
+> nos componentes reais do inventário US-002: `atom/PushButton`
+> (`1421:17302`), `celule/chip/folder-tag` (`1421:19040`),
+> `molecule/SearchBar` (`1421:17857`), `organism/Sidebar` (`1421:17946`). A
+> escala Figma **não é** a escala padrão de 4px do Tailwind — é uma escala
+> própria, nomeada, com passo de 2px na base.
+
+## Escala observada (Figma-confirmado)
+
+| Variável Figma real | Valor (px) | Onde foi observada |
+| --- | --- | --- |
+| `var(--spacing-1)` | `1px` | `atom/PushButton`, `molecule/SearchBar` |
+| `var(--spacing-2)` | `2px` | `organism/Sidebar` |
+| `var(--spacing-xs)` | `4px` | `atom/PushButton`, `celule/chip/folder-tag` |
+| `var(--spacing-sm)` | `6px` | `celule/chip/folder-tag`, `molecule/SearchBar` |
+| `var(--spacing-md)` | `8px` | `atom/PushButton`, `organism/Sidebar` |
+| `var(--spacing-10)` | `10px` | `celule/chip/folder-tag`, `molecule/SearchBar` |
+| `var(--spacing-lg)` | `12px` | `organism/Sidebar` |
+| `var(--spacing-20)` | `20px` | `organism/Sidebar` |
+| `var(--spacing-xl)` | `16px` | `atom/PushButton`, `organism/Sidebar` |
+| `var(--spacing-2xl)` | `24px` | `organism/Sidebar` |
+| `var(--spacing-3xl)` | `32px` | `organism/Sidebar` |
+
+Token adicional específico de componente: `Button/Padding - Horizontal` =
+`16px`, encontrado em `atom/PushButton` e `molecule/SearchBar` — um valor de
+padding nomeado por componente, não parte da escala genérica acima.
+
+**🧩 Nota (não é CONFLICT — nenhuma Regra trava a escala de espaçamento):**
+a escala real mistura nomes semânticos (`xs`/`sm`/`md`/`lg`/`xl`/`2xl`/`3xl`)
+com passos numéricos (`spacing-1`, `spacing-2`, `spacing-10`, `spacing-20`) —
+os dois sistemas coexistem no Figma sem um padrão único de nomenclatura.
+Diferente da escala de 4px do Tailwind documentada na versão anterior desta
+página (que era só uma suposição de scaffold), a escala real tem passo de
+2px na base (`1, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32`) — não geométrica nem
+estritamente aritmética constante.
+
+## Radius (Figma-confirmado, mesma amostragem)
+
+O Figma reaplica a mesma nomenclatura de escala para border-radius, com
+valores distintos dos de espaçamento a partir de `md`:
+
+| Variável Figma real | Valor (px) |
+| --- | --- |
+| `var(--radius-xs)` | `4px` |
+| `var(--radius-sm)` | `6px` |
+| `var(--radius-md)` | `8px` |
+| `var(--radius-lg)` | `12px` |
+| `var(--radius-20)` | `20px` |
+| `var(--radius-xl)` | `16px` |
+| `var(--radius-2xl)` | `24px` |
+| `var(--radius-3xl)` | `32px` |
+| `var(--radius-pill)` | `9999px` (pílula/fully-rounded) |
+| `var(--radius-full)` | `100px` (círculo, ex.: avatar) |
+
+`celule/chip/folder-tag` (achado #5 do inventário US-002) usa
+`Spacing/SM` (`6px`) e `Radius/Pill` — confirma que o chip referencia esta
+escala compartilhada, não um valor hardcoded.
+
+## Tokens semânticos (Regra 2 aplicada ao espaçamento)
+
+| Token semântico | Valor | Papel sugerido | Fonte |
+| --- | --- | --- | --- |
+| `espacamento/escala/1` | `1px` | Traço/divisor de 1px | ✅ Figma-confirmado |
+| `espacamento/escala/2` | `2px` | Micro-ajuste extremo | ✅ Figma-confirmado |
+| `espacamento/escala/xs` | `4px` | Micro-ajuste (ícone + label) | ✅ Figma-confirmado |
+| `espacamento/escala/sm` | `6px` | Padding interno mínimo (chip/badge) | ✅ Figma-confirmado |
+| `espacamento/escala/md` | `8px` | Padding interno compacto | ✅ Figma-confirmado |
+| `espacamento/escala/10` | `10px` | Padding intermediário (search bar) | ✅ Figma-confirmado |
+| `espacamento/escala/lg` | `12px` | Gap entre elementos de sidebar | ✅ Figma-confirmado |
+| `espacamento/escala/xl` | `16px` | Padding horizontal padrão de botão | ✅ Figma-confirmado |
+| `espacamento/escala/20` | `20px` | Gap entre blocos da sidebar | ✅ Figma-confirmado |
+| `espacamento/escala/2xl` | `24px` | Espaçamento entre seções | ✅ Figma-confirmado |
+| `espacamento/escala/3xl` | `32px` | Espaçamento entre grandes blocos | ✅ Figma-confirmado |
+
+## Como isto deve ser usado
+
+Componentes documentados nas próximas US (atoms/molecules/organisms) devem
+referenciar estes tokens semânticos por **papel** (ex.: "padding padrão de
+botão" = `espacamento/escala/xl`), citando a variável Figma real entre
+parênteses na primeira menção. Esta página substitui a escala de 4px do
+Tailwind usada anteriormente como placeholder — qualquer componente já
+implementado que hardcode `p-4`/`gap-6` etc. sem passar por essa tabela deve
+ser revisado numa US de implementação (fora do escopo desta US, que é
+somente-doc).

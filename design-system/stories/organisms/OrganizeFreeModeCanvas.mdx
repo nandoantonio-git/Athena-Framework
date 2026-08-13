@@ -1,0 +1,117 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as OrganizeFreeModeCanvasStories from './OrganizeFreeModeCanvas.stories';
+
+<Meta of={OrganizeFreeModeCanvasStories} />
+
+# OrganizeFreeModeCanvas (`organism/MainCanvas/Organization/FreeMode`)
+
+**Status: 🔧 corrigido novamente em 2026-08-13 (US-026, pass15 de
+ponto-fixo)** — Figma-confirmado agora via `get_design_context` **completo**
+(nó `1439:16906`, 1117×933) — a nota anterior de que o nó era "grande demais"
+para a ferramenta estava desatualizada/incorreta, corrigida nesta
+releitura.
+
+🔧 **Achado novo na pass15:** a story renderizava o canvas em `max-w-4xl`
+e ainda compunha um `FreeModeOutputNode` compacto extra após o card
+"Resultado". O Figma fresco do node `1439:16906` confirma o frame
+1117×933 e não mostra esse card compacto extra na composição visível.
+Corrigido para o tamanho Figma-confirmado e removido o consumidor
+inventado; `FreeModeOutputNode` permanece documentado só como celule
+isolado.
+
+🔧 **Achado novo na 3ª passada:** o badge "Arquivos" (dentro do markup
+inline de "Pasta 1") usava `bg-zinc-200 text-zinc-600` — a resposta fresca
+e completa de `get_design_context` confirma o "Node Grouping Frame" real
+com badge `bg-[var(--neutral-surface-medium,#52525b)]`
+(`bg-zinc-600`) e texto `var(--brand-primary-light,#c8dce3)`
+(`brand-teal-light`), não um badge claro. Corrigida só a cor; a posição
+real (pill flutuando acima da moldura do grupo, não embutida no topo do
+card) permanece como aproximação já documentada — reconciliar exigiria
+extrair o "Node Grouping Frame" como peça própria, fora do escopo desta
+correção pontual.
+
+🔧 **Corrigido na 4ª passada (2026-08-13):** o organism agora repassa para
+`FreeModeItemNode` os overrides de instância Figma-confirmados: "Filtro:
+Grande"/"Size > 1.0 GB" e "Filtro: Formato"/"Type = .mp4, .mov". O celule
+mantém os defaults curtos do seu próprio node base; a composição do canvas
+usa os textos completos do node `1439:16906`. Textos confirmados: badge "Modo Livre", painel flutuante
+"Filtro" (Tamanho/Maior que/1.0 GB, alternador E/OU, "Adicionar regra",
+"Descartar Mudanças"/"Salvar Mudanças" — **implementado agora**, ver
+composição abaixo), nós de exemplo "Pasta 1" (4.2 GB · 128 Files), "Filtro:
+Grande" (Size > 1.0 GB), "Filtro: Formato" (Type = .mp4, .mov), "Junção",
+"Auto-Archive" (badge "ACTIVE"), "Resultado" (métricas + "Prévia de
+arquivos" — dropdown não implementado), sem card compacto extra depois de
+`Resultado`, rodapé com resumo e
+"Descartar"/"Salvar Template". As **linhas conectoras tracejadas** entre os
+nós também foram implementadas agora (SVG, geometria aproximada à cadeia
+linear do layout — ver seção de escopo reduzido).
+
+<Canvas of={OrganizeFreeModeCanvasStories.Default} />
+<Controls />
+
+## ⚠️ Escopo reduzido deliberado (Regra 9)
+
+O Figma real é um **editor de nós totalmente interativo**
+(arrastar/conectar/editar regras/painel de filtro flutuante). Esta story
+reproduz o **layout estático** dos elementos confirmados — não implementa
+drag-and-drop nem edição de regras. Reproduzir o editor completo está fora
+do escopo de uma story de documentação; apresentar essa aproximação como o
+componente funcional real violaria a Regra 9.
+
+Os 2 elementos de composição confirmados na auditoria de 2026-08-11 foram
+implementados nesta releitura (2026-08-12):
+1. As **linhas conectoras tracejadas** entre os nós (`FreeModeConnector`/
+   `FreeModeConnectorConverge`, SVG local ao organism) — puramente
+   decorativas, confirmadas no Figma. Geometria **aproximada**: liga os
+   centros dos nós vizinhos na cadeia linear já adotada por este layout
+   (Pasta 1→Filtro (Grande/Formato, convergindo)→Junção→Auto-Archive→
+   Resultado→saída), não reproduz o roteamento 2D exato do canvas do
+   Figma (Regra 9).
+2. O painel **`molecule/contextMenu/FreeMode`** (`FreeModeFilterPanel`,
+   "Filtro" com regra "Tamanho maior que 1.0 GB", alternador E/OU, 2ª linha
+   de condição em rascunho, "Adicionar regra", "Descartar Mudanças"/"Salvar
+   Mudanças") que flutua sobre o canvas — usa o material Liquid Glass
+   (`bg-white/50` + `backdrop-blur-md`, aproximação do
+   `effect-glass-white-50` + `mix-blend-screen` do Figma, Regra 10).
+   Estático: não edita regras de verdade, só reproduz a composição visual
+   confirmada (Regra 9).
+
+## Composição (Regra 10)
+
+`atom/PushButton` — "Descartar" (`variant="neutral"`) / "Salvar Template"
+(`variant="primary"`). Ícones dos nós usam glifos `lucide-react` por
+aproximação semântica (Filter/GitMerge/Archive/Package), sem asset
+exportado nó-a-nó.
+
+> ⚠️ **Corrigido em 2026-08-11 após achado do usuário — auditoria anterior
+> não seguia a Regra 11.** Os botões da toolbar inferior tinham espaçamento
+> e tamanho aproximados (`gap-2`/`size-8`). `get_design_context` na
+> sub-peça real `celule/MainCanvas/Organization/FreeMode/Buttons`
+> (`1431:20043`, catalogada em AGENTS.md) confirma `gap-[6px]` e botões
+> `size-[40px]` (`bg-brand-secondary-light`, borda `effect-glass-white-05`)
+> — corrigido para `gap-1.5`/`size-10` com os tokens confirmados. Também
+> reconfirmado (screenshot Playwright fresco, não assumido): o fundo de
+> pontos e o Mini-Map adicionados em 2026-08-10 renderizam corretamente —
+> nenhuma regressão de build/cache encontrada.
+
+## Conflito de variantes (Regra 1)
+
+Nenhum componente `button/primary`\|`secondary`\|`destructive` separado.
+
+## Estados e fluid interface (Regra 8)
+
+Não aplicável em detalhe — estado estático por design (ver escopo
+reduzido). **reduced-motion**: não documentado no Figma; não implementado
+por não haver interação.
+
+## Material Liquid Glass
+
+O canvas em si usa fundo sólido (`bg-zinc-100`, padrão de grid) — não
+Liquid Glass. O painel flutuante `FreeModeFilterPanel` ("Filtro") usa uma
+aproximação do Liquid Glass Figma-confirmado (`effect-glass-white-50` +
+`mix-blend-screen`) via `bg-white/50` + `backdrop-blur-md` — ver
+`stories/tokens/Materials.mdx` para a spec canônica (Regra 10).
+
+## Terminologia
+
+Nenhum termo proibido nos textos confirmados pelo screenshot.

@@ -1,0 +1,88 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TagStories from './Tag.stories';
+
+<Meta of={TagStories} />
+
+# Tag (Figma: `atom/Tag`, `1421:17929`)
+
+**Status: ✅ aligned (Figma-confirmado, US-017)** — protocolo completo da
+Regra 11 aplicado antes de marcar como verificado.
+
+**Reverificado em 2026-08-12 (US-026, 3ª passada de auditoria de
+ponto-fixo)** — `get_design_context` refeito do zero; confirma o fix da 2ª
+passada (`text-[0.6875rem]`/11px, corrigindo a regressão anterior para 8px)
+permanece intacto no código — sem nova regressão.
+
+**Reverificado em 2026-08-13 (US-026, 12ª passada ativa)** —
+`get_design_context` fresco confirmou 4 estilos × 2 estados
+(`Default`/`Hover`) e `rotulo=""` como valor default visual. Divergências
+corrigidas: o hover não era capturável por screenshot e o agregado não
+mostrava as 8 combinações Figma-confirmadas. `state="hover"` agora existe
+para documentação visual, mantendo `:hover` para uso real.
+
+<Canvas of={TagStories.Primary} />
+<Controls />
+
+## Figma (Figma-confirmado)
+
+Descrição verbatim: *"ponto que de acordo com sua cor demonstra a qual
+rótulo faz parte. no kandrive a segmentação é feita por cor+ label"*.
+Pílula compacta com padding `8px`/`4px`, raio `8px`, texto `8px` Figtree.
+Eixo `style` (4 variantes): `Primary` (`#007e96`), `PrimaryDark`
+(`#1a5e6e`), `Secondary` (`#e8476a` default / `#b5254a` hover), `FileName`
+(`#eaeaea`, texto escuro em vez de branco). Eixo `state`: `Default`/`Hover`.
+
+<Canvas of={TagStories.AllVariants} />
+
+## Sem rótulo — chip só de cor
+
+O default do Figma (`rotulo=""`) renderiza a pílula sem texto — um chip de
+cor pura, coerente com a descrição ("cor+label", onde a cor sozinha já
+carrega significado em paleta/seletor). Ver <Canvas of={TagStories.ColorOnly} />.
+
+## Cor `secondary` = categoria "Acesso rápido" (Regra 3)
+
+`Secondary` usa o mesmo par rosa claro/escuro (`--brand-pink-light`/
+`--brand-pink-dark`) já usado em `molecule/StorageBar` para a categoria
+"Acesso rápido" (Regra 3, decisão humana 2026-08-10) — não uma cor nova,
+reuso do token semântico existente.
+
+## Estado `Hover` (Regra 8)
+
+O Figma expõe `Hover` como eixo de variante. A implementação usa
+`state="hover"` para documentação visual capturável por screenshot e
+mantém `:hover` para o comportamento real do browser. Tratamento real do
+Figma: overlay preto 14% sobre `Primary`, `PrimaryDark` e `FileName`;
+`Secondary` troca para `--brand-pink-dark` (`#b5254a`).
+
+## Tipografia (Regra 4 — exceção documentada)
+
+O Figma confirma `Type/Tag` em `8px`, mas isso viola a Regra 4. A
+implementação mantém a correção travada para `11px`
+(`text-[0.6875rem]`, sempre `rem`) como microtexto complementar de chip,
+sem reabrir o conflito já registrado.
+
+## Checklist elemento-a-elemento (Regra 11)
+
+| Elemento Figma | Implementado | Fonte |
+| --- | --- | --- |
+| Pílula com padding/raio | ✅ `px-2 py-1 rounded-md` | ✅ Figma-confirmado |
+| Texto do rótulo | ✅ `text-[0.6875rem]` Figtree (correção por Regra 4) | ✅ Figma-confirmado com exceção travada |
+| 4 cores de variante | ✅ | ✅ Figma-confirmado |
+| Cor de texto branca (Primary/PrimaryDark/Secondary) vs. escura (FileName) | ✅ `text-white` / `text-zinc-700` | ✅ Figma-confirmado |
+| Overlay de hover | ✅ overlay 14% em Primary/PrimaryDark/FileName; pink dark em Secondary | ✅ Figma-confirmado |
+
+## Estados (Regra 8)
+
+| Estado | Implementado | Fonte |
+| --- | --- | --- |
+| Default | ✅ | ✅ Figma-confirmado |
+| Hover | ✅ `state="hover"` para docs + `:hover` em uso real | ✅ Figma-confirmado |
+| Active/Pressed | ❌ Não aplicável | Sem eixo `Pressed` no component set |
+| Disabled | ❌ Não aplicável | Sem eixo `Disabled` no component set |
+| Loading/Error | ❌ Não aplicável | Chip de exibição estática/paleta |
+
+## Material Liquid Glass
+
+Não aplicável — preenchimento de cor sólida, sem uso do material "Liquid
+Glass" (Regra 10).

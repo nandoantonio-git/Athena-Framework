@@ -1,0 +1,79 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ButtonAddStories from './ButtonAdd.stories';
+
+<Meta of={ButtonAddStories} />
+
+# ButtonAdd (Figma: `atom/buttonAdd`, `1421:20509`)
+
+Botão de ação aditiva com contorno + glifo `+`, usado em 2 fluxos reais
+distintos.
+
+**Status: ✅ aligned (Figma-confirmado, US-016)** — protocolo completo da
+Regra 11 aplicado antes de marcar como verificado.
+
+**Reverificado na 3ª passada de auditoria de ponto-fixo (US-026,
+2026-08-12):** protocolo completo da Regra 11 reaplicado do zero —
+nenhuma divergência nova encontrada.
+
+**Reverificado na pass13 de ponto-fixo (US-026, 2026-08-13):** achado
+material corrigido — `get_design_context` fresco confirma quatro estados
+visuais estáticos (`Idle`, `Hover`, `Clicked`, `Disabled`), mas o Storybook
+só congelava repouso/desabilitado. `state` foi exposto para auditoria e a
+story `AllStates` agora captura a matriz completa com o placeholder literal
+Figma `"Label"`.
+
+<Canvas of={ButtonAddStories.Default} />
+<Canvas of={ButtonAddStories.AllStates} />
+<Controls />
+
+## Figma (Figma-confirmado)
+
+`get_design_context` no nó `1421:20509` retorna descrição verbatim:
+*"utilizado para adicionar novos arquivos no fluxo de guardar arquivos em
+longo prazo e no fluxo do criar template de organização modo livre ao
+adicionar novas regras de filtro no menu contextual do canva/tela."* — os 2
+usos reais já reconciliados nesta US:
+
+<Canvas of={ButtonAddStories.AdicionarArquivos} />
+<Canvas of={ButtonAddStories.AdicionarRegra} />
+<Canvas of={ButtonAddStories.Disabled} />
+
+## Reconciliação (US-016)
+
+`organism/SaveLongTermFileStorage` já renderizava "Adicionar arquivos" com
+markup de `<button>` inline duplicando esta anatomia (borda + ícone `+` +
+label teal) — corrigido para consumir `ButtonAdd`. `molecule/nodoContextMenu`
+(novo nesta US) usa o mesmo átomo para "Adicionar Regra".
+
+## Material Liquid Glass
+
+Fundo em repouso usa `effect-glass-white-05` (Regra 10) — camada única, sem
+o material completo de 2 camadas usado em painéis maiores.
+
+## Estados (Regra 8)
+
+| Estado | Implementado | Fonte |
+| --- | --- | --- |
+| Idle | ✅ `border-zinc-300/70 bg-effect-glass-white-05`, texto `brand-teal` | ✅ Figma-confirmado (`state=Idle`) |
+| Hover | ✅ `hover:bg-zinc-500/15` | ✅ Figma-confirmado (`state=Hover`) |
+| Clicked | ✅ `active:bg-brand-teal active:text-white` | ✅ Figma-confirmado (`state=Clicked`, preenchido `brand-primary-default`) |
+| Disabled | ✅ prop nativa `disabled` → `disabled:opacity-60 disabled:text-zinc-300` | ✅ Figma-confirmado (`state=Disabled`) |
+| Loading/Error | ❌ Não aplicável | Botão de ação simples, sem operação assíncrona própria no átomo |
+
+## Fluid interface (Regra 8)
+
+Transições de cor via `transition-colors` nativas, interruptíveis.
+reduced-motion não documentado no Figma — não aplicável (sem animação de
+movimento, só cor).
+
+## Terminologia
+
+Label é prop (`label`/`children`) — cada uso passa cópia real ("Adicionar
+arquivos"/"Adicionar Regra"), nunca o placeholder genérico "Label" do
+Figma. Nenhum termo da lista proibida (Regra 5) se aplica.
+
+## Fidelidade code-level
+
+Glifo `Plus` (`lucide-react`, 12px) — correspondência direta com o ícone
+`plus` do Figma. Rótulo compacto (`text-xs`, 12px) segue a mesma decisão
+humana já documentada em `docs/conflicts.md` para botões `h-8` (Regra 4).

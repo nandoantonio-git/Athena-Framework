@@ -25,12 +25,13 @@ fi
 
 if [[ -z "$GATE_TYPE" ]]; then
   case "$TARGET" in
-    *.py)   GATE_TYPE="python" ;;
-    *.ts)   GATE_TYPE="typescript" ;;
-    *.js)   GATE_TYPE="javascript" ;;
-    *.sh)   GATE_TYPE="bash" ;;
-    *.go)   GATE_TYPE="go" ;;
-    *)      GATE_TYPE="python" ;; # padrão histórico
+    *.py)          GATE_TYPE="python" ;;
+    *.ts|*.tsx)    GATE_TYPE="typescript" ;;
+    *.mdx)         GATE_TYPE="typescript" ;;
+    *.js|*.jsx)    GATE_TYPE="javascript" ;;
+    *.sh)          GATE_TYPE="bash" ;;
+    *.go)          GATE_TYPE="go" ;;
+    *)             GATE_TYPE="python" ;; # padrão histórico
   esac
 fi
 
@@ -58,7 +59,9 @@ case "$GATE_TYPE" in
     ;;
 
   typescript)
-    npx tsc --noEmit 2>&1 || { echo "tsc falhou" >&2; exit 1; }
+    # O projeto Node (kandrive-design-system) vive em design-system/, não na raiz.
+    (cd design-system && npx tsc --noEmit) 2>&1 || { echo "tsc falhou" >&2; exit 1; }
+    (cd design-system && npm run build-storybook) 2>&1 || { echo "build-storybook falhou" >&2; exit 1; }
     ;;
 
   javascript)

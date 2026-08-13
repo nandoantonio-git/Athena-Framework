@@ -1,0 +1,74 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DeleteButtonStories from './DeleteButton.stories';
+
+<Meta of={DeleteButtonStories} />
+
+# DeleteButton (`atom/DeleteButton`)
+
+Ícone-botão para ações destrutivas — sem chrome de borda, alvo de clique
+independente do `PushButton`.
+
+**Status: ✅ aligned (estrutura)** · **⚠️ gap de documentação Figma aberto — urgência
+baixa** (`On`/`Idle` não distinguidos, ver `docs/conflicts.md`) —
+nó `1421:17705`, descrição Figma verbatim: *"ícone
+utilizado para ações destrutivas"*.
+
+🔧 **Corrigido em auditoria US-026 (2026-08-11, Regra 11.4):** mesmo
+achado de `ConfirmButton`/`KeepButton` — círculo de fundo cinza inventado
+no hover/active removido (nenhum estado Figma-confirmado tem fundo).
+
+🔧 **Corrigido na 12ª passada ativa (US-026, 2026-08-13):** `get_design_context`
+fresco reconfirmou o vetor Figma de 9.333×12 dentro de um contêiner de
+10px; o wrapper compartilhado renderizava o SVG em 20×20. O alvo de toque
+invisível continua 32×32 por acessibilidade, mas o glifo visual agora usa
+10×12 e `Disabled` default usa opacidade 20%, como no component set.
+
+**Reverificado na 3ª passada de auditoria de ponto-fixo (US-026,
+2026-08-12):** protocolo completo da Regra 11 reaplicado do zero —
+nenhuma divergência nova encontrada.
+
+<Canvas of={DeleteButtonStories.Default} />
+<Controls />
+
+## Regra 1 — não é conflito
+
+Não é `button/primary`/`secondary`/`destructive`: é um átomo de ícone sem
+chrome de botão, com destino de clique independente do `PushButton` (achado
+#11, `figma-inventory.md`). Ver `Atoms/PushButton` para o botão de ação
+primária.
+
+## Estados
+
+`style` Figma-confirmado: `Default`|`Red`|`White` — implementado 1:1.
+`state` Figma-confirmado: `On`|`Idle`|`Clicked`|`Disabled`. `On`/`Idle` não
+têm diferença de comportamento descrita no Figma (gap, Regra 9: não
+inventado) — ambos mapeiam para o mesmo repouso visual. `Clicked` é o
+`:active` nativo (feedback de press via `scale-90`).
+
+<Canvas of={DeleteButtonStories.Red} />
+<Canvas of={DeleteButtonStories.White} />
+<Canvas of={DeleteButtonStories.Disabled} />
+
+Loading/Error: ❌ ausentes no enum `State` do Figma (achado do inventário,
+Seção 2.2) — não inventados.
+
+## Fluid interface (Regra 8)
+
+- **Feedback no press**: sim — `motion-safe:active:scale-90`.
+- **Interruptibilidade / parte do valor atual**: sim, CSS nativo.
+- **reduced-motion**: `motion-safe:` aplicado, mesmo padrão de `PushButton`.
+  Não documentado no Figma.
+
+## Material Liquid Glass
+
+Não aplicável — preenchimento transparente, cor de texto muda por `style`.
+
+## Terminologia
+
+Não renderiza texto visível (ícone-only, `aria-label="Excluir"` para
+acessibilidade) — não se aplica.
+
+## Fidelidade code-level
+
+Glifo `DeleteButtonGlyph.svg` exportado do Figma; não usa aproximação por
+`lucide-react`.

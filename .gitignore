@@ -5,6 +5,7 @@ scripts/.story-attempts
 scripts/.prompt.md
 scripts/.last-message.md
 scripts/.model-check.log
+scripts/.iter.log
 scripts/run.log
 scripts/events.log
 scripts/audit/

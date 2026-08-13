@@ -1,0 +1,81 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as IconStories from './Icon.stories';
+
+<Meta of={IconStories} />
+
+# Icon (`atom/Icon/*`)
+
+Glifo estático único e reutilizável — cobre as 44 instâncias de ícone da
+seção "Icon/" do Figma (`figma-inventory.md`, Seção 2.1, nó `1421:17656`).
+
+**Status: ✅ aligned (Figma-confirmado)** — status "🆕 undocumented-until-now"
+era resquício da primeira versão desta doc (US original) e ficou obsoleto
+já na 2ª passada de auditoria (US-026, 2026-08-12), quando a seção
+"Fidelidade code-level" abaixo foi atualizada; corrigido nesta 3ª passada
+(Regra 9 — não deixar status desatualizado apresentando um componente já
+maduro como recém-criado).
+
+**Reverificado na 3ª passada de auditoria de ponto-fixo (US-026,
+2026-08-12):** protocolo completo da Regra 11 reaplicado (`get_design_context`
+no nó `1421:17656` + screenshot Playwright de `AllIcons` com os ~64 glifos
+renderizados como vetores reais, não fallback) — nenhuma divergência nova
+encontrada.
+
+🔧 **Corrigido na pass13 (2026-08-13):** `get_design_context` fresco da
+seção `Icon/` reconfirmou `atom/Icon/Arquivar` e a maioria dos glifos
+canônicos em 16×16, enquanto o default do componente renderizava `size-5`
+(20×20). O default agora é `size-4`; consumidores que precisam de tamanho
+próprio continuam passando `className` explícito (`size-6`, `size-[85px]`,
+etc.).
+
+<Canvas of={IconStories.Default} />
+<Controls />
+
+## Por que 1 componente e não 44
+
+As 44 instâncias são o mesmo tipo de peça de design (glifo estático, sem
+chrome, sem estado próprio) — só muda o `name`. Modelar cada uma como um
+componente/story separado duplicaria a mesma anatomia 44 vezes sem ganhar
+fidelidade (filosofia do projeto: função simples em vez de abstração
+redundante). A API `<Icon name="..." />` cobre o eixo real de variação.
+
+<Canvas of={IconStories.AllIcons} />
+
+## Fidelidade code-level — vetores reais exportados do Figma
+
+**Atualizado na auditoria de ponto-fixo US-026 (2026-08-12).** Esta seção
+descrevia até então um fallback `lucide-react` (glifo mais próximo por
+nome/significado) que já não corresponde ao código: uma reconciliação
+anterior (decisão humana de 2026-08-11, registrada no comentário de
+`icon.tsx`) substituiu todo o mapa `ICONS` por vetores reais exportados do
+Figma via `download_assets` — `src/components/atoms/icon.tsx` importa hoje
+~64 SVGs reais de `src/assets/icons/<Nome>.svg`, com `fill` normalizado
+para `currentColor`. A tabela de aproximação `lucide-react`/confiança 🧩
+que existia aqui ficou desatualizada por essa troca e foi removida nesta
+auditoria (Regra 9 — não deixar documentação obsoleta apresentando um
+fallback que não roda mais como fato atual).
+
+Todos os nomes em `IconName` (`icon.tsx`) — incluindo `MenuBook`, `Forum`,
+`Slideshow` (adicionados em 2026-08-11, US-025, a partir de
+`organism/FAQ/FastLinks`, `1454:25006`) — usam o mesmo critério: ✅
+correspondência exata (vetor exportado do Figma, não aproximação por
+nome). Verificação exaustiva pixel-a-pixel dos ~64 glifos individualmente
+segue fora do orçamento de uma única passada de auditoria (mesma lógica de
+amostragem de `docs/figma-inventory.md`); a auditoria de ponto-fixo
+spot-checou `Arquivar`/`Folder`/`ArrowBack` contra os SVGs exportados e
+confirmou o match (ver `docs/conflicts.md`).
+
+## Terminologia
+
+Nenhum ícone renderiza texto visível — checagem de terminologia (Regra 5)
+não se aplica.
+
+## Material Liquid Glass
+
+Não aplicável — glifo sozinho, sem superfície/material.
+
+## Estados / fluid interface
+
+Não aplicável — `Icon` é estático, sem interação própria (Regra 8). O
+ícone-botão interativo equivalente (`atom/icon/base`, que envolve um glifo
+com estado de hover) está documentado separadamente em `Atoms/IconBase`.

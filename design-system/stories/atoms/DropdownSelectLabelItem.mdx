@@ -1,0 +1,75 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DropdownSelectLabelItemStories from './DropdownSelectLabelItem.stories';
+
+<Meta of={DropdownSelectLabelItemStories} />
+
+# DropdownSelectLabelItem (Figma: `atom/DropdownSelect/Label/Item`, `1444:21704`)
+
+**Status: ✅ aligned** — protocolo completo da Regra 11 aplicado nesta US
+(US-019): `get_design_context` real no node (`skillNames=figma-design-to-code`),
+screenshot Figma comparado elemento-a-elemento contra o Storybook
+renderizado, nenhum elemento inventado.
+
+**Reverificado na 3ª passada de auditoria de ponto-fixo (US-026,
+2026-08-12):** protocolo completo da Regra 11 reaplicado do zero —
+nenhuma divergência nova encontrada.
+
+🔧 **Corrigido em auditoria US-026 (2026-08-11):** faltava `shrink-0` na
+pílula interna de texto (presente no Figma real: `shrink-0 w-[78px]`) —
+sem ele, o flex pai encolhia a pílula abaixo do necessário e o texto
+"+ Nova Etiqueta" era cortado (renderizava "+ Nova Etiquet" no screenshot).
+Corrigido adicionando `shrink-0` na classe.
+
+<Canvas of={DropdownSelectLabelItemStories.Idle} />
+<Controls />
+
+## Figma (Figma-confirmado)
+
+Descrição verbatim: *"item da pilula de etiquetar, no qual você insere
+input o nome desejado de rótulo. Contem variavel de estados"*. Texto
+verbatim confirmado: **"+ Nova Etiqueta"**.
+
+<Canvas of={DropdownSelectLabelItemStories.AllStates} />
+
+## Sem molecule consumidora (Regra 9)
+
+`molecule/DropdownSelect/Label` (segundo tipo de dropdown, mencionado na
+lacuna de catálogo de 2026-08-11 em `AGENTS.md`) não está implementada —
+fica deferida, não inventada. Este átomo é implementado isoladamente com
+node Figma próprio confirmado, sem compor um consumidor hipotético.
+
+## Checklist elemento-a-elemento (Regra 11)
+
+| Elemento Figma | Implementado | Fonte |
+| --- | --- | --- |
+| Wrapper `80px`×`18px`, `rounded-[4px]`, sem fundo próprio | ✅ `h-[18px] w-20 rounded-[4px]` | ✅ Figma-confirmado |
+| Miolo `pl-[6px] pr-[6.5px]`, `rounded-[4px]` | ✅ `pl-1.5 pr-[6.5px] rounded-[4px]` | ✅ Figma-confirmado |
+| Texto `"+ Nova Etiqueta"`, `10px` Figtree Regular, `#3f3f46` | ✅ `text-[0.625rem] text-zinc-700` (match exato `zinc-700`) | ✅ Figma-confirmado |
+| Estado `hover` — fundo `rgba(113,113,122,0.2)` | ✅ `hover:bg-[#71717a33]` | ✅ Figma-confirmado |
+| Estado `clicked` — fundo `rgba(107,107,104,0.45)` | ✅ `bg-[#6b6b6873]` (prop `active`) | ✅ Figma-confirmado |
+
+## Cor (Regra 3)
+
+Mesmos 2 tons de overlay já usados em
+[`atom/DropdownSelect/GroupBy/Item`](./DropdownSelectGroupByItem.mdx)
+(US-019) — cores literais do Figma sem token semântico no tema (paleta
+neutra suspensa).
+
+## Estados (Regra 8)
+
+| Estado | Implementado | Fonte |
+| --- | --- | --- |
+| Idle | ✅ Sem fundo | ✅ Figma-confirmado |
+| Hover | ✅ `:hover` do browser (convenção já usada em `atom/Tag`) | ✅ Figma-confirmado |
+| Clicked | ✅ prop `active` | ✅ Figma-confirmado |
+| Disabled/Loading/Error | ❌ Não aplicável | Sem eixo confirmado no node consultado |
+
+**reduced-motion**: não documentado no Figma; sem animação própria.
+
+## Material Liquid Glass
+
+Não aplicável — preenchimento de cor sólida, sem uso do material (Regra 10).
+
+## Fidelidade code-level
+
+Sem vetor customizado, sem asset exportado além do texto.

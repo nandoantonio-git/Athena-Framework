@@ -1,0 +1,213 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/figtree";
+@import "@fontsource-variable/geist";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: var(--font-sans);
+    /* Regra 4 (AGENTS.md): Figtree é a tipografia travada — fonte padrão do
+       design system inteiro, corrigido em 2026-08-10 (o projeto importava
+       só Geist até então, apesar de toda a documentação já dizer Figtree).
+       --font-geist fica disponível à parte só pro uso pontual
+       Figma-confirmado onde o próprio Figma especifica Geist (ex.:
+       atom/StorageTierBadge, "Geist:Medium" — não é a fonte do sistema). */
+    --font-sans: 'Figtree Variable', sans-serif;
+    --font-geist: 'Geist Variable', sans-serif;
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --color-brand-teal: var(--brand-teal);
+    --color-brand-teal-foreground: var(--brand-teal-foreground);
+    --color-brand-teal-dark: var(--brand-teal-dark);
+    --color-brand-secondary: var(--brand-secondary);
+    --color-brand-pink-dark: var(--brand-pink-dark);
+    --color-brand-pink-light: var(--brand-pink-light);
+    --color-brand-teal-light: var(--brand-teal-light);
+    --color-brand-secondary-dark: var(--brand-secondary-dark);
+    --color-brand-secondary-light: var(--brand-secondary-light);
+    --color-effect-glass-light-45: var(--effect-glass-light-45);
+    --color-effect-glass-white-70: var(--effect-glass-white-70);
+    --color-effect-glass-white-50: var(--effect-glass-white-50);
+    --color-effect-glass-white-36: var(--effect-glass-white-36);
+    --color-effect-glass-white-05: var(--effect-glass-white-05);
+    --color-effect-glass-dark-20: var(--effect-glass-dark-20);
+    --color-effect-glass-surface-light: var(--effect-glass-surface-light);
+    --color-effect-overlay-subtle: var(--effect-overlay-subtle);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    /* cor/feedback/perigo/padrão — Figma-confirmado
+       (var(--brand-feedback-danger-default), achado em
+       organism/cleanSpaceStorage, nó 1439:16908, botões "Excluir"/"Excluir
+       cópias"). Substitui o vermelho genérico do shadcn (era
+       oklch(0.577 0.245 27.325)). */
+    --destructive: #bc3426;
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --radius: 0.625rem;
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+    /* cor/marca/primária — Regra 3 (AGENTS.md), ATUALIZADA 2026-08-10:
+       Figma é fonte de verdade. #2A7A8C descontinuado (era decisão travada
+       errada, nunca bateu com o arquivo real — var(--brand-primary-default)
+       no Figma). Nome da variável CSS mantido (--brand-teal) por enquanto
+       para não quebrar todo o código de uma vez — reavaliar rename em
+       US-009. */
+    --brand-teal: #007e96;
+    --brand-teal-foreground: oklch(1 0 0);
+    /* cor/marca/primária/teal-dark — Figma-confirmado
+       (var(--brand-primary-dark)), achado 2x nesta US (US-021,
+       celule/Callout e celule/TagColor) confirmando o mesmo hex já
+       documentado em stories/tokens/Colors.mdx desde a varredura de
+       get_variable_defs (US-009) mas nunca antes ligado a uma variável CSS
+       real — substitui a aproximação derivada anterior
+       (color-mix(in oklab, var(--brand-teal), black 20%)). Usado para
+       diferenciar tier "Longo prazo" de "Acesso rápido" em
+       molecule/StorageBar. */
+    --brand-teal-dark: #1a5e6e;
+    /* cor/marca/secundária — Figma-confirmado (var(--brand-secondary-default)),
+       Regra 3 atualizada 2026-08-10. Ainda sem uso em nenhum componente
+       implementado — adicionado para reconciliação futura (US-009). */
+    --brand-secondary: #31302d;
+    /* cor/categoria/acesso-rápido — Figma-confirmado (Brand/Theme/Pink/Dark
+       e /Light). Decisão humana 2026-08-10: rosa deixa de ser "só
+       branding" e vira a cor semântica de dado/estado da categoria "Acesso
+       rápido" (ex.: molecule/StorageBar). Regra 3 atualizada. */
+    --brand-pink-dark: #b5254a;
+    --brand-pink-light: #e8476a;
+    /* cor/marca/primária/teal-light — Figma-confirmado
+       (var(--brand-primary-light,#c8dce3)), achado em US-013
+       (molecule/StorageStatus, organism/FAQ callouts). Tint claro da
+       primária — chip "Global" ativo no seletor de escopo, fundo de
+       Callout informativo. */
+    --brand-teal-light: #c8dce3;
+    /* cor/marca/secundária/dark|light — Figma-confirmado
+       (var(--brand-secondary-dark,#1a1714) / var(--brand-secondary-light,#6b6b68)),
+       achado em US-013 (organism/CardNeedMoreHelp, organism/FAQ/info/Card,
+       atom/badge/TypeLabel). Par de tons de texto que acompanha
+       `--brand-secondary` (default, #31302d): dark para heading/ênfase,
+       light para corpo/legenda. */
+    --brand-secondary-dark: #1a1714;
+    --brand-secondary-light: #6b6b68;
+    /* cor/efeito/vidro/* — Liquid Glass, Figma-confirmado (Tokens/Materials,
+       get_variable_defs em 1427:16958); nunca reimplementar spec aqui, só
+       os valores de cor de tint (Regra 10) */
+    --effect-glass-light-45: #f7f7f773;
+    --effect-glass-white-70: #ffffffb2;
+    --effect-glass-white-50: #ffffff80;
+    --effect-glass-white-36: #ffffff5c;
+    --effect-glass-white-05: #ffffff0d;
+    --effect-glass-dark-20: #00000033;
+    --effect-glass-surface-light: #fafafa99;
+    --effect-overlay-subtle: #bfc7d21a;
+}
+
+.dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+  html {
+    @apply font-sans;
+    }
+}

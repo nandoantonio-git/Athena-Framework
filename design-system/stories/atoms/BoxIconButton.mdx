@@ -1,0 +1,83 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as BoxIconButtonStories from './BoxIconButton.stories';
+
+<Meta of={BoxIconButtonStories} />
+
+# BoxIconButton (Figma: `atom/boxIconButton`, `1431:20102`)
+
+Botão-ícone quadrado (40px) do toolbar de ações do canvas de Organização em
+Modo Livre.
+
+**Status: ✅ aligned (Figma-confirmado, US-016)** — protocolo completo da
+Regra 11 (`get_design_context` real + screenshot Playwright + checklist
+elemento-a-elemento) aplicado antes de marcar como verificado.
+
+**Reverificado na 3ª passada de auditoria de ponto-fixo (US-026,
+2026-08-12):** protocolo completo da Regra 11 reaplicado do zero —
+nenhuma divergência nova encontrada (o uso de `destructive/35` como fundo
+no glifo de excluir permanece Figma-confirmado especificamente para esse
+glifo, ver nota "Reconciliação" abaixo).
+
+<Canvas of={BoxIconButtonStories.Default} />
+<Controls />
+
+## Figma (Figma-confirmado)
+
+`get_design_context` no nó `1431:20102` retorna descrição verbatim:
+*"botoes do painel de ações disponíveis no modo livre com nodos"*. O
+sub-nó `Property 1=Variant8, state=Idle` (`1431:20103`) tem descrição
+própria: *"botao de adição de um novo nodo"* — o glifo de adição
+(`icon={Plus}`) é o único uso com texto de confirmação Figma explícito;
+os demais 3 glifos do toolbar (Expandir/Redefinir/Excluir) são inferidos
+por semântica de ícone (🧩 Inferido, Regra 9), já em uso desde
+`organism/OrganizeFreeModeCanvas`.
+
+Screenshot do nó mostra 4 glifos × 3 estados (Idle/Hover/Clicked) — 12
+instâncias renderizadas lado a lado; o 4º glifo (lixeira) muda para
+`brand-feedback-danger-subtle` (`#bc3426` a 35%, mapeado para
+`--destructive`) em hover/clicked, os outros 3 usam
+`brand-secondary`/`brand-secondary-dark`.
+
+<Canvas of={BoxIconButtonStories.Toolbar} />
+<Canvas of={BoxIconButtonStories.Danger} />
+<Canvas of={BoxIconButtonStories.Disabled} />
+
+## Reconciliação (US-016)
+
+`organism/OrganizeFreeModeCanvas` já renderizava esse exato toolbar com
+markup de `<button>` inline duplicando esta anatomia — corrigido para
+consumir `BoxIconButton` diretamente, `danger` só no glifo de excluir.
+
+## Material Liquid Glass
+
+Não aplicável — fundo é cor sólida do tema (`brand-secondary-light`), não
+o material "Liquid Glass" (Regra 10).
+
+## Estados (Regra 8)
+
+| Estado | Implementado | Fonte |
+| --- | --- | --- |
+| Idle | ✅ `bg-brand-secondary-light` | ✅ Figma-confirmado |
+| Hover | ✅ `hover:bg-brand-secondary` (`hover:bg-destructive/35` se `danger`) | ✅ Figma-confirmado |
+| Clicked/Active | ✅ `active:bg-brand-secondary-dark` (`active:bg-destructive/35` se `danger`) + `motion-safe:active:scale-95` | ✅ Figma-confirmado |
+| Disabled | ✅ prop nativa `disabled` → `disabled:opacity-40` | 🧩 Inferido (mesmo padrão dos demais ícones-botão do catálogo — sem eixo `Disabled` confirmado neste component set) |
+| Loading/Error | ❌ Não aplicável | Botão de ação de toolbar, sem operação assíncrona própria |
+
+## Fluid interface (Regra 8)
+
+Feedback no press via `motion-safe:active:scale-95`; transições CSS
+nativas, interruptíveis. reduced-motion não documentado no Figma —
+`motion-safe:` já suprime a animação quando `prefers-reduced-motion`
+está ativo (mitigação de engenharia, não confirmação Figma).
+
+## Terminologia
+
+Não renderiza texto visível — `aria-label` por instância ("Adicionar
+nodo"/"Expandir"/"Redefinir"/"Excluir"), nenhum termo da lista
+proibida/aprovada (Regra 5) se aplica.
+
+## Fidelidade code-level
+
+Glifos `Plus`/`Maximize`/`RotateCcw`/`Trash2` (`lucide-react`) — mesma
+escolha já validada em `organism/OrganizeFreeModeCanvas` antes desta US;
+reconciliados aqui para consumir o átomo em vez de duplicar a anatomia.

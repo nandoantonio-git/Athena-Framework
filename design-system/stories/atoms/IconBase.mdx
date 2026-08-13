@@ -1,0 +1,75 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as IconBaseStories from './IconBase.stories';
+
+<Meta of={IconBaseStories} />
+
+# IconBase (`atom/icon/base`)
+
+**Reverificado na 3ª passada de auditoria de ponto-fixo (US-026,
+2026-08-12):** protocolo completo da Regra 11 reaplicado do zero —
+nenhuma divergência nova encontrada além do já corrigido em 2026-08-11.
+
+Ícone de expandir/colapsar a sidebar. Não é um botão — sem `aria-label`,
+sem semântica interativa própria (o wrapper interativo, se houver, fica a
+cargo de quem consome este átomo).
+
+**Status: 🔧 corrigido em auditoria US-026 (2026-08-11)** — releitura via
+`get_design_context` no nó `1421:17820` mostrou descrição Figma verbatim
+**diferente** da documentada antes: *"icone utilizado para expandir e
+colapsar a sidebar"* (não "usado como sub-componente de
+`celule/chip/folder-tag"`, leitura anterior desatualizada/incorreta). O
+componente também não renderizava o glifo real — a story usava um ícone
+`lucide-react` (`FolderIcon`) arbitrário como default, e o átomo exigia a
+prop `icon` sem fallback. Corrigido: `icon-base.tsx` agora tem o vetor real
+exportado do Figma (`download_assets`, ícone de painel/sidebar com
+divisor) como default; a prop `icon` continua opcional para reuso em
+outros contextos (ex.: `chip/folder-tag`, ver story `CustomIconReuse`),
+mas deixa de ser o "Default" documentado.
+
+<Canvas of={IconBaseStories.Default} />
+<Controls />
+
+## Estados
+
+`state` Figma-confirmado: `Idle`|`Default` — nenhuma descrição encontrada
+distinguindo os dois nomes (gap, Regra 9: não inventado, tratados aqui como
+o mesmo repouso visual). `isHoverOn` (bool, Figma-confirmado) é o único
+eixo com efeito visível confirmado — implementado como prop, tingindo o
+glifo mais escuro:
+
+<Canvas of={IconBaseStories.HoverOn} />
+
+Loading/Error não se aplicam — é um slot estático, não uma ação.
+
+## Fluid interface (Regra 8)
+
+Sem gesto/animação própria — só troca de cor via `transition-colors` no
+eixo `isHoverOn`. Interruptível por construção (CSS nativo). Nenhuma nota
+de `reduced-motion` no Figma — não documentado.
+
+## Material Liquid Glass
+
+Não aplicável.
+
+## Terminologia
+
+Não renderiza texto — não se aplica.
+
+## Reuso recomendado (fora do escopo desta US)
+
+`molecule/chip-folder-tag` (`src/components/molecules/folder-tag-chip.tsx`)
+usa `FolderIcon`/`XIcon` diretamente, sem passar por `IconBase` — como o
+glifo Figma-confirmado deste átomo é o ícone de sidebar (não um glifo de
+pasta), a ideia original de "trocar a referência do chip para `IconBase`"
+não se aplica mais do jeito que estava documentado; fica como decisão em
+aberto se o chip deve continuar com ícones próprios ou se `IconBase`
+deveria virar um wrapper puramente estrutural (sem glifo fixo) para casos
+assim — não implementado nesta US (fora do escopo de `atoms`).
+
+## Fidelidade code-level
+
+Glifo próprio (`src/assets/icons/IconBaseGlyph.svg`) exportado do Figma via
+`download_assets` (auditoria US-026) — reproduz o vetor real, não uma
+aproximação por nome/significado. A prop `icon` continua aceitando
+qualquer glifo (`lucide-react` ou `atom/Icon`) para reuso fora do
+contexto de sidebar.

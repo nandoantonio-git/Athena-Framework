@@ -1,0 +1,32 @@
+# User recheck — mandatory US-026 checklist
+
+Date: 2026-08-13
+Status: **NON-CLEAN — material corrections made through pass17; blocks fixed-point CLEAN until a later full pass has zero findings**
+
+Every Ralph provider must read this checklist before US-026. A row moves from `pending` to `corrected-needs-clean-pass`, then to `verified-clean` only with fresh Figma context, isolated Storybook evidence, consumer evidence when applicable, and an element-by-element checklist.
+
+| Area | Required outcome | Status |
+| --- | --- | --- |
+| Story backgrounds | Remove black backgrounds invented by decorators; retain dark surfaces only where current Figma confirms them. | corrected-needs-clean-pass — story decorators changed from invented dark wrappers to neutral surface wrappers; fresh full capture: `.audit-artifacts/us-026-active/screenshot-results.json` (276 states / 84 components). |
+| `atom/CloseButton` | Repair visual states and hit target separately; reverify every consumer. | corrected-needs-clean-pass — visual dot remains 8/16px while hit target is now 24px; evidence `atoms-closebutton--all-states.png` sha `17fc84e36325`, consumers recaptured including `organisms-cleanspacestorage--default.png`. |
+| Sidebar | Add missing top margin. Collapse has its own upper row; `Adicionar` is on a separate row below. They must not share a row. | corrected-needs-clean-pass — collapse row and add row separated in code and screenshot; evidence `organisms-sidebar--default.png` sha `3fc4bdbf132f`. |
+| `organism/cleanSpaceStorage` | Re-read node `1439:16908`; reconcile changed icons, layout and states. Old evidence is invalid. | corrected-needs-clean-pass — fresh Figma read `1439:16908`; header close reconciled to `atom/CloseButton`; evidence `organisms-cleanspacestorage--default.png` sha `f5d19ab9e12b`. |
+| `celule/cleanSpaceStorage/listSelection` | Re-read node `1436:20496`, download current assets and reverify organism consumers. | verified-clean — fresh Figma read `1436:20496`, asset download returned 1 PNG export + 7 SVG assets, no truncation; evidence `celules-cleanspacelistselection--interactive.png` sha `97f564d30cf5` and `organisms-cleanspacestorage--default.png`. |
+| `organism/SearchToolbar` | Remove from current public catalog: inferred, no confirmed node, no code consumers. Preserve historical logs. | corrected-needs-clean-pass — source and public stories removed; current index has 276 states / 84 components and `missingVsPass13` contains only the 4 SearchToolbar story IDs. |
+| `organism/OrganizePanel/DropZone` | Reconcile current Mode × State × Quantity variants and file-item consumers. | verified-clean — fresh Figma read `1421:18781`; current states recaptured, representative evidence `organisms-organizepaneldropzone--idle.png` sha `4b804d5439c9`. |
+| `organism/MainCanvas/Organization/FreeMode` | Replace approximate minimap with current Figma-confirmed structure. | corrected-needs-clean-pass — pass17 found and fixed a further material divergence: `FreeModeOutputNode` left the preview list visible, making `Resultado` too tall and hiding/overlapping the Figma-confirmed Mini-Map. `Details` is now fixed at `34.5px` with overflow hidden and the Mini-Map is repositioned; evidence `.audit-artifacts/us-026-active/screenshots-pass17/organisms-organizefreemodecanvas--default.png` sha `c326f58b2868` and `.audit-artifacts/us-026-active/screenshots-pass17/celules-freemodeoutputnode--default.png` sha `757a1652b90b`. |
+| Header — Organizar | Replace Lucide approximation with real current Figma icon; reverify Header. | corrected-needs-clean-pass — `Organizar` now uses exported `ICONS.Organize`; evidence `organisms-header--navbar.png` sha `a2bc68f08ebf`. |
+| `organism/FileListContainer` | Glyphs have no visible name in/under icon; glyphs are `aria-hidden`, filename stays only in separate text region. | corrected-needs-clean-pass — `FileList` hides the icon micro-name in `list-sm`; evidence `organisms-filelistcontainer--default.png` sha `bb3d795cbead`. |
+| `organism/FAQ/FastLinks` | Add missing padding using current Figma measurements. | corrected-needs-clean-pass — added horizontal padding while preserving Figma-confirmed vertical padding; evidence `organisms-faqfastlinks--default.png` sha `22dd5f3ecf0b`. |
+| `organism/Dialog/TemplateReviewModal` | Add inferred/documented hover and momentary clicked states for Editar/Renomear, with interruptible feedback and reduced-motion; clicked is not persistent selection. | corrected-needs-clean-pass — text actions now have hover/focus and `motion-safe` active feedback, MDX marks them inferred; evidence `organisms-dialogtemplatereviewmodal--default.png` sha `d297e2945ea2`. |
+| `molecule/StorageStatus` | Tags use current semantic Figma colors, not gray inactive styling. | verified-clean — fresh Figma read `1421:18354`; global/quick-access/long-term recaptured, representative evidence `molecules-storagestatus--global.png` sha `9b183bdcd0ff`. |
+| `molecule/Label` | `Etiquetar` remains fully visible and nowrap, neither wrapped nor truncated. | corrected-needs-clean-pass — trigger/expanded label text changed to nowrap without truncation; evidence `molecules-label--default.png` sha `1f5f58771984`. |
+| `ArchiveItem`, `ImageItem`, `FolderItem`, `VideoItem` | Reverify isolated atoms and every real consumer: size, filename, selection, badge and states. Do not invent Folder/Video consumers. | corrected-needs-clean-pass — Archive/Image/Folder freshly re-read and recaptured; VideoItem freshly re-read `1442:7858` and `favicon_header_Thumbnail` no longer renders selected control. Evidence: `atoms-archiveitem--all-states.png` sha `15beb7dd31b3`, `atoms-imageitem--all-states.png` sha `bc723edafacf`, `atoms-folderitem--all-states.png` sha `31210f3fb3b`, `atoms-videoitem--all-states.png` sha `d7cbe31acd92`, `atoms-videoitem--favicon-header-thumbnail.png` sha `6d913f5f895e`. |
+
+## Audit rules
+
+- This is a starting set, not a ceiling; additional material divergence also makes the pass NON-CLEAN.
+- Work dependency-first: shared primitives/icons, atoms/celules, molecules, organisms, then impacted consumers.
+- Current user feedback and current Figma supersede prior aligned claims. Explicit human decisions in `docs/conflicts.md` remain authoritative unless this checklist explicitly replaces them.
+- Never declare CLEAN while any row is `pending` or `corrected-needs-clean-pass`.
+- No commit, push, deploy, PR or Figma write.

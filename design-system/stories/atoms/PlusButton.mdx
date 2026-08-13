@@ -1,0 +1,59 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as PlusButtonStories from './PlusButton.stories';
+
+<Meta of={PlusButtonStories} />
+
+# PlusButton (`atom/PlusButton`)
+
+Ícone-botão para ações aditivas — sem chrome de borda, alvo de clique
+independente do `PushButton`.
+
+**Status: ✅ aligned (estrutura)** · **⚠️ gap de documentação Figma aberto — urgência
+baixa** (`On`/`Idle` não distinguidos, ver `docs/conflicts.md`) —
+nó `1421:17726`, descrição Figma verbatim: *"ícone
+utilizado para ações aditivas"*.
+
+🔧 **Corrigido em auditoria US-026 pass12 (2026-08-13, Regra 11):**
+`get_design_context` fresco confirma o componente visual de 16×16 com
+glifo interno de 12×12. A implementação herdava `size-5` do wrapper
+compartilhado; agora passa `iconClassName="size-3"` e mantém o alvo
+invisível de 32×32.
+
+<Canvas of={PlusButtonStories.Default} />
+<Controls />
+
+## Regra 1 — não é conflito
+
+Mesma justificativa de `Atoms/DeleteButton` — achado #11, `figma-inventory.md`.
+
+## Estados
+
+`style` Figma-confirmado: `Default`|`Primary`|`White` — implementado 1:1.
+`state` Figma-confirmado: `On`|`Idle`|`Clicked`|`Disabled`, mesma ressalva
+de `On`/`Idle` não distinguidos (gap, Regra 9) de `DeleteButton`.
+
+<Canvas of={PlusButtonStories.Primary} />
+<Canvas of={PlusButtonStories.White} />
+<Canvas of={PlusButtonStories.Disabled} />
+
+Loading/Error: ❌ ausentes no enum `State` do Figma — não inventados.
+
+## Fluid interface (Regra 8)
+
+Mesmo padrão de `DeleteButton`: feedback de press via
+`motion-safe:active:scale-90`, transições CSS nativas interruptíveis.
+reduced-motion não documentado no Figma.
+
+## Material Liquid Glass
+
+Não aplicável.
+
+## Terminologia
+
+Não renderiza texto visível (`aria-label="Adicionar"`) — não se aplica.
+
+## Fidelidade code-level
+
+Glifo `PlusButtonGlyph.svg` — vetor real exportado do Figma. Tamanho visual
+12×12 dentro do componente 16×16 Figma-confirmado; alvo de toque 32×32 é
+extensão de acessibilidade do código.
