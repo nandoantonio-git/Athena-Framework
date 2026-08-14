@@ -1,0 +1,56 @@
+{
+  "pass": 19,
+  "date": "2026-08-13",
+  "status": "NON_CLEAN_MATERIAL_FINDING_FIXED",
+  "resumedFromPass": 18,
+  "componentsCoveredThisPass": 15,
+  "materialFindings": [
+    {
+      "component": "Atoms/CloseButton",
+      "nodeId": "1421:19008",
+      "category": "visual",
+      "finding": "The \"x\" glyph (node 172:3689, same base icon as atom/ClearButton) is a separate overlay in Figma, never baked into the exported background-circle SVGs. close-button.tsx only rendered the circle asset, so the button showed as a plain solid dot with no visible close glyph in every size/state.",
+      "fix": "Added a ClearButtonGlyph overlay (same Figma node, reused from atom/ClearButton), currentColor white, absolutely centered, sized SM 6px / MD 12px, with Figma-confirmed per-state opacity (idle 100%, hover 32%, pressed 20%).",
+      "evidence": {
+        "beforeFix": "atoms-closebutton--all-states.png rendered as 6 solid dots, no glyph",
+        "afterFix": [
+          { "story": "atoms-closebutton--all-states", "sha256_12": "d4d9882d9fce" },
+          { "story": "atoms-closebutton--default", "sha256_12": "2c1d52af0129" },
+          { "story": "atoms-closebutton--medium", "sha256_12": "2752a0d6924d" }
+        ],
+        "consumersReverified": [
+          { "story": "organisms-cleanspacestorage--default", "sha256_12": "bcf8c93e84d3" },
+          { "story": "organisms-dialogtemplatereviewmodal--default", "sha256_12": "3668557b5eb8" },
+          { "story": "organisms-archivebrowsermodal--default", "sha256_12": "c5e84d8f421f" },
+          "molecules-notification--default",
+          "molecules-notification--with-image",
+          "molecules-popovernotification--default",
+          "organisms-savelongtermfilestorage--default",
+          "organisms-dialogsaveorganizationmodal--default"
+        ]
+      }
+    }
+  ],
+  "components": [
+    { "component": "Atoms/CloseButton", "nodeId": "1421:19008", "storyIds": ["atoms-closebutton--all-states", "atoms-closebutton--default", "atoms-closebutton--medium"], "result": "PASS19_MATERIAL_FINDING_CORRECTED" },
+    { "component": "Atoms/ArchiveItem", "nodeId": "1421:18214", "result": "PASS19_VERIFIED_NO_DIVERGENCE" },
+    { "component": "Atoms/FolderItem", "nodeId": "1440:24306", "result": "PASS19_VERIFIED_NO_DIVERGENCE" },
+    { "component": "Atoms/ImageItem", "nodeId": "1421:18311", "result": "PASS19_VERIFIED_NO_DIVERGENCE" },
+    { "component": "Atoms/VideoItem", "nodeId": "1442:7858", "result": "PASS19_VERIFIED_NO_DIVERGENCE" },
+    { "component": "Celules/CleanSpaceListSelection", "nodeId": "1436:20496", "result": "PASS19_VERIFIED_NO_DIVERGENCE" },
+    { "component": "Celules/FreeModeOutputNode", "nodeId": "1421:20262", "result": "PASS19_VERIFIED_NO_DIVERGENCE" },
+    { "component": "Organisms/CleanSpaceStorage", "nodeId": "1439:16908", "result": "PASS19_VERIFIED_NO_DIVERGENCE" },
+    { "component": "Organisms/DialogTemplateReviewModal", "nodeId": "1431:20397", "result": "PASS19_VERIFIED_NO_DIVERGENCE" },
+    { "component": "Organisms/FileListContainer", "nodeId": "1421:19687", "result": "PASS19_VERIFIED_NO_DIVERGENCE" },
+    { "component": "Organisms/Header", "nodeId": "1421:19918", "result": "PASS19_VERIFIED_NO_DIVERGENCE" },
+    { "component": "Organisms/OrganizeFreeModeCanvas", "nodeId": "1439:16906", "result": "PASS19_VERIFIED_NO_DIVERGENCE" },
+    { "component": "Organisms/OrganizePanelDropZone", "nodeId": "1421:18781", "result": "PASS19_VERIFIED_NO_DIVERGENCE" },
+    { "component": "Organisms/Sidebar", "nodeId": "1421:17946", "result": "PASS19_VERIFIED_NO_DIVERGENCE", "note": "Collapse control and Adicionar confirmed on separate rows (sidebar-collapse-row / sidebar-add-row), per mandatory 2026-08-13 recheck requirement." },
+    { "component": "Organisms/SidebarToggle", "nodeId": "1421:19118", "result": "PASS19_VERIFIED_NO_DIVERGENCE" }
+  ],
+  "gates": {
+    "tsc": "pass",
+    "buildStorybook": "pass"
+  },
+  "nextRequiredAction": "Archive pass19 as NON-CLEAN. Start pass20 as a brand-new full pass across the entire current catalog (do not resume/reuse pass19 coverage as evidence, since a material finding was fixed mid-pass)."
+}

@@ -7,6 +7,7 @@ import closeButtonMdPressed from "@/assets/icons/CloseButtonMdPressed.svg"
 import closeButtonSmHover from "@/assets/icons/CloseButtonSmHover.svg"
 import closeButtonSmIdle from "@/assets/icons/CloseButtonSmIdle.svg"
 import closeButtonSmPressed from "@/assets/icons/CloseButtonSmPressed.svg"
+import ClearGlyph from "@/assets/icons/ClearButtonGlyph.svg?react"
 
 export type CloseButtonSize = "sm" | "md"
 export type CloseButtonState = "idle" | "hover" | "pressed"
@@ -21,6 +22,21 @@ export interface CloseButtonProps extends React.ComponentProps<"button"> {
  * atom/CloseButton (`1421:19008`, Figma-confirmado) — botão usado para
  * fechar janelas ou componentes. O Figma expõe 2 tamanhos (`SM`/`MD`) e
  * 3 estados (`Idle`/`Hover`/`Pressed`), todos como SVGs exportados.
+ *
+ * Corrigido em auditoria de ponto-fixo (US-026, pass19): `get_design_context`
+ * fresco no nó real mostra o glifo "×" (`clear`, node `172:3689` — mesmo
+ * ícone-base de `atom/ClearButton`) como um elemento SEPARADO sobreposto ao
+ * círculo de fundo, nunca bake-ado no SVG exportado — o círculo sozinho
+ * (`CloseButton{Sm,Md}{Idle,Hover,Pressed}.svg`, únicos assets consumidos
+ * antes desta correção) não contém o "×", então o botão renderizava como um
+ * ponto sólido sem glifo em todo estado (achado material, confirmado no
+ * screenshot Storybook: `atoms-closebutton--all-states`). Corrigido
+ * reaproveitando `ClearButtonGlyph` (mesmo node Figma) como overlay
+ * `currentColor` branco, absoluto e centralizado, com o tamanho
+ * (SM 6px / MD 12px) e a opacidade por estado (idle 100% / hover 32% /
+ * pressed 20%) Figma-confirmados — o fundo já escurece via os SVGs de
+ * círculo existentes (overlay preto 14%/45% SM, 14%/20% MD), então o glifo
+ * mais transparente no hover/pressed é o comportamento real, não um bug.
  */
 function CloseButton({ label = "Fechar", size = "sm", state = "idle", className, ...props }: CloseButtonProps) {
   const assetByState: Record<CloseButtonSize, Record<CloseButtonState, string>> = {
@@ -34,6 +50,12 @@ function CloseButton({ label = "Fechar", size = "sm", state = "idle", className,
       hover: closeButtonMdHover,
       pressed: closeButtonMdPressed,
     },
+  }
+
+  const glyphOpacity: Record<CloseButtonState, string> = {
+    idle: "opacity-100",
+    hover: "opacity-[0.32]",
+    pressed: "opacity-20",
   }
 
   return (
@@ -55,6 +77,14 @@ function CloseButton({ label = "Fechar", size = "sm", state = "idle", className,
         aria-hidden="true"
         className={cn("block", size === "md" ? "size-4" : "size-2")}
         src={assetByState[size][state]}
+      />
+      <ClearGlyph
+        aria-hidden="true"
+        className={cn(
+          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white",
+          size === "md" ? "size-3" : "size-1.5",
+          glyphOpacity[state]
+        )}
       />
     </button>
   )

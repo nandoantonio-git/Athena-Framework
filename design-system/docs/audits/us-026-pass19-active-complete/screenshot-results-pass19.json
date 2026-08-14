@@ -1,0 +1,371 @@
+{
+  "pass": 19,
+  "date": "2026-08-13",
+  "storyCount": 52,
+  "results": [
+    {
+      "id": "atoms-archiveitem--all-states",
+      "title": "Atoms/ArchiveItem",
+      "name": "All States",
+      "sha256": "a94a6a351bab3c83ac1d8514eff4142b8ca7d08ce12213c66265e7e1bbf9c6b9",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-archiveitem--all-states.png"
+    },
+    {
+      "id": "atoms-archiveitem--disabled",
+      "title": "Atoms/ArchiveItem",
+      "name": "Disabled",
+      "sha256": "f84167aec0fb427d751cf2cc429ed2e2cce58389ab067d8cf2829c1daa5e3d81",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-archiveitem--disabled.png"
+    },
+    {
+      "id": "atoms-archiveitem--hover",
+      "title": "Atoms/ArchiveItem",
+      "name": "Hover",
+      "sha256": "7d7a14cb039e71a7307971686a55b369c25a864eb18409299ecbfffe47671bbc",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-archiveitem--hover.png"
+    },
+    {
+      "id": "atoms-archiveitem--idle",
+      "title": "Atoms/ArchiveItem",
+      "name": "Idle",
+      "sha256": "6da8f20f2fcd7692be12db3d5a3eed0dba9cf920539c5419f4bd3341fab580ac",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-archiveitem--idle.png"
+    },
+    {
+      "id": "atoms-archiveitem--pressed",
+      "title": "Atoms/ArchiveItem",
+      "name": "Pressed",
+      "sha256": "ca2e91f9b9bfa1e1d9f64a3d37876328f54874de0024cfc1ab9e4baeb5bd0e60",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-archiveitem--pressed.png"
+    },
+    {
+      "id": "atoms-archiveitem--selected",
+      "title": "Atoms/ArchiveItem",
+      "name": "Selected",
+      "sha256": "1d4ff367a833dddbc2cc0e835db312c45d4b05a148fae4a4c81d71dd6877f238",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-archiveitem--selected.png"
+    },
+    {
+      "id": "atoms-closebutton--all-states",
+      "title": "Atoms/CloseButton",
+      "name": "All States",
+      "sha256": "d4d9882d9fce260d834fac765c5495393160336f5105e76419cecaaccdb42f1c",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-closebutton--all-states.png"
+    },
+    {
+      "id": "atoms-closebutton--default",
+      "title": "Atoms/CloseButton",
+      "name": "Default",
+      "sha256": "2c1d52af0129de82def0e7bd126f54aea4585dea659399f5ce761333fbde4fd6",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-closebutton--default.png"
+    },
+    {
+      "id": "atoms-closebutton--medium",
+      "title": "Atoms/CloseButton",
+      "name": "Medium",
+      "sha256": "2752a0d6924d389b000fa5dddaf05def62bbe03918bb4afda6b38b1c9148b26a",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-closebutton--medium.png"
+    },
+    {
+      "id": "atoms-folderitem--all-states",
+      "title": "Atoms/FolderItem",
+      "name": "All States",
+      "sha256": "ffde6819c94a4e67088f07bd9625ae8fe4d3f67fcbebb42b74f2dc7e9e9a0223",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-folderitem--all-states.png"
+    },
+    {
+      "id": "atoms-folderitem--disabled",
+      "title": "Atoms/FolderItem",
+      "name": "Disabled",
+      "sha256": "37cdb26bd26787972deaf4da42b038bcc624287d51b53d861a05ca19dc1ee22d",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-folderitem--disabled.png"
+    },
+    {
+      "id": "atoms-folderitem--hover",
+      "title": "Atoms/FolderItem",
+      "name": "Hover",
+      "sha256": "e8d6a19649bee4f3cfd7df39b8b9f929ea23769aa7fb42ef383171c6631356ad",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-folderitem--hover.png"
+    },
+    {
+      "id": "atoms-folderitem--idle",
+      "title": "Atoms/FolderItem",
+      "name": "Idle",
+      "sha256": "4207da28527f85bc76ce3e285aa35c954edf369873f2446288144945183a580a",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-folderitem--idle.png"
+    },
+    {
+      "id": "atoms-folderitem--pressed",
+      "title": "Atoms/FolderItem",
+      "name": "Pressed",
+      "sha256": "43e78b74a60a1b494da86363098f3516027a1018f1be953d023b2e3323aefdc1",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-folderitem--pressed.png"
+    },
+    {
+      "id": "atoms-folderitem--selected",
+      "title": "Atoms/FolderItem",
+      "name": "Selected",
+      "sha256": "8c25ed3e4b63fdba15219022b3cb71de6aa860fcf615a9f8f8ef1c79da7e9054",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-folderitem--selected.png"
+    },
+    {
+      "id": "atoms-imageitem--all-states",
+      "title": "Atoms/ImageItem",
+      "name": "All States",
+      "sha256": "558b302b3731885dc4bdd8d253b8387b4d4e7594b8c7b010486ef4a2ddbffdaf",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-imageitem--all-states.png"
+    },
+    {
+      "id": "atoms-imageitem--disabled",
+      "title": "Atoms/ImageItem",
+      "name": "Disabled",
+      "sha256": "0cff4f285360ec264e73ef0675671c8c420408f844038b982807fd96e63e646f",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-imageitem--disabled.png"
+    },
+    {
+      "id": "atoms-imageitem--hover",
+      "title": "Atoms/ImageItem",
+      "name": "Hover",
+      "sha256": "afbff665f927c709a6c5570f276e339efdd5c2822b4f23600f7697206a0924a5",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-imageitem--hover.png"
+    },
+    {
+      "id": "atoms-imageitem--idle",
+      "title": "Atoms/ImageItem",
+      "name": "Idle",
+      "sha256": "df7d2ffefbfe898fd27762447e970613ccf726336748104cebc4e51f16f8aa24",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-imageitem--idle.png"
+    },
+    {
+      "id": "atoms-imageitem--pressed",
+      "title": "Atoms/ImageItem",
+      "name": "Pressed",
+      "sha256": "eaef59846b51cd94704866d046d454c81439826c708f6464094b1c62e64ee92c",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-imageitem--pressed.png"
+    },
+    {
+      "id": "atoms-imageitem--selected",
+      "title": "Atoms/ImageItem",
+      "name": "Selected",
+      "sha256": "7809659eafc087592105c5936333275ce625691e9ef32b24bcee3b4b8a2550b8",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-imageitem--selected.png"
+    },
+    {
+      "id": "atoms-videoitem--all-states",
+      "title": "Atoms/VideoItem",
+      "name": "All States",
+      "sha256": "210851cc2cd15a37cbf07d342bb1dde9e872a540f22c994e5d8e8939d9303cde",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-videoitem--all-states.png"
+    },
+    {
+      "id": "atoms-videoitem--disabled",
+      "title": "Atoms/VideoItem",
+      "name": "Disabled",
+      "sha256": "d556ca547c1fae90b945fc7f6926c5fc748a4237e76b2355f09c85812d5b4b74",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-videoitem--disabled.png"
+    },
+    {
+      "id": "atoms-videoitem--favicon-header-thumbnail",
+      "title": "Atoms/VideoItem",
+      "name": "Favicon Header Thumbnail",
+      "sha256": "1bb575035a832846eb1731fbb28c9f67adc1197484d0870bfee8fe08a7837c2a",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-videoitem--favicon-header-thumbnail.png"
+    },
+    {
+      "id": "atoms-videoitem--hover",
+      "title": "Atoms/VideoItem",
+      "name": "Hover",
+      "sha256": "d66c8df87d7d793ff7f97b9d756ababf4abe431f0b4189211c5d5e056aa7c544",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-videoitem--hover.png"
+    },
+    {
+      "id": "atoms-videoitem--idle",
+      "title": "Atoms/VideoItem",
+      "name": "Idle",
+      "sha256": "1bb575035a832846eb1731fbb28c9f67adc1197484d0870bfee8fe08a7837c2a",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-videoitem--idle.png"
+    },
+    {
+      "id": "atoms-videoitem--pressed",
+      "title": "Atoms/VideoItem",
+      "name": "Pressed",
+      "sha256": "0032821cee15863db0199e46fbb6c0bbd9c715f2470f47cabeb1bc172ba1e3b9",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-videoitem--pressed.png"
+    },
+    {
+      "id": "atoms-videoitem--selected",
+      "title": "Atoms/VideoItem",
+      "name": "Selected",
+      "sha256": "35342f5ab450872d1f1757b63e2c08bd63d442654e5742183e3003b28a76e82e",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/atoms-videoitem--selected.png"
+    },
+    {
+      "id": "celules-cleanspacelistselection--interactive",
+      "title": "Celules/CleanSpaceListSelection",
+      "name": "Interactive",
+      "sha256": "6ec5ea2942fb2218f58641bab4bcdad784c74a15f506491bb16d736f1e156955",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/celules-cleanspacelistselection--interactive.png"
+    },
+    {
+      "id": "celules-cleanspacelistselection--selected",
+      "title": "Celules/CleanSpaceListSelection",
+      "name": "Selected",
+      "sha256": "2a05c53eb4aad27c927691a8dc7b85c1448d91c3d8017024d0bacd5b31b1eb17",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/celules-cleanspacelistselection--selected.png"
+    },
+    {
+      "id": "celules-cleanspacelistselection--unselected",
+      "title": "Celules/CleanSpaceListSelection",
+      "name": "Unselected",
+      "sha256": "6ec5ea2942fb2218f58641bab4bcdad784c74a15f506491bb16d736f1e156955",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/celules-cleanspacelistselection--unselected.png"
+    },
+    {
+      "id": "celules-freemodeoutputnode--compact",
+      "title": "Celules/FreeModeOutputNode",
+      "name": "Compact",
+      "sha256": "e3e2520eb9b36a22a4fb2a2a68deca17d3ed43d8ecc8dccdc753c80069782a38",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/celules-freemodeoutputnode--compact.png"
+    },
+    {
+      "id": "celules-freemodeoutputnode--default",
+      "title": "Celules/FreeModeOutputNode",
+      "name": "Default",
+      "sha256": "757a1652b90bbf981eb675c8903803e0bb27015d4275bbc8c17ffe1a829b8e4e",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/celules-freemodeoutputnode--default.png"
+    },
+    {
+      "id": "organisms-cleanspacestorage--default",
+      "title": "Organisms/CleanSpaceStorage",
+      "name": "Default",
+      "sha256": "bcf8c93e84d3873ba8eeea55d26628c2ac8a7a88646351884591d3c5c9226184",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-cleanspacestorage--default.png"
+    },
+    {
+      "id": "organisms-dialogtemplatereviewmodal--default",
+      "title": "Organisms/DialogTemplateReviewModal",
+      "name": "Default",
+      "sha256": "3668557b5eb84d5ffdca79caf3d60ce2df247ee01ff8bf591cf506ef653a8f10",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-dialogtemplatereviewmodal--default.png"
+    },
+    {
+      "id": "organisms-filelistcontainer--default",
+      "title": "Organisms/FileListContainer",
+      "name": "Default",
+      "sha256": "c0c02276662bb423636ddccf856a5fd329bcc0cedfdb32b6e3d434d5d80b17b8",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-filelistcontainer--default.png"
+    },
+    {
+      "id": "organisms-header--navbar",
+      "title": "Organisms/Header",
+      "name": "Navbar",
+      "sha256": "5e180729d851e027e2e62718af5ee4f96a76b4f473712eb2576996dc808b4a02",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-header--navbar.png"
+    },
+    {
+      "id": "organisms-header--settings",
+      "title": "Organisms/Header",
+      "name": "Settings",
+      "sha256": "d230bb741af1112a438a6e6f070d298b87f096ce06f6a66f441008437bbd9078",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-header--settings.png"
+    },
+    {
+      "id": "organisms-header--storage",
+      "title": "Organisms/Header",
+      "name": "Storage",
+      "sha256": "d230bb741af1112a438a6e6f070d298b87f096ce06f6a66f441008437bbd9078",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-header--storage.png"
+    },
+    {
+      "id": "organisms-organizefreemodecanvas--default",
+      "title": "Organisms/OrganizeFreeModeCanvas",
+      "name": "Default",
+      "sha256": "c326f58b28688bd66443a7d0afdff23f17890de686e12421e02e8a3de6ce04d4",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-organizefreemodecanvas--default.png"
+    },
+    {
+      "id": "organisms-organizepaneldropzone--dragover",
+      "title": "Organisms/OrganizePanelDropZone",
+      "name": "Dragover",
+      "sha256": "3c12a6f276f74b4f584f6a98e2f8a9c6eb2bae13b9e5e722130dcc7e5a22d47f",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-organizepaneldropzone--dragover.png"
+    },
+    {
+      "id": "organisms-organizepaneldropzone--filled",
+      "title": "Organisms/OrganizePanelDropZone",
+      "name": "Filled",
+      "sha256": "345a1cfa897e2f96f94b02c9286dd2fca787fad0476a6469d6f7700ebf8eed60",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-organizepaneldropzone--filled.png"
+    },
+    {
+      "id": "organisms-organizepaneldropzone--idle",
+      "title": "Organisms/OrganizePanelDropZone",
+      "name": "Idle",
+      "sha256": "a229caae97ac5a6f85d19a55d4e2f3fa8e148ca12e1aa61a07410cf900ff36bf",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-organizepaneldropzone--idle.png"
+    },
+    {
+      "id": "organisms-organizepaneldropzone--named-template",
+      "title": "Organisms/OrganizePanelDropZone",
+      "name": "Named Template",
+      "sha256": "2090717e520aa89c9977ad5e842d7fe3c8dd0565c82dc3cda8c4985a13183c4c",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-organizepaneldropzone--named-template.png"
+    },
+    {
+      "id": "organisms-sidebar--default",
+      "title": "Organisms/Sidebar",
+      "name": "Default",
+      "sha256": "5d1dda078830ad854fe213019c49aecf271ab313ae56194b171b05645428e600",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-sidebar--default.png"
+    },
+    {
+      "id": "organisms-sidebar--without-tags",
+      "title": "Organisms/Sidebar",
+      "name": "Without Tags",
+      "sha256": "9229db0b9f14ad5b4de117c13bb5af8ebf8810c6af2bcf9a79868daa408cd8af",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-sidebar--without-tags.png"
+    },
+    {
+      "id": "organisms-sidebartoggle--collapsed",
+      "title": "Organisms/SidebarToggle",
+      "name": "Collapsed",
+      "sha256": "745515ac8a1eedf452d232ea8c03d68c303d4efcb291c35e6ff40f92f479a53c",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-sidebartoggle--collapsed.png"
+    },
+    {
+      "id": "organisms-sidebartoggle--collapsed-hover",
+      "title": "Organisms/SidebarToggle",
+      "name": "Collapsed Hover",
+      "sha256": "c7ca6d3a8b2ed0881b21f3f922525b2ff8ee0a4aa0a7cb11fbe3491285b63a2d",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-sidebartoggle--collapsed-hover.png"
+    },
+    {
+      "id": "organisms-sidebartoggle--collapsed-pressed",
+      "title": "Organisms/SidebarToggle",
+      "name": "Collapsed Pressed",
+      "sha256": "070371fa2ce7206a4b23b59168aea6b3ae1af3793c59786dbef029a484bf5fe4",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-sidebartoggle--collapsed-pressed.png"
+    },
+    {
+      "id": "organisms-sidebartoggle--expanded",
+      "title": "Organisms/SidebarToggle",
+      "name": "Expanded",
+      "sha256": "0efd8bdc06ff830ebb86a5fa0c47d31e2f957a9e37d8e61a32431fbc1de96c8f",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-sidebartoggle--expanded.png"
+    },
+    {
+      "id": "organisms-sidebartoggle--expanded-hover",
+      "title": "Organisms/SidebarToggle",
+      "name": "Expanded Hover",
+      "sha256": "9f42815fc9a1671dabf5e8ba52e8f59e6d96feeba31538ec52cd944de0f3600a",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-sidebartoggle--expanded-hover.png"
+    },
+    {
+      "id": "organisms-sidebartoggle--expanded-pressed",
+      "title": "Organisms/SidebarToggle",
+      "name": "Expanded Pressed",
+      "sha256": "d3ba399acbc353162d1ad542c3e2b5323103ea4d0bd9ac98c56c6875688d6a3d",
+      "screenshot": ".audit-artifacts/us-026-active/screenshots-pass19/organisms-sidebartoggle--expanded-pressed.png"
+    }
+  ]
+}

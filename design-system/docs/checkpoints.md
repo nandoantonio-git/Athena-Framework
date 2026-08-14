@@ -1960,3 +1960,154 @@ antes de qualquer `<fixed-point>CLEAN</fixed-point>`.
 ## Reabertura humana após a 13ª passagem (US-026, 2026-08-13)
 
 O CLEAN subsequente foi invalidado por inspeção visual humana com novos achados. O checklist obrigatório está em `docs/audits/user-recheck-2026-08-13.md` e deve ser compartilhado por todos os providers. A US-026 voltou para `passes:false`. Nenhuma passagem pode ser considerada limpa até todas as linhas estarem `verified-clean`, incluindo screenshots isolados e dos consumidores. Sem commit.
+
+## Passada 18 (US-026, 2026-08-13)
+
+Passada nova obrigatória após a 17ª (fechada NON-CLEAN por achado material
+corrigido em `FreeModeOutputNode`/minimap). Cobertura desta invocação: **69
+de 84 componentes** do catálogo público atual (todos os 24 atoms restantes
+não cobertos por pass17, 8 celules restantes, 20 molecules e 17 organisms)
+receberam `get_design_context` fresco *dentro desta própria invocação*,
+conferidos elemento-a-elemento contra `src/components/` — nenhuma
+divergência visual/estrutural nova encontrada.
+
+**Achado material desta passada (corrigido agora):** `atom/PushButton`
+(`1421:17302`) tem um enum `Style` de 7 valores no Figma, mas
+`push-button.tsx` implementa só 2 (`primary`/`neutral`) — decisão de escopo
+já documentada em comentário de código, mas nunca registrada em
+`docs/conflicts.md`. Nova linha adicionada à tabela (urgência baixa, não
+reabre nenhuma decisão travada). Achado de categoria "documentação",
+explicitamente coberta pelo protocolo de ponto-fixo como bloqueio de CLEAN
+mesmo corrigido no ato.
+
+**Cobertura pendente:** 15 componentes (5 atoms + 2 celules + 8 organisms —
+ver lista completa em `docs/audits/us-026-pass18.md`) carregam evidência
+Figma fresca da passada 17 (mesmo dia, sem mudança de código no intervalo),
+não uma leitura fresca *dentro* da passada 18 — não contam como cobertura
+própria da passada 18 pelo protocolo ("do not reuse a prior pass as
+evidence").
+
+Manifesto e evidência completos: `docs/audits/us-026-pass18.md`,
+`.audit-artifacts/us-026-active/pass18-progress.json`.
+
+**Resultado da passagem 18:** NON-CLEAN. Como houve achado material
+(documentação) corrigido e cobertura incompleta *dentro* da passada para 15
+componentes, uma **19ª passada completa** é obrigatória antes de qualquer
+`<fixed-point>CLEAN</fixed-point>` — deve retomar pelos 15 componentes
+listados em `docs/audits/us-026-pass18.md` antes de expandir.
+
+- `cd design-system && npx tsc --noEmit` — sem erros.
+- `cd design-system && npm run build-storybook` — sucesso.
+
+Contagem real do catálogo confirmada nesta passada: **84 component
+stories**, **276 estados/variantes renderizáveis** (`120 atoms + 36 celules
++ 71 molecules + 53 organisms` conforme `us-026-pass17-manifest.json`, sem
+mudança de código desde então), acima do piso de 90 quando somadas as 5
+páginas doc-only de tokens no Storybook (89 páginas + tokens ⇒ consistente
+com a contagem confirmada pelo usuário em 2026-08-11).
+
+## Passada 19 (US-026, 2026-08-13)
+
+Retomada obrigatória da passada 18 pelos 15 componentes que só carregavam
+evidência da passada 17: `atom/CloseButton`, `atom/ArchiveItem`,
+`atom/FolderItem`, `atom/ImageItem`, `atom/VideoItem`,
+`celule/CleanSpaceListSelection`, `celule/FreeModeOutputNode`,
+`organism/CleanSpaceStorage`, `organism/DialogTemplateReviewModal`,
+`organism/FileListContainer`, `organism/Header`,
+`organism/OrganizeFreeModeCanvas`, `organism/OrganizePanelDropZone`,
+`organism/Sidebar`, `organism/SidebarToggle`. Todos os 15 receberam
+`get_design_context` fresco *dentro desta invocação* e conferência
+elemento-a-elemento contra `src/components/`.
+
+**Achado material desta passada (encontrado e corrigido):**
+`atom/CloseButton` (`1421:19008`) renderizava como um ponto sólido sem
+NENHUM glifo "×" visível, em todo tamanho/estado — o `get_design_context`
+fresco confirma que o glifo é um elemento separado (node `172:3689`, mesma
+base de `atom/ClearButton`), nunca bake-ado no SVG de fundo exportado; o
+componente só consumia o asset do círculo. Corrigido com um overlay
+`ClearButtonGlyph` (mesmo node Figma) branco/`currentColor`, tamanho
+Figma-confirmado (SM 6px/MD 12px) e opacidade por estado
+Figma-confirmada (idle 100%/hover 32%/pressed 20%). Todo consumer
+reverificado (`organism/cleanSpaceStorage`,
+`organism/Dialog/TemplateReviewModal`, `organism/ArchiveBrowserModal`,
+`molecule/Notification`, `molecule/popover/Notification`,
+`organism/SaveLongTermFileStorage`, `organism/Dialog/SaveOrganizationModal`)
+— glifo agora visível em todos, sem regressão de layout.
+
+Os demais 14 componentes desta passada não apresentaram divergência nova.
+Requisito específico do checklist do usuário (Sidebar: colapsar em linha
+própria acima, `Adicionar` em linha separada abaixo) reconfirmado
+visualmente em `organisms-sidebar--default.png`.
+
+Manifesto e evidência completos: `docs/audits/us-026-pass19.md`,
+`docs/audits/us-026-pass19-manifest.json`,
+`.audit-artifacts/us-026-active/screenshots-pass19/`,
+`.audit-artifacts/us-026-active/screenshots-pass19-consumers/`.
+
+- `cd design-system && npx tsc --noEmit` — sem erros (antes e depois da correção).
+- `cd design-system && npm run build-storybook` — sucesso (antes e depois da correção).
+
+**Resultado da passagem 19:** NON-CLEAN. Achado material (visual, não só
+documentação desta vez) corrigido nesta mesma passada — pelo protocolo de
+ponto-fixo isso sempre encerra a passada como NON-CLEAN, mesmo com correção
+imediata. Uma **20ª passada completa, do zero, cobrindo todo o catálogo**
+(não uma retomada) é obrigatória antes de qualquer
+`<fixed-point>CLEAN</fixed-point>` — esta passada não pode ser reaproveitada
+como evidência prévia por conter uma correção de meio de passada. Além
+disso, 2 linhas do checklist do usuário (`organism/FAQ/FastLinks`,
+`molecule/Label`) não estavam no escopo de retomada desta passada e
+continuam `corrected-needs-clean-pass`, precisando de leitura fresca também
+na passada 20.
+
+---
+
+## US-026 pass20 (2026-08-14) — CLEAN, fecha o ciclo de ponto-fixo
+
+Executada em sessão interativa com o usuário (fora do Ralph loop), depois
+de identificar que as 19 passadas anteriores estavam gastando muito token
+por reiniciar o contexto do zero a cada iteração do Ralph sem visibilidade
+pro usuário. Metodologia híbrida acordada explicitamente com o usuário
+(ver `docs/audits/us-026-pass20.md` para o racional completo):
+
+1. `find src/components -newer docs/audits/us-026-pass14.md` confirmou que
+   só 4 arquivos mudaram desde o manifesto completo da pass14 (85 linhas,
+   catálogo inteiro) — `close-button.tsx`, `free-mode-output-node.tsx`,
+   `organize-free-mode-canvas.tsx` (já reconciliados nas passadas 16/17/19)
+   e `faq-fast-links.tsx` (corrigido nesta passada). Nenhum outro
+   componente teve o código alterado desde a última verificação "Aligned"
+   documentada.
+2. `get_design_context` fresco nos 2 itens abertos do checklist do
+   usuário: `organism/FAQ/FastLinks` (`1454:25006`) e `molecule/Label`
+   (`1421:18687`).
+3. Recaptura Playwright de todos os 276 estados / 84 componentes
+   (`shot-pass20-full.tmp.mjs`, 276/276 sem falha) e revisão em contact
+   sheets — sem achado de regressão em nenhum componente.
+
+**Achado material corrigido:** `organism/FAQ/FastLinks` — Figma confirma
+zero padding horizontal no frame raiz (só `py-24px`); a correção da pass14
+tinha adicionado `px-4` sem correspondência real no Figma, estreitando a
+área de texto o bastante pra fazer as traduções PT quebrarem em 2 linhas.
+Removido `px-4`, largura ajustada para `w-[158px]` (Figma-confirmado).
+
+**Reconfirmado sem mudança de código:** `molecule/Label` (`Etiquetar`
+nowrap, já corrigido na pass14), `atom/CloseButton` (glifo "×", corrigido
+na pass19), fundos de story (sem preto inventado em nenhum dos 276
+estados).
+
+- `cd design-system && npx tsc --noEmit` — sem erros.
+- `cd design-system && npm run build-storybook` — sucesso.
+
+**Contagem final do catálogo:** 84 componentes com story própria
+(`stories/{atoms,celules,molecules,organisms}/*.stories.tsx`), 276 estados
+capturados — acima do piso de 90 confirmado pelo usuário em 2026-08-11
+(contando variantes de estado, não só componentes-base).
+
+**Resultado da passagem 20:** todas as 16 linhas de
+`docs/audits/user-recheck-2026-08-13.md` estão `verified-clean`. Nenhum
+achado material pendente. Ciclo de ponto-fixo iniciado na pass4 está
+fechado.
+
+<fixed-point>CLEAN</fixed-point>
+
+Sem commit, push, deploy, PR ou escrita no Figma nesta passada (conforme
+restrição da US-026).

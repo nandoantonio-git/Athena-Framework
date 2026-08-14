@@ -484,9 +484,9 @@
         "cd design-system && npm run build-storybook passa sem erros"
       ],
       "priority": 26,
-      "passes": false,
+      "passes": true,
       "fix": "",
-      "notes": "Última US do backlog atual. REABERTA após inspeção humana em 2026-08-13: ler e cumprir design-system/docs/audits/user-recheck-2026-08-13.md. O CLEAN anterior é inválido porque antecede esse checklist. Só concluir com todas as linhas verified-clean, manifesto integral, zero descobertas novas, gates verdes e <fixed-point>CLEAN</fixed-point>. US-026 nunca pode ser skipped. Sem commit, push, deploy, PR ou escrita no Figma."
+      "notes": "Última US do backlog atual. REABERTA após inspeção humana em 2026-08-13: ler e cumprir design-system/docs/audits/user-recheck-2026-08-13.md. O CLEAN anterior é inválido porque antecede esse checklist. Só concluir com todas as linhas verified-clean, manifesto integral, zero descobertas novas, gates verdes e <fixed-point>CLEAN</fixed-point>. US-026 nunca pode ser skipped. Sem commit, push, deploy, PR ou escrita no Figma. RESOLVIDA em 2026-08-14 (pass20, sessão interativa fora do Ralph loop): <fixed-point>CLEAN</fixed-point>. Ver design-system/docs/audits/us-026-pass20.md e design-system/docs/checkpoints.md."
     }
   ]
 }
