@@ -5,9 +5,14 @@ import * as DropdownSelectLabelStories from './DropdownSelectLabel.stories';
 
 # DropdownSelectLabel (Figma: `molecule/DropdownSelect/Label`, `1439:19650`)
 
+## Uso
+
 Dropdown "Etiquetar" — segundo tipo de dropdown do canvas, diferente de
 [`DropdownSelectGroupBy`](./DropdownSelectGroupBy.mdx) (não confundir os
-dois, conforme nota da US-022).
+dois, conforme nota da US-022). Estruturalmente quase idêntico a
+`molecule/Label` (mesmo node-pattern no Figma) — use este quando o contexto
+for especificamente o canvas de organização, `molecule/Label` nos demais
+fluxos de etiquetagem.
 
 **Status: ✅ aligned (estado fechado)** — protocolo completo da Regra 11
 aplicado nesta US (US-022): `get_design_context` real no node

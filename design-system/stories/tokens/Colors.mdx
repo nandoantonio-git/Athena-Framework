@@ -1,4 +1,6 @@
 import { Meta } from '@storybook/addon-docs/blocks';
+import { ColorPalette } from '../../src/components/tokens/color-swatch';
+import { BRAND_COLORS, FEEDBACK_COLORS, NEUTRAL_COLORS_CONFIRMED } from '../../src/components/tokens/color-data';
 
 <Meta title="Tokens/Colors" parameters={{ design: { type: 'figma', url: 'https://www.figma.com/design/oFp2TLeCG4GJeCOFVhBvjg/KanDrive?node-id=1427-16958' } }} />
 
@@ -41,6 +43,11 @@ system segue o formato `cor/categoria/papel/valor-semântico` (Regra 2) —
 
 ## Marca
 
+<ColorPalette entries={BRAND_COLORS} />
+
+<details>
+<summary>Tabela detalhada (mesmos dados acima, formato tabular)</summary>
+
 | Token semântico (Regra 2) | Variável Figma real | Valor | Papel | Fonte |
 | --- | --- | --- | --- | --- |
 | `cor/marca/primária/teal-base` | `var(--brand-primary-default)` | `#007e96` | Cor primária de marca e de ação | ✅ Figma-confirmado — valor **ativo** da Regra 3 desde 2026-08-10 (decisão humana). 🗄️ `#2A7A8C` descontinuado (era o valor original da Regra 3, nunca bateu com o Figma real) |
@@ -55,6 +62,8 @@ system segue o formato `cor/categoria/papel/valor-semântico` (Regra 2) —
 | `cor/marca/secundária/wordmark-light` | `var(--brand-secondary-light)` | `#6b6b68` | Variante clara do wordmark | ✅ Figma-confirmado |
 | `cor/categoria/acesso-rápido/rosa-dark` | `Brand/Theme/Pink/Dark` (`--brand-pink-dark`) | `#b5254a` | Cor semântica de dado/estado da categoria **"Acesso rápido"** (Regra 3 atualizada 2026-08-10) | ✅ Figma-confirmado |
 | `cor/categoria/acesso-rápido/rosa-light` | `Brand/Theme/Pink/Light` (`--brand-pink-light`) | `#e8476a` | Cor semântica de dado/estado da categoria **"Acesso rápido"** (Regra 3 atualizada 2026-08-10) | ✅ Figma-confirmado |
+
+</details>
 
 **✅ RESOLVIDO em 2026-08-10 (decisão humana), era CONFLICT de urgência alta:**
 `Brand/Theme/Pink/Dark` e `Brand/Theme/Pink/Light` são usados como cor de
@@ -81,6 +90,11 @@ segue sem decisão.)
 
 ## Feedback
 
+<ColorPalette entries={FEEDBACK_COLORS} />
+
+<details>
+<summary>Tabela detalhada (mesmos dados acima, formato tabular)</summary>
+
 | Token semântico | Variável Figma real | Valor | Papel | Fonte |
 | --- | --- | --- | --- | --- |
 | `cor/feedback/perigo/padrão` | `var(--brand-feedback-danger-default)` | `#bc3426` | Erro, ação destrutiva | ✅ Figma-confirmado (2026-08-10, achado em `organism/cleanSpaceStorage`, botões "Excluir"/"Excluir cópias" — corrige a amostragem anterior desta página, que lia `#ac3a2e` para a mesma variável na seção Pallete) |
@@ -89,6 +103,8 @@ segue sem decisão.)
 | `cor/feedback/sucesso/sutil` | `Brand/Feedback/Success/Subtle` | `#00996659` | Fundo sutil de sucesso | ✅ Figma-confirmado |
 | `cor/feedback/aviso/base` | `var(--color-feedback-warning)` | `#c38418` | Aviso | ✅ Figma-confirmado |
 | `cor/feedback/aviso/sutil` | `var(--color-feedback-warning-subtle)` | `#f59e0b33` | Fundo sutil de aviso | ✅ Figma-confirmado |
+
+</details>
 
 Nenhuma das 6 variáveis de feedback está nas Regras travadas explicitamente
 (a Regra 3 só fixa marca + neutros) — não é CONFLICT, é cobertura adicional
@@ -133,12 +149,19 @@ Para os 4 papéis que batem exatamente, mantém-se o mapeamento para a rampa
 Zinc já documentado nesta página (não removido — Regra 9, promovido de
 🧩 inferido para ✅ Figma-confirmado):
 
+<ColorPalette entries={NEUTRAL_COLORS_CONFIRMED} />
+
+<details>
+<summary>Tabela detalhada (mesmos dados acima, formato tabular)</summary>
+
 | Token semântico | Valor (Tailwind Zinc) | Papel Figma-confirmado |
 | --- | --- | --- |
 | `cor/neutro/texto/zinc-950` | `#09090b` | Texto principal (`neutral-text-primary`) |
 | `cor/neutro/texto/zinc-700` | `#3f3f46` | Texto de corpo alternativo (`neutral-text-secondary`) |
 | `cor/neutro/texto-secundário/zinc-500` | `#71717a` | Texto secundário/terciário (`neutral-text-tertiary`) |
 | `cor/neutro/superficie/zinc-600` | `#52525b` | Superfície média (`neutral-surface-medium`) |
+
+</details>
 
 Os demais degraus Zinc documentados anteriormente (`zinc-50`…`zinc-400`,
 `zinc-800`, `zinc-950` como modo escuro) continuam 🧩 **inferidos** — não

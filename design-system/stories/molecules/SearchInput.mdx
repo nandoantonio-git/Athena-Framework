@@ -5,8 +5,12 @@ import * as SearchInputStories from './SearchInput.stories';
 
 # SearchInput (Figma: `molecule/SearchBar`, `1421:17857`)
 
-Campo de busca — atom de input de texto com ícone de lupa, usado para
-buscar arquivos/pastas/templates.
+## Uso
+
+Campo de busca — input de texto com ícone de lupa, usado para
+buscar arquivos/pastas/templates. Use `state="danger"`/`"success"` quando
+precisar dar feedback de validação persistente (não confundir com o anel
+de foco padrão, que é só interação).
 
 **Status: ✅ aligned** — reconciliado em 2026-08-09 contra
 `design-system/docs/figma-inventory.md` (Seção 3, leitura real via Figma
@@ -28,7 +32,19 @@ corretamente. Placeholder "Search" (Figma) vs. "Buscar arquivos, pastas ou
 templates" (código) reconfirmado como divergência deliberada, sem alteração
 (Regra 5 + gap já logado em `docs/conflicts.md`).
 
+**Estados `success`/`danger` adicionados em 2026-08-14** — decisão humana,
+a partir de `molecule/InputStates` (`1518:7924`, descrição verbatim: "Barra
+de input com variáveis de feedback"), peça nova criada pelo usuário no
+Figma. Escopo restrito às 2 variantes desse node (`writeValue`/sucesso,
+`wrongValue`/erro) — os eixos `Focused`/`Typing`/`ValueIdle` do
+`molecule/SearchBar` (`1421:17857`) vizinho ficam de fora por decisão
+humana (peça diferente). Por decisão humana, só a fonte do placeholder foi
+adaptada pra Figtree — o node usa SF Pro/glifo SF Symbol (padrão
+macOS/iOS), não reproduzidos literalmente (ver `docs/conflicts.md`).
+
 <Canvas of={SearchInputStories.Default} />
+<Canvas of={SearchInputStories.Success} />
+<Canvas of={SearchInputStories.Danger} />
 <Controls />
 
 ## Figma (Figma-confirmado)
@@ -63,6 +79,8 @@ confirmado verbatim.
 | Disabled | ✅ `disabled:opacity-50 disabled:pointer-events-none` | ✅ Figma-confirmado (`molecule/SearchBar/Disabled/XXL`, instance solta) — tratamento visual 🧩 inferido |
 | Error (`Property 2=wrongValue`) | ✅ via `aria-invalid` (`border-destructive` + `ring-destructive/20`) | ✅ Figma-confirmado como variante existente — tratamento visual 🧩 inferido (convenção `components/ui/button.tsx`) |
 | Loading | ✅ prop `loading`, spinner (`Loader2Icon`) no lugar do ícone de busca | ⚠️ **Gap** — não existe no enum confirmado (`Focused\|wrongValue\|writeValue`). Mantido como extensão de engenharia (necessidade real de produto), nunca apresentado como Figma-confirmado |
+| Success (`state="success"`) | ✅ anel persistente `ring-[var(--brand-feedback-success-default,#096)]/35` | ✅ Figma-confirmado (`molecule/InputStates`, `1518:7924`, variante `writeValue`) |
+| Danger (`state="danger"`) | ✅ anel persistente `ring-destructive/35` | ✅ Figma-confirmado (`molecule/InputStates`, `1518:7924`, variante `wrongValue`) — cor reaproveita `--destructive` (`#bc3426`) já usado no projeto, não o `#c0392b` literal deste node específico |
 
 ## Fluid interface (Regra 8)
 

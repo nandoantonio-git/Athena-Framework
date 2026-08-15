@@ -5,6 +5,11 @@ import * as PushButtonStories from './PushButton.stories';
 
 # PushButton
 
+## Uso
+
+**Único componente de botão do MVP** (Regra 1) — toda ação primária/secundária/destrutiva da interface passa por aqui, nunca por um `button/primary` ou `button/secondary` separado. Use `variant="primary"` pra ação principal da tela (ex. "Guardar") e `variant="neutral"` pra ação secundária; `isDestructive` sinaliza uma ação de impacto (ex. "Excluir") sem trocar de componente.
+
+
 Botão de ação primária. **Único componente de botão do MVP** (Regra 1,
 `AGENTS.md`) — não existem `button/primary`, `button/secondary` ou
 `button/destructive` como componentes separados.

@@ -5,6 +5,11 @@ import * as UploadFolderStories from './UploadFolder.stories';
 
 # UploadFolder (Figma: `atom/UploadFolder`, `1439:17053`)
 
+## Uso
+
+Glifo composto (pasta + seta de upload) — ícone de upload de uma pasta (descrição do Figma, adicionada pelo usuário em 2026-08-14). Use em qualquer ação de upload que seja especificamente de uma pasta inteira, não de um arquivo avulso.
+
+
 **Status: ✅ aligned (Figma-confirmado, US-018)** — protocolo completo da
 Regra 11 aplicado: `get_design_context` real no node, os 2 vetores
 exportados via `download_assets`, screenshot Figma comparado
@@ -19,16 +24,19 @@ nova encontrada.
 corrigida: a story ampliava o glifo para 32×32 (`size-8`) apesar do
 componente e do Figma serem 16×16; a story agora renderiza a escala real.
 
+**Descrição adicionada pelo usuário em 2026-08-14** — `get_design_context`
+fresco no mesmo node (`1439:17053`) retorna agora uma descrição de uso que
+antes não existia: verbatim *"icone de upload de uma pasta"*.
+
 <Canvas of={UploadFolderStories.Default} />
 <Controls />
 
 ## Figma (Figma-confirmado)
 
-Sem descrição de uso própria no Figma (só nome + geometria) — glifo
-composto de 2 vetores sobrepostos: contorno de pasta (`Vector`,
-`1421:17836`) + seta de upload pequena (`Vector`, `1421:17837`),
-16×16px, `overflow-clip`. Nenhum eixo de variante/estado confirmado (um
-único vetor estático).
+Descrição verbatim: *"icone de upload de uma pasta"* — glifo composto de
+2 vetores sobrepostos: contorno de pasta (`Vector`, `1421:17836`) + seta
+de upload pequena (`Vector`, `1421:17837`), 16×16px, `overflow-clip`.
+Nenhum eixo de variante/estado confirmado (um único vetor estático).
 
 ## Glifo
 

@@ -14,6 +14,7 @@ const meta = {
     disabled: { control: "boolean" },
     "aria-invalid": { control: "boolean" },
     placeholder: { control: "text" },
+    state: { control: "radio", options: [undefined, "success", "danger"] },
   },
   args: {
     loading: false,
@@ -45,4 +46,14 @@ export const Loading: Story = {
 /** Não confirmado no Figma (bloqueio de acesso) — implementado via `aria-invalid` por convenção. */
 export const Error: Story = {
   args: { "aria-invalid": true },
+}
+
+/** Figma-confirmado: `molecule/InputStates` (`1518:7924`), variante `writeValue`. */
+export const Success: Story = {
+  args: { state: "success" },
+}
+
+/** Figma-confirmado: `molecule/InputStates` (`1518:7924`), variante `wrongValue`. */
+export const Danger: Story = {
+  args: { state: "danger" },
 }
