@@ -28,3 +28,7 @@ storybook-static
 .audit-artifacts/
 .vercel
 .env*
+
+# Estado local do app Obsidian (layout de janela etc.) — o vault em si
+# (design-system/docs/vault/*.md) é versionado normalmente.
+docs/vault/.obsidian/
