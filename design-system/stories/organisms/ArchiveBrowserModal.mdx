@@ -9,84 +9,25 @@ import * as ArchiveBrowserModalStories from './ArchiveBrowserModal.stories';
 
 Modal pra selecionar arquivos que serão guardados em longo prazo (fluxo "Guardar"). Abre a partir da ação "Guardar" — não é um seletor de arquivo genérico do sistema operacional.
 
-
-**Status: ✅ aligned** — Figma-confirmado, nó `1439:16909`, descrição
-verbatim: *"janela de seleção de arquivos que será guardados(glacier/long
-term archive)"*. Título "Adicionar arquivos", ação primária "Adicionar N
-arquivos" e breadcrumb Figma-confirmados literalmente. Parte do fluxo ao
-vivo "Guardar" — verificado **sem termo proibido**. **Re-verificado
-2026-08-12 (passe 3, ponto-fixo)**: 1 divergência nova encontrada e
-corrigida na mini-nav — ver abaixo.
-
-**🔧 Corrigido em 2026-08-12 (Regra 11, auditoria US-026, passe 3)**: o
-item ativo "Pessoal" da mini-nav aplicava `text-brand-teal` ao `<li>`
-inteiro (ícone + rótulo), mas o nó confirma que só o ícone da pasta fica
-`var(--brand-primary-default,#007e96)` — o rótulo "Pessoal" permanece em
-`var(--brand-secondary-dark,#1a1714)`, a mesma cor dos outros 3 itens
-(que só diferem por `opacity: 50%`, também ausente na implementação
-anterior). Corrigido em `archive-browser-modal.tsx`: cor teal movida só
-pro ícone, `opacity-50` adicionada aos 3 itens inativos.
-
 <Canvas of={ArchiveBrowserModalStories.Default} />
 <Controls />
 
-## Composição (Regra 10)
+## Composição
 
-| Peça | Origem |
-| --- | --- |
-| `molecule/ArchiveBrowserModal/Search` (`1485:21074`) | `Molecules/ArchiveBrowserModal/Search` (US-024) — busca + breadcrumb + painel de arquivos |
-| `molecule/ArchiveBrowserModal/ListItem` (`1421:20896`) | `Molecules/ArchiveBrowserModal/ListItem` (US-024), composto dentro do Search |
-| `atom/PushButton` (`variant="neutral"`/`"primary"`) | `Atoms/PushButton` |
+- `molecule/ArchiveBrowserModal/Search` — busca + breadcrumb + painel de arquivos
+- `molecule/ArchiveBrowserModal/ListItem` — composto dentro do Search
+- `atom/PushButton` (`variant="neutral"`/`"primary"`) — "Cancelar" / "Adicionar N arquivos"
 
-**Reconciliado em 2026-08-11 (US-024, Regra 11)**: a coluna direita
-(busca + breadcrumb + lista de arquivos) usava markup aproximado —
-`lucide-react` `FileIcon` no lugar do ícone real de `atom/ArchiveItem`, e
-uma única camada de fundo em vez da moldura de 2 camadas Figma-confirmada
-(`drop-shadow` externo `0px 8px 20px rgba(0,0,0,0.12)` + `rounded-xl`
-interno). Substituída por `ArchiveBrowserModalSearch`, que já compõe
-`ArchiveBrowserModalListItem` — ambos lidos via `get_design_context` real
-nos nós `1485:21074`/`1421:20896`.
+A mini-navegação lateral reusa só os 4 primeiros rótulos de `organism/Sidebar` (Pessoal/Compartilhados/Recentes/Favoritos), sem o painel de armazenamento — uma versão reduzida específica deste modal, não a Sidebar completa.
 
-A mini-navegação lateral (nó `1421:20073`, `organism/Sidebar` embutido)
-reusa só os 4 primeiros rótulos Figma-confirmados de `organism/Sidebar`
-(Pessoal/Compartilhados/Recentes/Favoritos) — não a `Sidebar` completa,
-pois esta instância não inclui o painel de armazenamento (composição menor
-confirmada no código-fonte do nó). Renderizada localmente em vez de
-`<Sidebar />` para não forçar props de armazenamento obrigatórias numa
-composição que o Figma não usa aqui.
+## Estados
 
-**🔧 Corrigido em 2026-08-11 (Regra 11, auditoria US-026)**: releitura de
-`get_design_context` no nó `1439:16909` encontrou 3 divergências reais não
-pegas pela auditoria anterior — (1) os 4 itens de mini-nav não tinham
-ícone algum, enquanto o Figma confirma um SFSymbol por item
-(`folder`/`folder.badge.person.crop`/`clock`/estrela) — corrigido com os
-mesmos glifos `lucide-react` (`User`/`Users`/`Clock`/`Star`) já usados para
-os mesmos 4 rótulos em `organism/Sidebar`; (2) a seção "Etiquetas" com
-`atom/badge/TypeLabel` ("Image") existia no Figma mas não era renderizada
-— adicionada com `FileTypeLabel kind="image"`; (3) o placeholder de busca
-estava hardcoded como "Pesquisar" (nem o texto Figma "Search", nem o termo
-aprovado da Regra 5) — corrigido para herdar o default de `SearchInput`
-("Buscar arquivos, pastas ou templates").
+- Breadcrumb, com o último item destacado em teal
+- Seleção/economia de espaço (`selectedCount`/`savingsLabel`)
 
-## Conflito de variantes (Regra 1)
+## Material
 
-Verificado: "Cancelar"/"Adicionar N arquivos" usam `PushButton` com
-`variant` diferente — nenhum componente separado.
-
-## Estados e fluid interface (Regra 8)
-
-| Estado | Implementado |
-| --- | --- |
-| Breadcrumb | ✅ prop `breadcrumb`, último item destacado em `text-brand-teal` |
-| Seleção/economia | ✅ props `selectedCount`/`savingsLabel` |
-| Disabled/Loading/Error | Não documentado no Figma neste nó |
-
-**reduced-motion**: não documentado no Figma; sem animação própria.
-
-## Material Liquid Glass
-
-Container, mini-nav e lista de arquivos usam `bg-effect-glass-white-70` —
-ver `Tokens/Materials` (Regra 10).
+Container, mini-nav e lista de arquivos usam o material Liquid Glass — ver [Tokens/Materials](../tokens/Materials.mdx).
 
 ## Terminologia
 

@@ -9,111 +9,28 @@ import * as SidebarStories from './Sidebar.stories';
 
 Navegação lateral persistente do produto — páginas, etiquetas e acesso ao armazenamento. Use como chrome fixo de toda tela autenticada, não como painel contextual pontual.
 
-
-**Status: ✅ aligned (estrutura) — reverificado 3ª passada (US-026,
-2026-08-12)** Figma-confirmado, nó `1421:17946`, descrição verbatim:
-*"sidebar contextual"*, com o filho `Size=MD, Pages=Default`
-(`1421:17947`) descrevendo: *"sidebar default, utilizada quando não há
-etiquetas ainda. posibilita navegar entra as paginas: pessoal,
-compartilhado, recente, favorito, guardados(longo prazo) e lixeira. contem
-a aba armazenamento, que possibilita gerir armazenamento."* Os 6 itens de
-navegação (`Pessoal`, `Compartilhados`, `Recentes`, `Favoritos`,
-`Guardados`, `Lixeira`) são Figma-confirmados literalmente por esse texto.
-
-**Re-verificação do fix de opacidade (2ª passada) — CONFIRMADO correto**:
-`get_design_context` chamado de novo do zero (não reaproveitado da 2ª
-passada) para o nó `1421:17947` confirma exatamente o mesmo padrão já
-implementado — item ativo ("Pessoal") com `bg-[#f3f3f3]` (mix-blend-multiply)
-e opacidade total; os outros 5 itens (`Compartilhados`, `Recentes`,
-`Favoritos`, `Guardados`, `Lixeira`) todos envoltos num wrapper
-`opacity-50`, mesmo `text-[color:var(--brand-secondary-dark,#1a1714)]` do
-item ativo (nunca `text-brand-teal`). Implementação atual (`opacity-50`
-inativo / `bg-zinc-100 opacity-100` ativo, `text-zinc-900` sempre) bate
-100% — nenhuma alteração necessária.
-
 <Canvas of={SidebarStories.Default} />
 <Controls />
 
-## Regra 5 — resolvida em 2026-08-10 (ver `docs/conflicts.md`)
+## Anatomia
 
-O arquivo Figma tem 2 variantes concorrentes para o mesmo botão de espaço
-("Liberar Espaço" no screenshot deste nó embutido vs. "Gerir Espaço" na
-variante standalone de `organism/storage-sidebar`). Decisão humana fixou
-cada rótulo a um contexto: painel embutido/persistente da Sidebar =
-"Gerir Espaço"; página de Armazenamento/Config. de Plano = "Liberar
-Espaço". Este componente força "Gerir Espaço" ao compor
-`organism/storage-sidebar` (via prop `manageSpaceLabel`, ver
-`StorageSidebar.mdx`), independentemente do default desse componente.
+6 itens de navegação: Pessoal, Compartilhados, Recentes, Favoritos, Guardados, Lixeira. O item ativo tem fundo destacado e opacidade total; os demais ficam a 50% de opacidade (mesma cor de texto em todos, não muda de cor ao ficar ativo).
 
-## Composição (Regra 10)
+Um botão no canto superior direito minimiza/colapsa a sidebar. Um botão "+ Adicionar" (`atom/PushButton`, ícone `plus`) fica entre o header e a lista de navegação.
 
-| Peça | Origem |
-| --- | --- |
-| `organism/storage-sidebar` | Este mesmo commit (US-006) |
+A seção "Etiquetas" (prop `tags`) renderiza [`atom/Sidebar/Tags/Items`](../atoms/SidebarTagsItem.mdx), com estados de hover/selecionado reais via prop `activeTag`/`onTagSelect`.
 
-Itens de navegação são renderizados diretamente (lista fixa
-Figma-confirmada) — não há sub-componente `atom`/`molecule` próprio
-documentado para uma linha de nav individual.
+## Composição
 
-> **Reconciliado em 2026-08-11 (US-019)**: a seção "Etiquetas" (prop
-> `tags`) agora renderiza
-> [`atom/Sidebar/Tags/Items`](../atoms/SidebarTagsItem.mdx) (`1421:20907`)
-> — node Figma achado nesta US, substituindo o `<span>` ad hoc que existia
-> desde a US-006. Estados `hover`/`selected` reais via prop
-> `activeTag`/`onTagSelect`.
-
-## Estados (Regra 8)
-
-| Estado | Implementado |
-| --- | --- |
-| Página ativa | ✅ prop `activePage`, `aria-current="page"` + destaque visual |
-| Hover | ✅ `hover:bg-zinc-100` nos itens |
-| Disabled/Loading/Error | Não aplicável — navegação síncrona |
-
-**reduced-motion**: não documentado no Figma; nenhuma animação própria
-além de `transition-colors` nativo (interruptível por construção).
-
-## Material Liquid Glass
-
-O container usa `bg-effect-glass-surface-light` + `backdrop-blur-md` —
-ver `Tokens/Materials` (Regra 10); não reimplementa a spec.
+Compõe `organism/storage-sidebar` — ver [StorageSidebar](./StorageSidebar.mdx).
 
 ## Terminologia
 
-Todos os 6 rótulos de navegação são Figma-confirmados literalmente e não
-colidem com termos proibidos (Regra 5).
+O botão de acesso ao armazenamento usa "Gerir Espaço" nesta composição (embutida/persistente), diferente de "Liberar Espaço" (usado na página de Armazenamento/Config. de Plano) — mesmo modal, rótulo diferente por contexto. Este componente força "Gerir Espaço" ao compor `organism/storage-sidebar` via prop `manageSpaceLabel`, independentemente do default desse componente.
 
-## Ícone de colapsar (Regra 8/11)
+Todos os 6 rótulos de navegação são termos aprovados.
 
-> ⚠️ **Corrigido em 2026-08-11 após achado do usuário — auditoria anterior
-> não seguia a Regra 11.** Faltava o ícone superior de minimizar/colapsar a
-> sidebar. `get_screenshot` fresco do node real `1421:17947` confirma um
-> botão no canto superior direito do painel; a árvore de referência do
-> `get_design_context` nomeia esse elemento "Button" com SFSymbol
-> `sidebar.left` (glifo nativo do Figma, sem vetor exportável). Implementado
-> com `lucide-react`'s `PanelLeft` (mesmo glifo visual) + prop `onCollapse`.
-> Re-verificado na auditoria Regra 11 seguinte (US-026) via screenshot
-> Playwright real — confirmado genuinamente presente e visível, não apenas
-> presente no código.
+## Estados
 
-## Botão "+ Adicionar" (achado novo, corrigido na auditoria Regra 11 — US-026)
-
-`get_design_context` real no nó `1421:17947` (`Size=MD, Pages=Default`)
-confirma um `atom/PushButton` (`variant="primary"`, ícone `plus`, label
-"Adicionar") entre o header e a lista de navegação — ausente por completo
-na implementação anterior (nenhuma menção a "Adicionar" existia no
-componente). Adicionado via `PushButton icon={Plus}` + prop `onAdd`,
-screenshot renderizado confirmado batendo com o node real.
-
-## Itens de navegação inativos (achado novo, corrigido em nova auditoria Regra 11 — US-026)
-
-Um `get_screenshot` fresco do nó `1421:17947` mostra os 5 itens de
-navegação não-ativos com opacidade reduzida (~50%) em relação ao item
-ativo ("Pessoal") — mesmo token de cor de texto
-(`--brand-secondary-dark`/`text-zinc-900`) para ambos, só a opacidade e o
-fundo (`bg-zinc-100`) diferenciam o estado ativo. A implementação anterior
-renderizava todos os itens com contraste total e diferenciava o ativo só
-pela cor do texto (`text-brand-teal`) — cor nunca confirmada no Figma (o
-item ativo usa a mesma cor escura dos inativos). Corrigido: item inativo
-= `opacity-50`; item ativo/hover = `opacity-100` + `bg-zinc-100`, texto
-sempre `text-zinc-900`.
+- Página ativa — `aria-current="page"` + destaque visual
+- Hover nos itens

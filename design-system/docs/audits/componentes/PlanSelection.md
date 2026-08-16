@@ -1,0 +1,61 @@
+# PlanSelection — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/organisms/PlanSelection.mdx` em 2026-08-16. Node Figma: `1454:25057`.
+
+## Status
+
+🔧 corrigido em 2026-08-13 (US-026, pass12). Figma-confirmado (US-025), nó `1454:25057`, descrição verbatim: *"card onde o usuário escolhe o plano desejado"*. Página de Configurações de Plano mencionada (mas nunca antes implementada) pela decisão de terminologia "Liberar Espaço" da Regra 5 (2026-08-10). Releitura completa via `get_design_context` fresco em 2026-08-13 encontrou divergências materiais na story: root menor que o Figma (`max-w-4xl` em vez de 1089px) e normalização indevida de vários textos mistos do Figma para PT-BR. Corrigido agora: largura `w-[1089px]` e literais Figma restaurados em status, ciclo, botões, sufixo de preço e footer. O elemento residual `Rectangle 20` continua documentado e não implementado; o achado da Regra 5 continua sem botão "Liberar Espaço" neste nó.
+
+## Elementos confirmados (Regra 11)
+
+Checklist elemento a elemento contra `get_design_context` (nó `1454:25057`) e o screenshot renderizado em `http://localhost:6006/iframe.html?id=organisms-planselection--default&viewMode=story`:
+
+| Elemento Figma | Confirmado | Implementado |
+| --- | --- | --- |
+| Header "Assinatura" / "Gerencie seu plano de armazenamento" | ✅ | ✅ |
+| Badge "Active" (status da assinatura) | ✅ | ✅ literal Figma |
+| Texto "Next billing on Jul 8, 2026" | ✅ | ✅ literal Figma, prop `nextBillingLabel` |
+| Toggle "Monthly"/"Annual" (Annual selecionado) | ✅ | ✅ literais Figma, `interval` controlado |
+| Card "Starter" — nome, "1 TB", "$30/yr", botão "Downgrade" | ✅ | ✅ literal Figma |
+| Card "Pro" — badge "Current", nome, "5 TB", "$120/yr", indicador "✓ Active" | ✅ | ✅ literal Figma, card destacado |
+| Card "Max" — nome, "10 TB", "$200/yr", botão "Upgrade" | ✅ | ✅ literal Figma |
+| Divisor horizontal | ✅ | ✅ |
+| Footer — texto sobre portal de pagamento + botão "Editar pagamento" | ✅ | ✅ |
+| `Rectangle 20` (`1454:25055`, 19×12px, só borda, canto superior direito) | ✅ nó existe no Figma | ❌ **não implementado** — ver seção "Elemento residual" abaixo |
+
+Nenhum elemento fora desta lista foi adicionado — em particular, nenhum botão "Liberar Espaço" existe neste nó (ver "Achado Regra 5" abaixo).
+
+## Achado Regra 5 — "Liberar Espaço" NÃO aparece nesta tela
+
+A decisão de terminologia de 2026-08-10 (Regra 5, `AGENTS.md`) presumia que a página de Configurações de Plano teria um botão "Liberar Espaço" dando acesso a `organism/cleanSpaceStorage` (`1439:16908`), no mesmo contexto já aprovado da página de Armazenamento. `get_design_context` no nó real (`1454:25057`) não confirma isso: o card inteiro é sobre gestão de assinatura (planos, cobrança, forma de pagamento) — nenhum botão, link ou texto relacionado a espaço de armazenamento, liberação, ou o modal `cleanSpaceStorage` aparece em lugar nenhum do nó. Registrado em `docs/conflicts.md` para decisão humana — não resolvido silenciosamente aqui (a premissa da Regra 5 pode ter previsto uma tela diferente, ou o Figma real ainda não inclui esse link).
+
+## Elemento residual não implementado (Regra 11.4)
+
+`get_metadata` no nó `1454:25055` ("Rectangle 20") confirma um retângulo de 19×12px, só borda (`var(--brand-secondary-light,#6b6b68)`), sem preenchimento, sem texto, sem ícone, posicionado colado à borda direita do card (`x=1087` dentro de um card de `1089px` de largura) — não faz parte de nenhum agrupamento nomeado (não é filho de "Card Header", "Status Row", "Plans" ou "Footer"), aparece solto direto no card raiz. Sem descrição, sem propósito visual reconhecível, e cortado pela borda do próprio card no screenshot renderizado — mesmo padrão de artefato residual já encontrado em `celule/chip/folder-tag` (camada `opacity:0`, ver `docs/conflicts.md`). Seguindo a Regra 11.4 (nunca inventar elemento não claramente confirmável), não implementado — documentado aqui em vez de adivinhado.
+
+## Composição (Regra 1)
+
+Botões "Downgrade"/"Upgrade"/"Editar pagamento" usam `atom/PushButton` (`variant="neutral"`) — nenhum `button/primary`|`secondary` separado. Nenhum botão deste nó usa `isDestructive` (não há ação destrutiva nesta tela).
+
+## Cores (Regra 2/3)
+
+Card do plano corrente ("Pro") usa `border-brand-teal`/`bg-brand-teal-light` — mesmo par de tokens já usado pelo tom `info` de `FaqCallout`, em vez do hex literal `#e0f0f2` do Figma (que não corresponde exatamente a `--brand-teal-light` `#c8dce3`, mas é a aproximação semântica mais próxima já no tema — evita introduzir um hex novo fora da paleta, Regra 2). Badges "Ativo"/"Atual" e toggle "Anual" selecionado usam `bg-brand-teal` (`#007e96`, Figma-confirmado literal).
+
+## Terminologia — traduções, não termos proibidos (Regra 5)
+
+"Active", "Current", "Monthly", "Annual", "Downgrade" e "Upgrade" são literais Figma-confirmados e permanecem em inglês nesta peça. Nenhum destes está na lista proibida da Regra 5 — é o mesmo gap de idioma misto do próprio Figma já registrado para `organism/upload-popover` (texto Figma-confirmado em inglês, resto da tela em português), não um termo proibido revivido. O rodapé do Figma também mistura os 2 idiomas na mesma frase ("**Update** método de pagamento, visualize ordens de pagamento, ou cancele no portal da Stripe") — implementado literal após a correção pass12. "Starter"/"Pro"/"Max" mantidos literais (nomes de plano, não rótulo de UI/categoria — não traduzíveis como termo).
+
+## Material Liquid Glass (Regra 10)
+
+Container usa `bg-effect-glass-white-50` — ver `Tokens/Materials`.
+
+## Estados / fluid interface (Regra 8)
+
+| Estado | Implementado |
+| --- | --- |
+| Toggle Monthly/Annual | ✅ `interval` controlado, `role="tablist"`/`aria-selected` |
+| Plano atual (sem ação) vs. planos com ação | ✅ indicador "✓ Active" substitui o botão só no card corrente |
+| Hover/Active (botões) | ✅ herdado de `atom/PushButton` |
+| Disabled/Loading/Error | Não documentado no Figma — não aplicável (troca de plano síncrona no protótipo) |
+
+**reduced-motion**: não documentado no Figma; sem animação própria além das transições padrão de `atom/PushButton`.

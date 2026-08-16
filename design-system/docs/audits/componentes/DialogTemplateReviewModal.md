@@ -1,0 +1,40 @@
+# DialogTemplateReviewModal — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/organisms/DialogTemplateReviewModal.mdx` em 2026-08-16. Node Figma: `1431:20397`.
+
+## Status
+
+✅ aligned — Figma-confirmado, nó `1431:20397`, descrição verbatim: *"Utilize para revisar o nome, e a estrutura/hierarquia de organização cria pelo Kandrive para o usuário."* Título "Revisar Organização", subtítulo, badges de severidade ("Duplicado", "Incongruente", "OK") e ações ("Renomear", "Editar", "Excluir") Figma-confirmados literalmente. Pertence ao fluxo ao vivo "Organização". Re-verificado 2026-08-12 (passe 3, ponto-fixo): "Renomear"/"Editar" a 16px seguem corretos (não regrediu); 2 divergências novas encontradas e corrigidas — ver abaixo.
+
+## Corrigido em 2026-08-12 (Regra 11, auditoria US-026, passe 3)
+
+(1) os badges de severidade ("Duplicado"/"Incongruente"/"OK") renderizavam a `text-sm` (14px), mas os 3 nós confirmam `text-[16px]` — corrigido para `text-base`; (2) o rótulo da linha de caminho sugerido era fixo ("Taxonomia Sugerida:") pra todos os itens, mas o Figma confirma que só o 1º item (severidade `Duplicado`) usa esse rótulo — os itens 2 e 3 ("Incongruente"/"OK") usam "Template Sugerido:" (nó e fonte diferentes: Manrope 12px vs Figtree 13px). Adicionada prop opcional `suggestedPathLabel` por item (default "Template Sugerido:"), setada para "Taxonomia Sugerida:" apenas no 1º item da story — não inferida como regra ligada à severidade, já que só 3 exemplos existem no nó.
+
+## Composição (Regra 10)
+
+`atom/PushButton` — "Cancelar" (`variant="neutral"`) / "Continuar" (`variant="primary"`) no rodapé. "Renomear"/"Editar" são links de texto simples (sem chrome de botão no Figma); "Excluir" (linha de arquivo filho) usa `PushButton variant="neutral" isDestructive` (mesmo componente compartilhado usado em `organism/cleanSpaceStorage`, Regra 3).
+
+Corrigido em 2026-08-11 (Regra 11, auditoria US-026): releitura de `get_design_context` encontrou 4 elementos Figma-confirmados ausentes do código — ícone `Folder` por item, botão chevron de expandir/colapsar, a linha de arquivo filho (`Q1_Report_v2.pdf` + "Excluir") revelada no item expandido, e o ícone `Info` no aviso do rodapé. O separador de "Taxonomia Sugerida" também foi trocado de barra literal (`" / "`) por um pequeno chevron entre segmentos, mais fiel ao Figma (cada segmento é um nó de texto próprio, não uma string única com `/`). Ver `dialog-template-review-modal.tsx`.
+
+## Conflito de variantes (Regra 1)
+
+Verificado: nenhum `button/primary`|`secondary`|`destructive` como componente separado — "Excluir" é um tratamento de cor sobre elemento simples, não um novo componente de botão.
+
+## Estados e fluid interface (Regra 8)
+
+| Estado | Implementado |
+| --- | --- |
+| Duplicado/Incongruente/OK | ✅ prop `items[].severity`, badge + ícone por severidade |
+| Renomear/Editar hover | 🧩 Inferido: alteração leve de cor, sem chrome adicional, porque o Figma só confirma texto simples |
+| Renomear/Editar clicked | 🧩 Inferido: `active:scale-[0.98]` momentâneo e interruptível; não é seleção persistente |
+| Disabled/Loading/Error | Não documentado no Figma — ações de item (Renomear/Editar/Excluir) são síncronas nesta story |
+
+**reduced-motion**: não documentado no Figma; feedback de clicked usa `motion-safe`, então a escala é removida quando o usuário reduz movimento.
+
+## Material Liquid Glass
+
+Container usa `bg-effect-glass-white-70` + `backdrop-blur-md` — ver `Tokens/Materials` (Regra 10).
+
+## Terminologia
+
+Nenhum termo proibido (Regra 5). Nomes de arquivo/pasta e caminhos sugeridos são conteúdo de exemplo/dados, não texto fixo de produto.

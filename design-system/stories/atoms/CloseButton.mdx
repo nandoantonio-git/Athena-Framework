@@ -9,45 +9,20 @@ import * as CloseButtonStories from './CloseButton.stories';
 
 Botão circular pra **fechar** janelas, modais e popovers. Consumido por `Notification`/`PopoverNotification`/`ArchiveBrowserModal`/`Dialog/*` — use sempre que precisar de um botão de fechar padrão nesses contextos, em vez de recriar o círculo com um ícone solto.
 
-
-Botão circular para fechar janelas ou componentes.
-
-**Status: ✅ aligned (Figma-confirmado, US-026 pass 5)** — componente já
-existia no código e era consumido por `Notification`/`PopoverNotification`,
-mas não tinha story/MDX própria e ficou fora do manifesto de 83 componentes
-do pass4. Corrigido nesta passada.
-
 <Canvas of={CloseButtonStories.Default} />
 <Controls />
 
-## Figma (Figma-confirmado)
+## Anatomia
 
-`get_design_context` fresco no nó `1421:19008` retorna descrição verbatim:
-*"botao utilizado para fechar janelas ou componentes"*.
-
-Anatomia confirmada: círculo escuro com glifo `clear`/`x` branco, 2
-tamanhos (`SM` 8px, `MD` 16px) e 3 estados (`Idle`, `Hover`, `Pressed`).
-Todos os 6 estados usam SVGs exportados do Figma, sem vetor refeito à mão.
+Círculo escuro com glifo "×" branco sobreposto, 2 tamanhos (`sm` 8px, `md` 16px). Responde a hover/press reais do mouse — não precisa de prop `state` controlada pra funcionar (a prop existe só pra fixar um estado nas stories).
 
 <Canvas of={CloseButtonStories.AllStates} />
 <Canvas of={CloseButtonStories.Medium} />
 
-## Estados (Regra 8)
+## Estados
 
-| Estado | Implementado | Fonte |
-| --- | --- | --- |
-| Idle | ✅ `state="idle"` | ✅ Figma-confirmado |
-| Hover | ✅ `state="hover"` | ✅ Figma-confirmado |
-| Pressed | ✅ `state="pressed"` | ✅ Figma-confirmado |
-| Disabled/Loading/Error | ❌ Não aplicável | Sem eixo confirmado no node consultado |
-
-## Fluid interface (Regra 8)
-
-O feedback visual é exposto por estado para documentação e consumidores que
-controlam press/hover externamente. reduced-motion não documentado no Figma
-e não aplicável: não há movimento, só troca de asset.
+`Idle` · `Hover` · `Pressed` — via CSS real (`:hover`/`:active`) ou via prop `state` pra documentação estática. Sem disabled/loading/error.
 
 ## Terminologia
 
-Não renderiza texto visível; `label="Fechar"` é apenas acessibilidade.
-Nenhum termo proibido da Regra 5 se aplica.
+Não renderiza texto visível; `label="Fechar"` é só acessibilidade.

@@ -9,94 +9,31 @@ import * as CardLoginStories from './CardLogin.stories';
 
 Card de autenticação (login direto ou via Google). Use na tela de entrada do produto — não é um formulário de cadastro.
 
-
-**Status: ✅ aligned (estrutura) — ⚠ conflito aberto (Regra 4, alta)** —
-Figma-confirmado nesta US (US-013, releitura pontual de 2026-08-10), nó
-`1454:22055`, descrição verbatim: "card de login do usuário, no qual ele
-preenche suas informações para acessar ou usa dados de terceiros para
-entrar(conta google)." **Re-verificado 2026-08-12 (passe 3,
-ponto-fixo)**: conflito Manrope/paleta abaixo segue aberto e
-corretamente não-resolvido (2 nós Figma ainda pedem Manrope: placeholder
-dos inputs e label do botão "Entrar"). 1 divergência nova encontrada e
-corrigida: divisor "OU" renderizava a `text-xs` (12px) `font-medium`,
-mas o nó confirma `text-[16px]` `font-['Figtree:Regular']` — corrigido
-para `text-base font-normal` em `card-login.tsx`.
-
 <Canvas of={CardLoginStories.Default} />
 <Controls />
 
-## Conflito: tipografia Manrope (Regra 4)
+## Nota de tipografia e cor
 
-O Figma usa a fonte **`Manrope`** neste nó inteiro (`Heading 1`, labels,
-inputs, botões) — não `Figtree`, a tipografia travada pela Regra 4. Também
-usa uma paleta de cor própria (`#1a1c1c`, `#3e484c`, `#bec8cc`, `#f9f9f9`)
-sem correspondência com nenhum token `brand-secondary-*`/`neutral-*` já
-confirmado nos outros 9 componentes desta US, sugerindo que este card foi
-originado de um kit de UI de autenticação genérico, não do sistema de
-tokens do Kandrive. **Não resolvido silenciosamente** (Regra 9 + instrução
-de AGENTS.md sobre CONFLICT): implementado com `font-sans` do projeto
-(Figtree) e neutros aproximados pela rampa Zinc (Regra 3, mesmo fallback já
-usado em outros componentes), registrado em `docs/conflicts.md` com urgência
-alta (é um organism de autenticação — tela ao vivo).
+O Figma deste card usa uma fonte (`Manrope`) e uma paleta de cor próprias, diferentes da tipografia (`Figtree`) e dos tokens de cor do resto do design system — sinal de que este card veio de um kit de autenticação genérico, não do sistema de tokens do Kandrive. Implementado com a fonte e os neutros padrão do projeto em vez da fonte/paleta originais; o acento de cor (`#007e96`, usado no link "Esqueceu sua senha?" e no botão "Entrar") é consistente com o resto do arquivo e foi preservado literalmente.
 
-O único acento de cor Figma-confirmado consistente com o resto do arquivo é
-`#007e96` (`brand-teal`) — usado no link "Esqueceu sua senha?" e no botão
-"Entrar", preservado literalmente.
+## Composição
 
-## Composição (Figma-confirmado)
+Heading "Bem-vindo de volta" + subtítulo "Acesse sua conta segura no Kandrive" + campos E-mail/Senha + link "Esqueceu sua senha?" + botão "Entrar" + divisor "OU" + botões "Entrar com Google"/"Entrar com Apple".
 
-Heading "Bem-vindo de volta" + subtítulo "Acesse sua conta segura no
-Kandrive" + campos E-mail/Senha + link "Esqueceu sua senha?" + botão
-"Entrar" + divisor "OU" + botões "Entrar com Google"/"Entrar com Apple".
+## Anatomia
 
-## Adaptação de engenharia (inputs reais)
+Os campos são implementados como `<input>` reais (`type="email"`/`type="password"`), com `<label>` associado e toggle de visibilidade de senha (ícone de olho que alterna entre mostrar/ocultar a senha).
 
-O Figma exporta os campos como `<div>` estáticos com texto placeholder
-literal (`seu@email.com`, `••••••••`) — implementado com `<input>` reais
-(`type="email"`/`type="password"`), `<label>` associado (`htmlFor`) e toggle
-de visibilidade de senha funcional (`Eye`/`EyeOff`, Figma mostra o ícone de
-"olho" no nó `Button - Toggle password visibility` mas sem estado
-`Visible`/`Hidden` confirmado — comportamento de alternância é 🧩 inferido
-pelo nome do layer, Regra 9).
+Nenhum dos botões usa `atom/PushButton` — o card usa 3 tratamentos visuais de botão próprios (Entrar preenchido teal, Google/Apple outline claro), específicos deste componente.
 
-## Botões (Regra 1)
+## Estados
 
-Nenhum usa `atom/PushButton` — o Figma mostra 3 tratamentos visuais de
-botão distintos aqui (Entrar preenchido teal, Google/Apple outline claro),
-todos fora da fonte/paleta padrão do design system (mesmo conflito acima).
-Mantidos como elementos próprios deste organism, não promovidos a variantes
-novas do `PushButton` (não há repetição confirmada em outro organism fora
-deste card — critério já usado para `variant="neutral"`).
+- Default (campos vazios, placeholder visível)
+- Focus nos inputs
+- Senha visível/oculta (toggle real)
+- Hover nos botões/link
+- Active/Pressed no botão "Entrar"
 
-## Terminologia (Regra 5)
+## Terminologia
 
-Nenhum termo da lista proibida aparece — texto de autenticação genérico
-("Entrar", "Bem-vindo de volta"), fora do domínio de armazenamento que a
-Regra 5 regula.
-
-## Estados (Regra 8)
-
-| Estado | Aplicável? | Nota |
-| --- | --- | --- |
-| Default | ✅ | Campos vazios, placeholder visível |
-| Focus (inputs) | ✅ | `focus-visible:ring-3 ring-brand-teal/50`, mesmo padrão de `SearchInput` |
-| Senha visível/oculta | ✅ | Toggle real via `useState`, ícone alterna `Eye`/`EyeOff` |
-| Hover (botões/link) | ✅ | Puramente CSS |
-| Active/Pressed (Entrar) | ✅ | `active:scale-[0.98]` — feedback no press |
-| Disabled/Loading/Error | 🧩 Extensão de engenharia | Não confirmado no Figma para este nó — formulário real precisaria eventualmente, não implementado nesta US para não inventar visual não confirmado |
-
-## Fluid interface (Regra 8)
-
-Transições de borda/fundo são `transition-colors` (interruptíveis).
-**reduced-motion: não documentado no Figma** — nenhuma variante/nota
-encontrada no nó consultado.
-
-## Material Liquid Glass
-
-Não aplicável — fundo sólido `bg-white/90`, sem efeito de vidro confirmado
-neste nó (Regra 10).
-
-## Fidelidade code-level
-
-Estrutura e textos 100% Figma-confirmados; tipografia e paleta de cor
-divergem por decisão de conflito documentado acima, não por omissão.
+Nenhum termo proibido — texto de autenticação genérico ("Entrar", "Bem-vindo de volta"), fora do domínio de armazenamento.

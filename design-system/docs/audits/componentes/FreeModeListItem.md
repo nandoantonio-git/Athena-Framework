@@ -1,0 +1,52 @@
+# FreeModeListItem — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/celules/FreeModeListItem.mdx` em
+2026-08-16. Node Figma:
+`celule/MainCanvas/Organization/FreeMode/ListItem`, `1421:20757`.
+
+## Status
+
+✅ aligned (Figma-confirmado, US-020; 🔧 corrigido em US-026;
+re-verificado 2026-08-13, pass12) — protocolo completo da Regra 11
+aplicado. Retomada pass12: `get_design_context` fresco no nó `1421:20757`
+confirmou a matriz 7 operações × 3 estados (`idle`/`hover`/`Clicked`);
+`state="hover"`/`state="clicked"` foram adicionados para cobertura visual
+estática da matriz completa em Storybook.
+
+## Figma (Figma-confirmado)
+
+7 operações (`itemOrganization` no Figma → `operation` aqui): Junção,
+Subtração, Interssecção, Exclusão, Filtrar por tamanho, Filtrar por
+formato, Filtrar por data. Eixo `state` do Figma (`idle`/`hover`/
+`Clicked`) mapeado para `state`. O hover real via CSS `:hover` continua
+ativo para uso interativo; `state="hover"` existe para auditoria visual
+estática. `selected` segue como alias de compatibilidade para
+`state="clicked"` (`bg-black/14`, mesmo tratamento de overlay já usado em
+`atom/Label/Storage/Alert`).
+
+## Ícones (Regra 11.4)
+
+7 glifos baixados via `download_assets` (`src/assets/icons/ListItem*.svg`)
+— não substituídos por `lucide-react`.
+
+## Material Liquid Glass
+
+Não aplicável — lista simples sem material próprio confirmado no node
+(o painel-mãe que a contém, se houver, aplicaria o material; não
+confirmado neste escopo).
+
+## Estados e fluid interface (Regra 8)
+
+| Estado | Implementado | Fonte |
+| --- | --- | --- |
+| Idle | ✅ transparente | ✅ Figma-confirmado |
+| Hover | ✅ `state="hover"` + `hover:bg-zinc-500/45`, `transition-colors` | ✅ Figma-confirmado |
+| Selected (`Clicked`) | ✅ `state="clicked"`/prop `selected` → `bg-black/14` | ✅ Figma-confirmado |
+
+reduced-motion não documentado no Figma; transição de cor é sutil e não
+teria efeito perceptível a desabilitar.
+
+## Terminologia
+
+Todos os rótulos são Figma-confirmados verbatim. Nenhum termo da lista
+proibida (Regra 5) se aplica.

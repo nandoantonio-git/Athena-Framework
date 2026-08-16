@@ -77,7 +77,7 @@ function FolderTagChip({
       data-expanded={isExpanded || undefined}
       data-selected={selected || undefined}
       className={cn(
-        "inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full bg-zinc-100 pr-1.5 pl-2.5 text-sm font-medium text-zinc-700",
+        "inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full bg-zinc-100 pr-2 pl-2.5 text-sm font-medium text-zinc-700",
         "transition-colors",
         "hover:bg-zinc-200",
         "data-[selected]:bg-brand-teal-light data-[selected]:text-brand-teal-dark",

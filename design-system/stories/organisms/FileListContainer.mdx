@@ -9,78 +9,21 @@ import * as FileListContainerStories from './FileListContainer.stories';
 
 Container que compõe `FileList` em modo lista, junto de `PreviewPane` no layout de coluna. Use quando a tela precisar de navegação em lista com painel de detalhe ao lado — pra grade/thumbnail, componha `FileArchive` direto.
 
-
-**Status: ✅ aligned** — Figma-confirmado, nó `1421:19687`, descrição
-verbatim: *"Visualização dos arquivos em formato de coluna/lista."* Cada
-linha compõe [`molecule/FileList`](../molecules/FileList.mdx)
-(`format="list-sm"`, `1421:19200`) — ícone + nome + seta de navegação
-(`atom/Icon/ArrowRight`), usado junto de `organism/preview-pane` no modo de
-visualização em colunas.
-
-🔍 **Re-verificado em 2026-08-13 (US-026, 12ª passada ativa):**
-`get_design_context` refeito do zero + screenshot Playwright fresco.
-Achado material corrigido nesta retomada: o container local estava
-hug-content/estreito no layout `centered`, enquanto o Figma confirma
-`w-[544px]` e borda direita `neutral-border-default`. Corrigido em
-`file-list-container.tsx`. **Observação preservada:** a resposta do Figma
-para a 2ª linha ("Arquivo 2") mostra um ícone diferente das outras no
-screenshot, mas o código-fonte da mesma chamada retorna o mesmo asset nas 3
-linhas — a inconsistência já está registrada em `docs/conflicts.md` para
-`molecule/FileList` e não foi reaberta.
-
 <Canvas of={FileListContainerStories.Default} />
 <Controls />
 
-## Reconciliação (US-022) — relação com `molecule/FileList`
+## Composição
 
-Até esta US, este container reimplementava a linha localmente (ícone+nome+
-seta via `lucide-react`) em vez de compor `molecule/FileList` — que só
-existia sob o nome antigo `organism/file-list-item` (US-006), com uma
-composição diferente já (nome+proprietário+tamanho, sem seta) e sem
-correspondência de fato com este container. Nesta US, `molecule/FileList`
-foi relocado para `molecules/` (nome Figma real) e ganhou o format
-`list-sm`, que bate exatamente com a linha que este container já
-renderizava — o container passou a compor esse molecule em vez de duplicar
-a marcação. **Divergência preservada, não a mesma coisa**: `FileList`
-(`format="list"`) mostra proprietário+tamanho e é usado em listas de
-página inteira; `FileListContainer` usa só `format="list-sm"` (ícone+nome+
-seta), sem essas colunas — contextos de tela diferentes (ver nota na
-molecule).
+Cada linha compõe [`molecule/FileList`](../molecules/FileList.mdx) (`format="list-sm"`) — ícone + nome + seta de navegação, usado junto de `organism/preview-pane` no modo de visualização em colunas.
 
-Este container **não compõe** `molecule/FileList/Header` — o pareamento
-Header+FileList confirmado no Figma ("Home-List Mode") é uma tabela de
-1025px de largura cheia; este é o painel estreito (`max-w-lg`) ao lado de
-`organism/preview-pane`, contexto de tela diferente (Regra 9 — não
-presumir a mesma composição sem confirmação).
+`FileList` (`format="list"`) mostra proprietário+tamanho e é usado em listas de página inteira; `FileListContainer` usa só `format="list-sm"` (ícone+nome+seta), sem essas colunas — contextos de tela diferentes. Este container também não compõe `molecule/FileList/Header` — é o painel estreito ao lado de `organism/preview-pane`, não a tabela de página inteira.
 
-## Composição (Regra 10)
+## Estados
 
-Seta de navegação usa `atom/Icon/ArrowRight` (asset real exportado do
-Figma, via `molecule/FileList`) — antes usava o glifo `lucide-react`
-`ArrowRight` como aproximação por nome; corrigido nesta US ao reusar o
-molecule real.
-
-## Conflito de variantes (Regra 1)
-
-Nenhum botão nesta composição — linhas são inteiramente clicáveis
-(`<button>` por linha), sem `PushButton` envolvido.
-
-## Estados e fluid interface (Regra 8)
-
-| Estado | Implementado |
-| --- | --- |
-| Default | ✅ |
-| Hover | ✅ `hover:bg-zinc-50` |
-| Focus | ✅ `focus-visible:ring-3` |
-| Disabled/Loading/Error | Não aplicável — navegação síncrona |
-
-**reduced-motion**: não documentado no Figma; `transition-colors` nativo.
-
-## Material Liquid Glass
-
-Não aplicável — preenchimento sólido.
+- Default
+- Hover — `hover:bg-zinc-50`
+- Focus — `focus-visible:ring-3`
 
 ## Terminologia
 
-"Arquivo N" é conteúdo de exemplo do Figma (specimen), não texto fixo de
-produto — nome real do arquivo é dado pelo usuário via prop `rows`.
+"Arquivo N" é conteúdo de exemplo, não texto fixo de produto — o nome real do arquivo é dado pelo usuário via prop `rows`.

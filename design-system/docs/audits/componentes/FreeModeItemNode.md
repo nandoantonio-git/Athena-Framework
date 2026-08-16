@@ -1,0 +1,103 @@
+# FreeModeItemNode — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/celules/FreeModeItemNode.mdx` em
+2026-08-16. Node Figma:
+`celule/MainCanvas/Organization/FreeMode/ItemNode`, `1421:20108`.
+
+## Status
+
+✅ aligned (Figma-confirmado, US-020; 🔧 corrigido em US-026; re-verificado
+2026-08-12, US-026 3ª passada de ponto-fixo) — 3ª passada:
+`get_design_context` fresco no nó `1421:20108` (todas as 10 variantes) +
+screenshot real confirmam ícones/rótulos/subtítulos/chevron batendo
+pixel-a-pixel — sem divergência nova na implementação do `celule`. **Nota
+sobre o conflito aberto em `docs/conflicts.md`** (texto de filtro
+truncado): re-verificado nesta passada com evidência mais forte — o nó
+base do celule (`1421:20108`, variantes `Variant5`/`Variant9`) confirma
+que o texto literal ali É "Filtro" + subtítulo curto ("Size "/"Type"),
+exatamente o que a implementação atual renderiza; já o nó da instância
+dentro do organism (`1439:16906`) mostra os 2 nós de filtro com texto
+overridden mais específico — "Filtro: Grande"/"Size &gt; 1.0 GB" e
+"Filtro: Formato"/"Type = .mp4, .mov". Ou seja: **não há divergência no
+celule em si** (bate com seu próprio nó Figma) — a lacuna é que
+`organism/OrganizeFreeModeCanvas` usa este celule sem repassar o texto
+overridden específico da instância, o que seria preciso um prop de
+override de rótulo/subtítulo neste componente para o organism consumir.
+Corrigido em 2026-08-13 (US-026, 4ª passada): `FreeModeItemNode` ganhou
+overrides opcionais `label`/`subtitle`, usados somente pelo organism para
+renderizar os textos específicos da instância composta. O node base do
+celule continua fiel aos defaults curtos do Figma. Protocolo completo da
+Regra 11 aplicado: `get_design_context` no node real, ícones baixados via
+`download_assets` (bytes reais, não aproximação `lucide-react`), screenshot
+Playwright comparado elemento a elemento contra o screenshot do Figma.
+Correção US-026: o chevron de `resultado` (`Variant7`/`8`) usava
+`rotate-180` fixo independente do estado (sempre apontando pra cima).
+Figma-confirmado mostra chevron apontando pra baixo quando colapsado
+(`Variant7`, sem rotação) e pra cima quando expandido (`Variant8`,
+`rotate-180`) — o estado colapsado estava errado (renderizava rotacionado
+igual ao expandido). Corrigido para condicionar a rotação a `expanded`.
+Retomada de 2026-08-13: `Variant7` também confirma subtítulo
+`Pasta "Vídeos"` e largura 174px; o default colapsado foi corrigido para
+esse texto, mantendo `Variant8` com `Pasta "Vídeos grandes"`.
+
+## Figma (Figma-confirmado)
+
+Descrição verbatim: *"nodos da aba modo livre template"*. Eixo
+`Property 1` do Figma tem 10 variantes — reduzidas aqui a 9 valores
+semânticos (`variant`), já que `Default` (Junção) e `Variant2`–`4`/`9`/`10`
+compartilham a mesma anatomia ícone+rótulo(+subtítulo), só trocando
+glifo/texto:
+
+| `variant` | Rótulo Figma | Subtítulo | Ícone |
+| --- | --- | --- | --- |
+| `juncao` (`Default`) | Junção | — | asset com fundo já embutido |
+| `intersseccao` (`Variant2`) | Interssecção | — | caixa `bg-brand-teal` |
+| `exclusao` (`Variant3`) | Exclusão | — | caixa `bg-brand-teal` |
+| `subtracao` (`Variant4`) | Subtração | — | caixa `bg-brand-teal` |
+| `filtro-size` (`Variant5`) | Filtro | "Size " | caixa `bg-brand-teal` (glifo `filter_alt`) |
+| `filtro-type` (`Variant9`) | Filtro | "Type" | asset com fundo já embutido |
+| `filtro-date` (`Variant10`) | Filtro | "Date" | caixa `bg-brand-teal` |
+| `auto-archive` (`Variant6`) | Auto-Archive | badge "ACTIVE" | ícone "Overlay" standalone |
+| `resultado` (`Variant7`/`8`) | Resultado | `Pasta "Vídeos"` colapsado; `Pasta "Vídeos grandes"` expandido | caixa `bg-brand-teal` + chevron |
+
+## `resultado` — collapsed vs. expanded (`Variant7`/`Variant8`)
+
+`Variant7` (174px) mostra só a linha "Resultado" + nome da pasta + chevron.
+`Variant8` (241px, prop `expanded`) adiciona, abaixo de uma borda
+divisória: 3 linhas de estatística (Arquivos incluídos/Tamanho
+estimado/Regras aplicadas, props `affectedFilesCount`/`sizeLabel`/
+`rulesCount`) e um painel "Prévia de arquivos" com lista de nomes
+(`fileNames`, default = os 4 nomes Figma-confirmados no node real:
+Aula-introducao.mov, Treinamento-produto.mp4, Workshop-clientes.mov,
+Demo-campanha.mp4).
+
+## Ícones (Regra 11.4)
+
+Todos os 11 glifos deste componente foram baixados via `download_assets`
+(bytes reais do Figma, não substituídos por `lucide-react`) —
+`src/assets/icons/ItemNode*.svg`. Confirmado por comparação de bytes
+(`diff`) que o glifo/chevron/chevron-de-prévia de `resultado` são
+idênticos aos usados em
+[`celule/FreeModeOutputNode`](./FreeModeOutputNode.md) — mesmo componente
+Figma reaproveitado, arquivos compartilhados entre os dois celules.
+
+## Material Liquid Glass
+
+Não aplicável — fundo sólido `bg-zinc-100` (aprox. de
+`--neutral-surface-background`, paleta neutra suspensa, Regra 3) com
+`backdrop-blur-[6px]` Figma-confirmado, não o material "Liquid Glass"
+documentado em `stories/tokens/Materials.mdx`.
+
+## Estados (Regra 8)
+
+Estático por natureza (nó de canvas, sem interação de hover/focus própria
+confirmada neste node — a interação real é drag-and-drop do canvas, fora
+de escopo de catálogo, ver `organism/OrganizeFreeModeCanvas.mdx`).
+reduced-motion não documentado no Figma; não aplicável (sem transição).
+
+## Terminologia
+
+Todos os rótulos (Junção/Interssecção/Exclusão/Subtração/Filtro/
+Auto-Archive/Resultado/Arquivos incluídos/Tamanho estimado/Regras
+aplicadas/Prévia de arquivos) são Figma-confirmados verbatim. Nenhum termo
+da lista proibida (Regra 5) se aplica.

@@ -55,6 +55,14 @@ export interface FileListProps extends React.ComponentProps<"div"> {
  * `format="list-sm"` usa `atom/Icon/ArrowRight` real (Figma-confirmado),
  * diferente do placeholder `lucide-react` usado anteriormente em
  * `organism/file-list-container`.
+ *
+ * Corrigido em 2026-08-15 (achado do usuário: nome do arquivo duplicado —
+ * uma vez em micro-texto sob o ícone, outra vez na coluna de nome da
+ * linha): o micro-nome do glifo só era desligado em `format="list-sm"`
+ * (`showName={!isSm}`); em `list`/`storage` ele ficava ligado, redundante
+ * com o `<span>{fileName}</span>` da própria linha. Desligado sempre — o
+ * micro-nome só faz sentido no ícone usado sozinho (grid), nunca composto
+ * dentro de uma linha que já mostra o nome.
  */
 function FileList({
   fileName,
@@ -82,7 +90,7 @@ function FileList({
       )}
       {...props}
     >
-      {showIcon ? <FileListArchiveItem name={fileName} showName={!isSm} /> : null}
+      {showIcon ? <FileListArchiveItem name={fileName} showName={false} /> : null}
       <span className="min-w-0 flex-1 truncate text-base text-brand-secondary-light">
         {fileName}
       </span>

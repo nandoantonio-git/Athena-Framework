@@ -12,65 +12,24 @@ Miniatura de arquivo (ícone de pasta + rótulo) usada como thumbnail em
 como thumbnail dentro de um card/grade, nunca como linha de lista (aí é
 `FileList`).
 
-**Status: ✅ aligned** — protocolo completo da Regra 11 aplicado nesta US
-(US-024): `get_design_context` real nos dois nodes.
-
-**Reverificado em auditoria de ponto-fixo (12ª passada, 2026-08-13):**
-`get_design_context` fresco nos nós `1439:19655`/`1439:19656` confirma o
-mesmo ícone de pasta (gradiente teal) + rótulo "Arquivo 1"/"Arquivo 3",
-`cursor-pointer` só no segundo. Achado lateral (não deste componente, ver
-`FolderCard.mdx`): quando os mesmos nomes de camada
-(`molecule/FileArchive1`/`2`) aparecem aninhados dentro de `FolderCard`, o
-glifo renderizado lá é visualmente o cartão-documento de `atom/ArchiveItem`,
-não a pasta — provável drift de instância no arquivo Figma entre o node
-"solto" (este componente) e a instância aninhada em `FolderCard`; cada
-implementação já reflete corretamente o que seu próprio node mostra.
-Achado material desta retomada: a miniatura renderizada media 44×38.9px,
-enquanto o Figma fresco confirma 45.675×40.405px. Corrigido para o tamanho
-literal do node.
-
 <Canvas of={FileArchiveStories.FileArchive1} />
 <Canvas of={FileArchiveStories.FileArchive2} />
 <Controls />
 
-## Por que um único componente para 2 nodes Figma
+## Um único componente para os dois nodes
 
-`get_design_context` nos dois nodes retorna a **mesma anatomia exata**
-(ícone de pasta 45.68×40.4 + rótulo 10px, gap 4px) e o **mesmo asset SVG**
-byte-a-byte (só o `id` interno do gradiente Figma difere, ruído de
-export). A única diferença de instância é conteúdo: rótulo ("Arquivo 1"
-vs. "Arquivo 3") e `cursor-pointer` no ícone do segundo. Implementar duas
-cópias da mesma marcação violaria a filosofia do projeto ("função em vez
-de classe duplicada") sem ganhar fidelidade — um componente
-`FileArchiveCard` com props `label`/`interactive` cobre os dois nodes.
+`FileArchive1` e `FileArchive2` têm a mesma anatomia (ícone de pasta +
+rótulo de 10px) e o mesmo asset visual — a única diferença é o conteúdo
+(rótulo de exemplo) e o segundo tem `cursor-pointer` (affordance de clique).
+Por isso um único componente `FileArchiveCard`, com props `label`/
+`interactive`, cobre os dois casos em vez de duplicar a marcação.
 
-## Checklist elemento-a-elemento (Regra 11)
+## Estados
 
-| Elemento Figma | Implementado | Fonte |
-| --- | --- | --- |
-| Ícone de pasta (gradiente teal, 45.675×40.405px, asset SVG) | ✅ `FolderArchiveGlyph.svg`, exportado real via `download_assets` | ✅ Figma-confirmado |
-| Rótulo, 10px, `var(--neutral-text-secondary,#3f3f46)` | ✅ `text-zinc-700` (zinc-700 = `#3f3f46` exato) | ✅ Figma-confirmado |
-| `cursor-pointer` no ícone (`FileArchive2`) | ✅ prop `interactive` | ✅ Figma-confirmado |
-
-## Estados (Regra 8)
-
-Elemento estático de exibição — sem estados interativos confirmados além
-do `cursor-pointer` de affordance em `FileArchive2`.
-
-## Material Liquid Glass
-
-Não aplicável.
+Elemento estático de exibição — o único estado interativo é o cursor de
+clique (`interactive`) no segundo caso.
 
 ## Terminologia
 
-Rótulo é conteúdo de exemplo ("Arquivo 1"/"Arquivo 3"), não termo de
-produto (Regra 5).
-
-## Reconciliação de `FolderCard` (US-024)
-
-`molecule/FolderCard` usava `lucide-react` (`FileTextIcon`) como
-placeholder documentado "até `FileArchive1`/`FileArchive2` existirem"
-(ver `FolderCard.mdx`). Mantido como estava nesta US — a troca do
-placeholder por `FileArchiveCard` real fica registrada como follow-up de
-baixa urgência, não incluída no escopo desta US (evitar mudança não
-solicitada num componente já implementado e testado).
+Rótulo é conteúdo de exemplo ("Arquivo 1"/"Arquivo 3"), não texto fixo de
+produto.

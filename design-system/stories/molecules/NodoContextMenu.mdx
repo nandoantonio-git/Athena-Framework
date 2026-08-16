@@ -9,120 +9,35 @@ import * as NodoContextMenuStories from './NodoContextMenu.stories';
 
 Painel flutuante de filtro/condição do nó selecionado no canvas de
 Organização em Modo Livre. Abre ao selecionar um `FreeModeItemNode` — não
-é um menu de contexto genérico de clique-direito.
-
-**Status: ✅ aligned (Figma-confirmado, US-016)** — protocolo completo da
-Regra 11 aplicado antes de marcar como verificado.
-
-**Releitura de 2026-08-12 (pass 3, 3ª auditoria de ponto-fixo)**:
-`get_design_context` reexecutado no nó `1440:23821`. Achado e corrigido um
-divergência nova de token de raio no toggle lógico "E"/"OU"
-(`nodo-context-menu.tsx`): o contêiner externo do toggle usava `rounded-lg`
-(`--radius-lg`, 10px) mas o Figma especifica `var(--radius-md,8px)`
-("Background+Border"); e as pílulas "E"/"OU" usavam `rounded-md`
-(`--radius-md`, 8px) mas o Figma especifica `var(--radius-sm,6px)`
-("Button"). Corrigido: contêiner → `rounded-md`, pílulas → `rounded-sm`.
-Reconferidos sem novas divergências: raio externo `2.375rem`/38px (já
-correto), toggle "E/OU" (hex bruto, ver achado abaixo), warning
-`text-destructive` (texto, não preenchimento — Regra 8 ok), rodapé
-"Descartar Mudanças"/"Salvar Mudanças". O achado do texto literal "Label"
-vs "Adicionar Regra" (abaixo) foi reverificado com uma nova chamada real de
-`get_design_context` nesta releitura: `get_design_context` **ainda** retorna
-o texto literal "Label" para `atom/buttonAdd` (confirmado de novo, tanto no
-código de referência quanto no screenshot), e o código **ainda** usa
-"Adicionar Regra" — ambiguidade genuína, continua não resolvida por
-inferência própria (Regra 9), mantida para decisão humana.
-
-**Retomada da 12ª passada ativa (2026-08-13)** — `get_design_context`
-fresco confirmou o ícone do título "Filtro" como SVG exportado em teal
-(`#007e96`, 15.111×15.193px). A implementação ainda usava `lucide-react`
-`Filter` em cinza (`zinc-700`). Corrigido para o asset real
-`NodoContextMenuFilter.svg`; as stories `Default`/`WrongInput`/`LogicalOr`
-foram recapturadas em `.audit-artifacts/us-026-active/`.
+é um menu de contexto genérico de clique-direito. Possibilita criar filtro
+e operações condicionais sobre o nó selecionado.
 
 <Canvas of={NodoContextMenuStories.Default} />
 <Controls />
 
-## Figma (Figma-confirmado)
+## Anatomia
 
-`get_design_context` no nó `1440:23821` retorna descrição verbatim: *"menu
-contextual do nodo selecionado presente no canva/tela de modo livre de
-templates. possibilita criar filtro e operações condicionais."* Eixo
-`state` confirmado no enum: `FloatingInfoPanel`\|`State3` — mapeados aqui
-para `state="floating-info-panel"`\|`state="state-3"`.
-
-Composição confirmada: título "Filtro" + ícone; linha de condição
-preenchida (`celule/nodoContextMenuItem`); toggle lógico "E"/"OU"; segunda
-linha de condição (nova regra); `atom/buttonAdd` ("+ Adicionar Regra");
-rodapé "Descartar Mudanças"/"Salvar Mudanças" (`atom/PushButton`, mesmo
-par de texto já Figma-confirmado em `organism/OrganizeFreeModeCanvas`).
+Título "Filtro" com ícone + linha de condição preenchida + toggle lógico
+"E"/"OU" entre condições + segunda linha de condição (nova regra) + botão
+"Adicionar Regra" + rodapé com "Descartar Mudanças"/"Salvar Mudanças".
 
 <Canvas of={NodoContextMenuStories.WrongInput} />
 <Canvas of={NodoContextMenuStories.LogicalOr} />
 
-## ⚠️ Achado da releitura de 2026-08-12 (Regra 11, US-026) — texto literal do `atom/buttonAdd`
+## Estado de erro
 
-Nesta releitura, `get_design_context` no nó `1440:23821` retorna o texto
-literal do `atom/buttonAdd` como **"Label"** (tanto no código de referência
-quanto no screenshot renderizado), não "Adicionar Regra". Mantido
-`"Adicionar Regra"` no código (não alterado nesta releitura) por dois
-motivos: (1) a própria descrição Figma-confirmada de `atom/buttonAdd`
-(`1421:20509`) cita explicitamente esse uso — *"...e no fluxo do criar
-template de organização modo livre ao adicionar novas regras de filtro no
-menu contextual do canva/tela"*; (2) precedente já registrado neste projeto
-em `molecule/radioButton` (`radio-button.tsx`), onde uma extração/rotulagem
-literal do Figma também divergia do nome semântico do node/variante, e a
-decisão travada foi confiar no nome/descrição do componente, não no texto
-literal renderizado. Ambiguidade genuína — não resolvida por inferência
-própria (Regra 9); registrada aqui para decisão humana e log central em
-`docs/conflicts.md`.
+Quando uma nova regra está incompleta, as pílulas da condição mostram um
+anel vermelho e aparece o aviso "Preencha todas as informações antes de
+adicionar a nova regra".
 
-## `state="state-3"` (Figma-confirmado)
+## Estados
 
-Mostra a 2ª linha de condição em `wrongInput` (pílulas com anel vermelho) +
-aviso Figma-confirmado verbatim: *"Preencha todas as informações antes de
-adicionar a nova regra"* + um 2º `atom/buttonAdd`.
-
-## Material Liquid Glass
-
-2 camadas confirmadas no Figma (Regra 10, ver `Tokens/Materials`): "Fill +
-Shadow" (`shadow-[0_8px_20px_rgba(0,0,0,0.12)]`) + "Glass Effect"
-(`effect-glass-white-50`, `mix-blend-screen`) — mesmo padrão de 2 camadas
-já usado em `organism/OrganizePanelDropZone`.
-
-## Estados (Regra 8)
-
-| Estado | Implementado | Fonte |
-| --- | --- | --- |
-| `floating-info-panel` (condição válida) | ✅ | ✅ Figma-confirmado |
-| `state-3` (nova regra em erro + aviso) | ✅ prop `state` | ✅ Figma-confirmado |
-| Toggle lógico E/OU | ✅ props `logicalOperator`/`onLogicalOperatorChange` | ✅ Figma-confirmado (texto "E"/"OU") |
-| Remover condição (`X`) | ✅ prop `onRemoveCondition` | ✅ Figma-confirmado (ícone de fechar na linha 1) |
-
-## 🧩 Inferido (Regra 9 — sem token Figma correspondente)
-
-O estado selecionado do toggle "E"/"OU" usa no Figma um hex bruto
-(`#92ccff`) sem variável semântica de tema — aproximado por `brand-teal`
-(mesmo tratamento de "selecionado" já usado em
-`DropdownSelectGroupBy`/`ViewModeToggle`). Registrado em
-`docs/conflicts.md`.
-
-## Fluid interface (Regra 8)
-
-Chevrons das pílulas internas giram via `transition-transform`
-(`celule/nodoContextMenuItem`), interruptível por construção.
-reduced-motion não documentado no Figma.
+- `floating-info-panel` — condição válida
+- `state-3` — nova regra em erro, com aviso
+- Toggle lógico E/OU
+- Remover condição
 
 ## Terminologia
 
-"Filtro"/"E"/"OU"/"Descartar Mudanças"/"Salvar Mudanças"/aviso de erro são
-texto Figma-confirmado. Nenhum termo da lista proibida (Regra 5) se
-aplica — vocabulário de construção de filtro, não de storage-tier.
-
-## Fidelidade code-level
-
-Ícone "Filtro" via SVG real exportado do Figma
-(`NodoContextMenuFilter.svg`). `X`/`Info` via `lucide-react`, por serem
-controles auxiliares já cobertos por componentes/ícones existentes.
-Composto por `celule/nodoContextMenuItem`, `atom/buttonAdd`,
-`atom/PushButton` — sem markup duplicado.
+"Filtro"/"E"/"OU"/"Descartar Mudanças"/"Salvar Mudanças" são vocabulário de
+construção de filtro, sem restrições de terminologia aplicáveis.

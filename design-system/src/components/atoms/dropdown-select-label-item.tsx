@@ -37,7 +37,7 @@ function DropdownSelectLabelItem({
       data-slot="dropdown-select-label-item"
       data-active={active || undefined}
       onClick={onClick}
-      className={cn("flex h-[18px] w-20 items-center justify-center rounded-[4px]", className)}
+      className={cn("flex h-[18px] w-fit min-w-20 items-center justify-center rounded-[4px]", className)}
       {...props}
     >
       <span
@@ -46,7 +46,7 @@ function DropdownSelectLabelItem({
           active ? "bg-[#6b6b6873]" : "hover:bg-[#71717a33]"
         )}
       >
-        <span className="flex w-[78px] shrink-0 items-center gap-1.5 truncate rounded-xl py-0.5 text-[0.625rem] text-zinc-700">
+        <span className="flex w-fit shrink-0 items-center gap-1.5 rounded-xl py-0.5 text-[0.625rem] whitespace-nowrap text-zinc-700">
           {label}
         </span>
       </span>

@@ -59,6 +59,7 @@ import SvgSettings2 from "@/assets/icons/Settings2.svg?react"
 import SvgShare from "@/assets/icons/Share.svg?react"
 import SvgBookmark from "@/assets/icons/Bookmark.svg?react"
 import SvgBookmarkBorder from "@/assets/icons/BookmarkBorder.svg?react"
+import SvgKeep from "@/assets/icons/Keep.svg?react"
 import SvgMenuBook from "@/assets/icons/MenuBook.svg?react"
 import SvgForum from "@/assets/icons/Forum.svg?react"
 import SvgSlideshow from "@/assets/icons/Slideshow.svg?react"
@@ -136,6 +137,7 @@ const ICONS = {
   Share: SvgShare,
   Bookmark: SvgBookmark,
   BookmarkBorder: SvgBookmarkBorder,
+  Keep: SvgKeep,
   MenuBook: SvgMenuBook,
   Forum: SvgForum,
   Slideshow: SvgSlideshow,

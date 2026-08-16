@@ -7,87 +7,37 @@ import * as PopoverNotificationStories from './PopoverNotification.stories';
 
 ## Uso
 
-Popover para notificar mudanças de estado (descrição Figma-confirmada
-verbatim: *"popover para notificar mudanças de estado, exemplo: uma
-organização criada."*). Distinto de `molecule/Notification` (`1439:19748` —
-ver `Molecules/Notification`), que é o toast avulso sem as 6 variantes. Use
-quando o usuário precisar abrir/revisar notificações recentes, não pra um
-toast que desaparece sozinho.
-
-**Status: ✅ aligned (Figma-confirmado, US-023)** — protocolo completo da
-Regra 11 aplicado antes de marcar como verificado.
-
-**Releitura de 2026-08-12 (pass 3, 3ª auditoria de ponto-fixo)**:
-`get_design_context` reexecutado no nó `1421:19626` para as 6 variantes —
-mesmo achado do `molecule/Notification`: wrapper usava `rounded-2xl`
-(`--radius-2xl`) mas o Figma especifica `var(--radius-xl,16px)`. Corrigido
-para `rounded-xl` em `popover-notification.tsx` (wrapper + camada de
-glass). Alturas (`59px`\|`66px`), textos por variante e o eixo `showImage`
-reconferidos via screenshot renderizado de todas as 7 stories, sem novas
-divergências.
+Popover para notificar mudanças de estado — por exemplo, uma organização
+criada. Distinto de `Notification`, que é o toast avulso sem as várias
+variantes. Use quando o usuário precisar abrir/revisar notificações
+recentes, não pra um toast que desaparece sozinho.
 
 <Canvas of={PopoverNotificationStories.Default} />
 <Controls />
 
-## Variantes (Figma-confirmado)
+## Variantes
 
-`get_design_context` no nó `1421:19626` retorna 6 variantes no eixo
-`variant`: `Notification`, `Adition`, `Variant3`, `collapsed`, `deeparchive`,
-`Variant6`. Nenhuma tem descrição própria distinguindo seu propósito além do
-texto/altura observados no screenshot renderizado (Regra 9):
-
-| Variante Figma | Prop | Altura | Texto |
-| --- | --- | --- | --- |
-| `Notification` | `variant="notification"` (default) | 59px | "Arquivo adicionado" |
-| `Variant6` | `variant="variant-6"` | 59px | "Arquivo adicionado" (idêntico a `Notification`) |
-| `Adition` | `variant="adition"` | 66px | "Arquivo adicionado" |
-| `deeparchive` | `variant="deep-archive"` | 66px | "Arquivos guardados com sucesso." |
-| `Variant3` | `variant="entering"` | 0 (opacity 0) | — |
-| `collapsed` | `variant="collapsed"` | 0 (overflow clip) | — |
+| Variante | Altura | Texto |
+| --- | --- | --- |
+| `notification` (padrão) | 59px | "Arquivo adicionado" |
+| `variant-6` | 59px | "Arquivo adicionado" |
+| `adition` | 66px | "Arquivo adicionado" |
+| `deep-archive` | 66px | "Arquivos guardados com sucesso." |
+| `entering` | animação de entrada (opacidade 0→1) | — |
+| `collapsed` | animação de recolhimento (altura 0) | — |
 
 <Canvas of={PopoverNotificationStories.Adition} />
 <Canvas of={PopoverNotificationStories.DeepArchive} />
-
-## 🧩 Inferido (Regra 9)
-
-`Variant3`/`collapsed` renderizam com altura 0 (e `Variant3` também
-`opacity:0`) no Figma — sem nenhuma outra variante do arquivo fonte definindo
-o que os diferencia de `Notification` além disso. Inferido como os estados
-de **entrada** (`entering`, opacity 0 → 1) e **saída/recolhimento**
-(`collapsed`, height auto → 0) de uma animação de popover (Regra 8) — não
-uma variante visível de repouso. Documentado, não confirmado pixel-a-pixel.
-`Variant6`/`Adition`/`deeparchive` também não têm descrição própria: mapeados
-literalmente pela altura/texto confirmados no `get_design_context`, sem
-inventar diferença semântica além disso.
-
 <Canvas of={PopoverNotificationStories.Entering} />
 <Canvas of={PopoverNotificationStories.Collapsed} />
 
-## Material Liquid Glass
+## Estados
 
-Ver spec completa em `Tokens/Materials` (Regra 10) — mesma aproximação de
-`molecule/Notification`: `bg-effect-glass-white-36` + sombra
-`Effect/Shadow/LG`. Não renderizada nas variantes `entering`/`collapsed`
-(altura zero).
-
-## Estados (Regra 8)
-
-| Estado | Implementado | Fonte |
-| --- | --- | --- |
-| Fechar (`X`) | ✅ prop `onClose` | ✅ Figma-confirmado (`atom/CloseButton`, ausente nas variantes transientes) |
-| Miniatura opcional | ✅ prop `showImage` | ✅ Figma-confirmado (eixo `showImage`) |
-| Entrada/saída (`entering`/`collapsed`) | ✅ props `variant` | 🧩 Inferido (Regra 9 — ver acima) |
-
-reduced-motion não documentado no Figma para as transições
-`entering`/`collapsed` — nota exigida pela Regra 8 repetida aqui (ver também
-`Tokens/Materials`).
+- Fechar (`onClose`) — ausente nas variantes transientes (`entering`/`collapsed`)
+- Miniatura opcional (`showImage`)
+- Entrada/saída (`entering`/`collapsed`)
 
 ## Terminologia
 
-"Arquivo adicionado"/"Arquivos guardados com sucesso."/"now" são texto
-Figma-confirmado. Nenhum termo da lista proibida (Regra 5) se aplica.
-
-## Fidelidade code-level
-
-Reusa `atom/CloseButton` (`1421:19008`) — mesmo átomo de
-`molecule/Notification`, sem markup duplicado.
+"Arquivo adicionado"/"Arquivos guardados com sucesso." são texto de
+produto.

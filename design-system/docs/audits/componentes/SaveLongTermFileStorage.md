@@ -1,0 +1,44 @@
+# SaveLongTermFileStorage — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/organisms/SaveLongTermFileStorage.mdx` em 2026-08-16. Node Figma: `1439:16907`.
+
+## Status
+
+🔧 corrigido em 2026-08-13 (US-026, pass12). Figma-confirmado por código-fonte (`get_design_context`, nó `1439:16907`; sem descrição própria consultada, mas título, copy e composição vêm diretamente do código gerado do nó, não são inferência). Releitura fresca em 2026-08-13 confirmou divergências materiais de dimensões/asset: root `700px`, coluna esquerda `270px` e close como `atom/CloseButton` exportado; a implementação usava `max-w-2xl`, `w-64` e glifo Lucide `X`. Corrigido agora. `SearchInput` mantém o placeholder aprovado do design system, preservando a exceção já trancada em `docs/conflicts.md`.
+
+Corrigido em auditoria Regra 11 (US-026): releitura real via `get_design_context` encontrou 2 elementos Figma-confirmados que a implementação anterior omitia por completo — a barra de busca (`molecule/SearchBar/Placeholder/XXL`, full-width, logo abaixo do subtítulo) e o glifo de arquivo em cada linha da coluna esquerda (`molecule/ArchiveBrowserModal/ListItem`, que já existe como componente reusável em `organism/ArchiveBrowserModal`). Ambos adicionados reusando os componentes já existentes (`SearchInput`, `ArchiveBrowserModalListItem`), sem reimplementação — screenshot renderizado confirmado batendo com o node real.
+
+Título verbatim "Guardar no longo prazo" (termo aprovado, Regra 5), copy "Por que guardar?", destino "Guardados" (`atom/Icon/Arquivar`) e nota de sufixo automático — todos Figma-confirmados literalmente. Este é o modal central do fluxo ao vivo "Guardar" — verificado sem nenhum termo proibido.
+
+## Composição (Regra 10)
+
+| Peça | Origem |
+| --- | --- |
+| `atom/Icon` (`name="Arquivar"`) | `Atoms/Icon` (US-004) |
+| `atom/PushButton` (`variant="neutral"`/`"primary"`) | `Atoms/PushButton` |
+| `molecule/SearchBar/Placeholder/XXL` | `SearchInput` (`Molecules/SearchInput`) — adicionado na auditoria Regra 11 |
+| `molecule/ArchiveBrowserModal/ListItem` (glifo + nome por linha) | `ArchiveBrowserModalListItem` (`Molecules/ArchiveBrowserModalListItem`) — adicionado na auditoria Regra 11 |
+
+`atom/buttonAdd` (`1421:20509`, "Adicionar arquivos") e `atom/Tag` (chips de arquivo selecionado) não são componentes próprios documentados ainda — reimplementados localmente como elementos simples.
+
+## Conflito de variantes (Regra 1)
+
+Verificado: "Cancelar"/"Continuar" usam `PushButton` com `variant` diferente — nenhum componente `button/primary`|`secondary`|`destructive` separado. Fluxo ao vivo real — a ausência de qualquer achado aqui é o resultado mais importante desta reconciliação para a Regra 1.
+
+## Estados e fluid interface (Regra 8)
+
+| Estado | Implementado |
+| --- | --- |
+| Lista de arquivos | ✅ prop `files`, renderização dinâmica |
+| Seleção/economia | ✅ props `selectedCount`/`savingsLabel` |
+| Disabled/Loading/Error | Não documentado no Figma neste nó |
+
+**reduced-motion**: não documentado no Figma; sem animação própria.
+
+## Material Liquid Glass
+
+Container usa `bg-effect-glass-white-70` — ver `Tokens/Materials` (Regra 10).
+
+## Terminologia
+
+"Guardar no longo prazo" e "Guardados" são termos aprovados/adjacentes à lista travada (Regra 5). Nenhum termo proibido encontrado.

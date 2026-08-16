@@ -1,0 +1,97 @@
+# ViewModeToggle — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/molecules/ViewModeToggle.mdx` em 2026-08-16. Node Figma: `molecule/view-mode-toggle`, `1421:19069`.
+
+## Status
+
+🆕 undocumented-until-now — não existia código nem story antes
+desta US. Não citado nominalmente em `AGENTS.md`, listado no inventário real
+(`docs/figma-inventory.md`, elementos soltos no canvas) com descrição Figma
+verbatim coletada nesta US.
+
+## Re-verificação (3ª passada, 2026-08-12)
+
+`get_design_context` real
+reexecutado nos 3 nós de variante (`1421:19069` Grid, `1421:19086` List,
+`1421:19102` Columns, fileKey `oFp2TLeCG4GJeCOFVhBvjg`); checklist
+item-a-item contra screenshots reais das 3 stories. **Achado crítico
+re-verificado: cor do texto selecionado segue `text-brand-teal-light`
+(`#c8dce3`) — confirmada correta, NÃO revertida para branco** em nenhuma das
+3 variantes (Grid/List/Columns), evidenciado por screenshot pós-passada.
+**Novo achado corrigido nesta passada**: o gap entre ícone e label dentro de
+cada botão usava `gap-1.5` (6px); as 3 leituras Figma confirmam
+consistentemente `gap-[var(--spacing-md,8px)]` (8px) nesse slot. Corrigido
+para `gap-2`. Observação não-acionável: as 3 leituras também mostram
+`drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)]` presente sempre no botão
+"Grid" especificamente (selecionado ou não), nunca em List/Columns —
+padrão inconsistente com estado de seleção, tratado como provável artefato
+de autoria do arquivo Figma (não um estado de seleção real) e não
+implementado, por não ser um elemento claramente confirmável como intenção
+de design (Regra 9).
+
+## Retomada da 12ª passada ativa (2026-08-13)
+
+Nova leitura com
+`get_design_context` confirmou SVGs próprios para Grid/List/Columns em
+estado ativo e inativo. A implementação ainda usava `lucide-react` por
+aproximação, contrariando a disciplina atual da Regra 11 para assets
+retornados pelo Figma. Corrigido para importar os 6 SVGs reais
+(`ViewMode*Active/Idle.svg`) e recapturado nas 3 stories.
+
+## Figma (Figma-confirmado)
+
+`get_design_context` no nó `1421:19069` retorna descrição verbatim:
+*"pilula de seleção do modo de vizualiçaõ do grid de arquivos"* (sic, typo
+no original). Modos confirmados por nome de variante:
+`ButtonGridView`\|`ButtonListView`\|`ButtonColumnsView`, rotulados no Figma
+como "Grid"/"List"/"Columns". Rótulo de seção **"VISUALIZAR"** é texto
+Figma-confirmado.
+
+Os glifos de cada modo (Grid/List/Columns) vieram como SVGs soltos no export
+do Figma, não como instâncias nomeadas de `atom/Icon/*` — implementados via
+assets reais exportados (`ViewModeGridActive/Idle`,
+`ViewModeListActive/Idle`, `ViewModeColumnsActive/Idle`), com tamanhos
+Figma-confirmados de 10.5×10.5, 10.5×5.833 e 10.485×8.167px.
+
+## Material Liquid Glass
+
+O fundo da pílula usa `var(--effect-glass-light-45)` (`#f7f7f773`,
+Figma-confirmado em `get_variable_defs` do nó) + `backdrop-blur-sm` como
+aproximação do "frost" — ver spec completa em `Tokens/Materials`. O blur
+exato (`Frost-Regular: 7`) não tem unidade CSS direta equivalente ao
+parâmetro nativo `GLASS` do Figma; `backdrop-blur-sm` é 🧩 inferido como a
+aproximação mais próxima disponível em Tailwind, não reimplementa a spec
+isoladamente (Regra 10).
+
+## Estados (Regra 8)
+
+| Estado | Implementado | Fonte |
+| --- | --- | --- |
+| Selecionado | ✅ `bg-zinc-600 text-brand-teal-light` no botão do modo ativo | ✅ Figma-confirmado (`get_design_context`, nó `1421:19069`): fundo `--neutral-surface-medium` (`#52525b` = `zinc-600` exato) + texto `--brand-primary-light` (`#c8dce3`, já mapeado como `brand-teal-light` neste projeto, achado US-013) — corrigido em 2026-08-12 (Regra 11, US-026), a versão anterior usava `text-white` puro, mais claro que o Figma |
+| Não selecionado | ✅ `text-zinc-700` | ✅ Figma-confirmado (`neutral-text-secondary` = `zinc-700`, mapeamento exato confirmado em `Tokens/Colors`) |
+| Hover | ✅ `hover:bg-zinc-600/10` no botão não selecionado | 🧩 Inferido — sem eixo `Hover` próprio confirmado neste component set |
+| Disabled | ❌ Não implementado | Sem eixo `Disabled` confirmado no export consultado — gap, não inventado (Regra 9) |
+| Loading/Error | ❌ Não aplicável | Seletor síncrono, sem operação assíncrona nem validação |
+
+## Fluid interface (Regra 8)
+
+- **Feedback no press**: sim — troca de fundo (`bg-zinc-600`) imediata ao
+  clique via `onModeChange`, sem atraso.
+- **Interruptibilidade**: sim, por construção — `transition-colors` CSS
+  nativa.
+- **reduced-motion**: **não documentado no Figma** — nenhuma variável
+  encontrada no nó consultado (Regra 8); única transição é de cor, não
+  afetada por `prefers-reduced-motion`.
+
+## Terminologia
+
+Rótulos "Grid"/"List"/"Columns" e "VISUALIZAR" são texto Figma-confirmado,
+em inglês/português misto no arquivo original — nenhum termo da lista
+proibida (Regra 5) aparece. Não fazem parte da lista de terminologia
+aprovada nem proibida (não são termos de storage-tier/produto), portanto
+sem CONFLICT a registrar.
+
+## Fidelidade code-level
+
+Ícones via SVGs reais exportados do Figma. Sem fallback `lucide-react` neste
+componente.

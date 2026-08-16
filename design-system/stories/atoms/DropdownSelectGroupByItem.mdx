@@ -9,64 +9,11 @@ import * as DropdownSelectGroupByItemStories from './DropdownSelectGroupByItem.s
 
 Item individual da pílula "Agrupar" (`DropdownSelectGroupBy`) — uma condição de agrupamento selecionável. Não é usado sozinho fora desse dropdown; é a peça que a `molecule/DropdownSelectGroupBy` compõe em lista.
 
-
-**Status: ✅ aligned** — protocolo completo da Regra 11 aplicado nesta US
-(US-019): `get_design_context` real no node (`skillNames=figma-design-to-code`),
-screenshot Figma comparado elemento-a-elemento contra o Storybook
-renderizado, nenhum elemento inventado.
-
-**Reverificado na 3ª passada de auditoria de ponto-fixo (US-026,
-2026-08-12):** protocolo completo da Regra 11 reaplicado do zero —
-nenhuma divergência nova encontrada.
-
 <Canvas of={DropdownSelectGroupByItemStories.Idle} />
 <Controls />
 
-## Figma (Figma-confirmado)
-
-Descrição verbatim: *"item da pilula de agrupar, no qual você seleciona a
-condição de agrupamento. Contem variavel de estados"*. Linha individual
-usada dentro da lista expandida de
-[`molecule/DropdownSelectGroupBy`](../molecules/DropdownSelectGroupBy.mdx)
-(`1421:18719`) — não existia como node próprio no `get_metadata` anterior
-(US-005), achado nesta US como componente dedicado.
-
 <Canvas of={DropdownSelectGroupByItemStories.AllStates} />
 
-## Checklist elemento-a-elemento (Regra 11)
+## Estados
 
-| Elemento Figma | Implementado | Fonte |
-| --- | --- | --- |
-| Container `104px`, `rounded-[4px]`, `px-[6px] py-[4px]` | ✅ `w-[104px] rounded-[4px] px-1.5 py-1` | ✅ Figma-confirmado |
-| Texto `10px` Figtree Regular, centralizado, `#3f3f46` | ✅ `text-[0.625rem] text-zinc-700` (match exato `zinc-700`=`#3f3f46`) | ✅ Figma-confirmado |
-| Estado `hover` — fundo `rgba(113,113,122,0.2)` | ✅ `hover:bg-[#71717a33]` | ✅ Figma-confirmado |
-| Estado `selected` — fundo `rgba(107,107,104,0.45)` | ✅ `bg-[#6b6b6873]` (prop `selected`) | ✅ Figma-confirmado |
-
-## Cor (Regra 3)
-
-`zinc-700` do Tailwind bate exatamente com `neutral-text-secondary`
-(`#3f3f46`) — sem aproximação. Os 2 fundos de estado (`hover`/`selected`)
-são cores literais do Figma sem token semântico correspondente no tema
-(paleta neutra suspensa, Regra 3) — mesmo tratamento já usado em
-`atom/Tag`/`atom/firstUploadSymbol`.
-
-## Estados (Regra 8)
-
-| Estado | Implementado | Fonte |
-| --- | --- | --- |
-| Idle | ✅ Sem fundo | ✅ Figma-confirmado |
-| Hover | ✅ `:hover` do browser (eixo real do Figma, mapeado para pseudo-classe nativa, convenção já usada em `atom/Tag`) | ✅ Figma-confirmado |
-| Selected | ✅ prop `selected` | ✅ Figma-confirmado |
-| Disabled/Loading/Error | ❌ Não aplicável | Sem eixo confirmado no node consultado |
-
-**reduced-motion**: não documentado no Figma; sem animação própria além de
-`transition-colors` nativo (não presente aqui — mudança de fundo é
-instantânea no export do node).
-
-## Material Liquid Glass
-
-Não aplicável — preenchimento de cor sólida, sem uso do material (Regra 10).
-
-## Fidelidade code-level
-
-Sem vetor customizado, sem asset exportado além do texto.
+`Idle` · `Hover` (via `:hover` nativo) · `Selected` (prop `selected`). Sem disabled/loading/error.

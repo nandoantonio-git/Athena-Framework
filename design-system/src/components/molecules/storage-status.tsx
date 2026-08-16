@@ -83,7 +83,7 @@ function StorageStatus({
         className={cn("flex w-full max-w-xs flex-col items-start gap-1", className)}
         {...props}
       >
-        <span className="w-fit rounded-md bg-brand-teal px-2 py-0.5 text-[0.5rem] text-brand-teal-light">
+        <span className="w-fit rounded-md border border-zinc-200 bg-zinc-100 px-2 py-0.5 text-[0.5rem] text-zinc-900">
           {SCOPE_LABEL["long-term"]}
         </span>
         <StorageBar tier="long-term" value={clamped} className="max-w-none" />

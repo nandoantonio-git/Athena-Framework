@@ -1,0 +1,51 @@
+# OrganizePanelDropZone — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/organisms/OrganizePanelDropZone.mdx` em 2026-08-16. Node Figma: `1421:18781`.
+
+## Status
+
+🔧 corrigido novamente em 2026-08-12 (US-026, 3ª passada de ponto-fixo) — Figma-confirmado, nó `1421:18781`, descrição verbatim: *"Painel de sandbox, onde o usuário pode arrastar o/os item/itens selecionados para serem usados no template. tem um bagde para identificar o formato de template selecionado e uma aba para nomear o template. e 2 botoes para confirmar ou cancelar a ação."* Eixos confirmados via `get_metadata`: `Mode` (Data|Projeto|Tipo) × `State` (Idle|Dragover|Filled) × `Quantity` (1–4, 16 variantes no total). Placeholder "Adicionar Nome" Figma-confirmado literalmente.
+
+Re-verificado em 2026-08-12 (US-026, 3ª passada): os 3 achados da 2ª passada seguem corretos — ícone real `atom/Icon/FolderOrganize` (cinza no idle, azul no dragover, ausente no filled), itens soltos reais (`ArchiveItem`/`ImageItem`) no `state="filled"`, e input do nome com `flex-1 min-w-0` (sem clipping em "Fotos do casamento"). Nenhuma regressão encontrada nesses 3 pontos.
+
+## Escopo reduzido (Regra 9)
+
+O drag-and-drop real (arrastar itens do canvas para dentro do painel) não é implementado nesta story — `state`/`quantity` só controlam o resultado visual estático (borda + itens soltos), não o gesto de arrastar em si. Reproduzir o D&D funcional está fora do escopo de uma story de documentação estática.
+
+Corrigido em 2026-08-12 (US-026, releitura de ponto-fixo): a variante `Quantity` (1–4 itens) agora é implementada via prop `quantity` — `state="filled"` renderiza os itens soltos reais (`atom/ArchiveItem`/`atom/ImageItem`, já auditados), não mais um painel vazio. Faltava totalmente até esta releitura (o comentário da correção de 2026-08-11 já citava "dá lugar aos itens soltos" mas só removia o ícone, sem adicionar os itens — gap descoberto nesta auditoria). Nova story `Filled` adicionada.
+
+Corrigido em 2026-08-12 (US-026, 3ª passada de ponto-fixo). O texto do badge `atom/TagOrgMode` ("Data"/"Projeto"/"Tipo") usava `text-brand-teal-foreground/80` (branco a 80%) — `get_design_context` fresco confirma `var(--brand-primary-light,#c8dce3)` (mesmo hex de `brand-teal-light`) a 13px, não branco. Corrigido para `text-brand-teal-light` + `text-[0.8125rem]`.
+
+Corrigido em 2026-08-13 (US-026, pass12). Releitura fresca do nó confirmou novamente o frame 560×772 para cada variante do component set e o `atom/Icon/FolderOrganize` central em 184×184, posicionado a `top:260px`. A story pública renderizava uma versão 320×420 e reduzia o ícone para 64×64 sem exceção humana registrada. O root foi corrigido para `w-[560px] h-[772px]` e o ícone voltou ao tamanho/posição Figma-confirmados, preservando os estados, itens soltos e botões já auditados.
+
+## Composição (Regra 10)
+
+`atom/TagOrgMode` (`1421:18769`, badge do modo) e `atom/TagOrgTemplateName` (`1421:18778`, input do nome) não são componentes próprios documentados — reimplementados localmente como `<span>`/`<input>`. `atom/PushButton` ("Cancelar"/"Continuar") reaproveitado de `Atoms/PushButton`.
+
+Corrigido em 2026-08-12 (US-026, releitura de ponto-fixo). O input do nome tinha `w-40` fixo — nomes de template mais longos que o placeholder ("Fotos do casamento", usado na story `NamedTemplate`) ficavam recortados (clipping real, sem elipse). Trocado para `flex-1 min-w-0` (o Figma real também não fixa largura nesse badge — cresce com o conteúdo).
+
+Corrigido em 2026-08-11 (mesma releitura fixed-point). O ícone central usava o glifo aproximado `lucide-react` `FolderTree` — o Figma real (`atom/Icon/FolderOrganize`) é um ícone distinto (pasta + seta), exportado via `download_assets` para `src/assets/icons/FolderOrganize{,Active}.svg` (2 arquivos reais — cinza `#6b6b68` no `idle`, azul `#92ccff` no `dragover`, não um único ícone `currentColor`). Também estava sendo renderizado em todos os estados; Figma só o mostra em `Idle`/`Dragover` — corrigido para não renderizar em `state="filled"`.
+
+## Conflito de variantes (Regra 1)
+
+Nenhum componente `button/primary`|`secondary`|`destructive` separado.
+
+## Estados e fluid interface (Regra 8)
+
+| Estado | Implementado |
+| --- | --- |
+| Idle/Dragover | ✅ prop `state`, `data-[state=dragover]:ring-2` |
+| Filled | ✅ prop `state="filled"` + `quantity` (itens soltos reais) |
+| Disabled/Loading/Error | Não documentado no Figma |
+
+**reduced-motion**: não documentado no Figma.
+
+## Material Liquid Glass
+
+Container usa `bg-effect-glass-white-70` (camada "Fill + Shadow", fixa) + uma segunda camada "Glass Effect" que muda por `state` — `effect-glass-white-36` em `filled`, ou `effect-glass-dark-20` sob `effect-glass-white-36` em `idle`/`dragover` — ver `Tokens/Materials` (Regra 10).
+
+Corrigido em 2026-08-11 após achado do usuário — auditoria anterior não seguia a Regra 11. A versão anterior só tinha a camada "Fill + Shadow" (`effect-glass-white-70`), sem a segunda camada "Glass Effect" que o Figma confirma mudar por estado — e o anel de foco do `dragover` usava `brand-teal` em vez do azul de sistema Figma-confirmado (`rgba(0,122,255,*)`). Ambos corrigidos via novo `get_design_context` no node real.
+
+## Terminologia
+
+Nenhum termo proibido; "Data"/"Projeto"/"Tipo" são rótulos de modo, não prosa de produto.

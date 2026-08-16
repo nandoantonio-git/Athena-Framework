@@ -7,76 +7,24 @@ import * as CleanSpaceStorageStories from './CleanSpaceStorage.stories';
 
 ## Uso
 
-Modal do fluxo "Liberar Espaço" — lista arquivos grandes/duplicados pra o usuário liberar espaço. Abre a partir do botão "Liberar Espaço" (Armazenamento/Config. de Plano) ou "Gerir Espaço" (Sidebar) — mesmo modal, gatilhos com nomes diferentes por contexto (Regra 5).
-
-
-**Status: ✅ aligned** — Figma-confirmado, nó `1439:16908`, descrição
-verbatim: *"modal que abre em overlay ao selecionar a opção de liberar
-espaço. nele você pode otimizar seu espaço com arquivos grande e
-duplicados, economizando espaço."* Título visível **Figma-confirmado em
-2026-08-10**: **"Liberar Espaço"**. **Re-verificado 2026-08-12 (passe 3,
-ponto-fixo)**: título, botões "Excluir"/"Excluir cópias" (texto-apenas
-em `--brand-feedback-danger-default`, nunca fundo vermelho) e
-`atom/StorageTierBadge` (2 variantes, `w-[84px]` fixo) seguem
-Figma-confirmados. **Reverificado na US-026 pass12:** `get_design_context`
-fresco neste nó também confirma os ícones de lixeira nos botões destrutivos;
-a implementação já usa `Trash2` antes de "Excluir"/"Excluir cópias".
+Modal do fluxo "Liberar Espaço" — lista arquivos grandes/duplicados pra o usuário liberar espaço. Abre a partir do botão "Liberar Espaço" (Armazenamento/Config. de Plano) ou "Gerir Espaço" (Sidebar) — mesmo modal, gatilhos com nomes diferentes por contexto.
 
 <Canvas of={CleanSpaceStorageStories.Default} />
 <Controls />
 
-## Regra 5 — resolvida em 2026-08-10 (ver `docs/conflicts.md`)
+## Composição
 
-Este é o modal aberto pelo botão "Liberar Espaço" (termo aprovado no
-contexto de Armazenamento/Config. de Plano, ver `Sidebar.mdx`/
-`StorageSidebar.mdx`). O título deste modal foi atualizado pelo usuário
-diretamente no Figma para **"Liberar Espaço"** — o título anterior (verbo
-"Limpar" em vez de "Liberar") fica proibido como texto visível (Regra 5).
+Tags de tier reusam `atom/StorageTierBadge` em vez de markup duplicado — rótulos "Acesso rápido"/"Longo prazo". Botões "Excluir"/"Excluir cópias" usam `atom/PushButton` (`variant="neutral"`, `isDestructive`) — chrome neutro/glass, só o texto na cor de destrutivo, nunca fundo vermelho. "Selecionar todos" usa `variant="primary"`; "Desfazer seleção" fica `disabled` (estado lido/neutro).
 
-## Composição (Regra 10)
+## Estados
 
-Tags de tier reusam `atom/StorageTierBadge` (`1457:21014`, ver
-`Atoms/StorageTierBadge.mdx`) em vez de markup duplicado — rótulos
-aprovados "Acesso rápido"/"Longo prazo" (Regra 5), Figma-confirmados neste
-componente (`Tag_Corrente` internamente no Figma, mas o texto renderizado
-nas linhas de exemplo é "Acesso rápido"). Botões "Excluir"/"Excluir
-cópias" usam `atom/PushButton` (`variant="neutral"`, `isDestructive`) —
-chrome neutro/glass, só o texto na cor `--destructive`. "Selecionar todos"
-usa `variant="primary"`; "Desfazer seleção" fica `disabled` (estado
-lido/neutro).
+- Seleção de arquivos: checkboxes + "Selecionar todos"/"Desfazer seleção"
+- Prévia de duplicados: badge "Prévia" com aviso de que a detecção é ilustrativa — os grupos de duplicados mostrados são exemplos, não uma detecção real
 
-**Nota de cor do ícone de arquivo:** a auditoria anterior registrou uma
-leitura conflitante entre este organism e o celule
-`cleanSpaceStorage/listSelection`. A decisão travada em
-[`docs/conflicts.md`](../../docs/conflicts.md) é preservar o azul
-Figma-confirmado no nó real do celule (`#2b7fff` sobre
-`rgba(43,127,255,0.1)`) e tratar a leitura teal como erro pontual de lote.
-US-026 pass12 não reabre essa exceção.
+## Material
 
-## Conflito de variantes (Regra 1)
-
-Nenhum `button/primary`\|`secondary`\|`destructive` como componente
-separado.
-
-## Estados e fluid interface (Regra 8)
-
-| Estado | Implementado |
-| --- | --- |
-| Seleção de arquivos | ✅ checkboxes + "Selecionar todos"/"Desfazer seleção" |
-| Prévia de duplicados | ✅ badge "Prévia" + aviso de que a detecção é ilustrativa (Figma-confirmado: *"Detecção de duplicados ainda não existe de verdade, os grupos abaixo são exemplos ilustrativos."*) |
-| Disabled/Loading/Error | Não documentado no Figma |
-
-**reduced-motion**: não documentado no Figma; sem animação própria além de
-scroll nativo.
-
-## Material Liquid Glass
-
-Container e seções usam `bg-effect-glass-white-70` — ver
-`Tokens/Materials` (Regra 10).
+Container e seções usam o material Liquid Glass — ver [Tokens/Materials](../tokens/Materials.mdx).
 
 ## Terminologia
 
-"Acesso rápido"/"Longo prazo" ✅ aprovados. "Liberar Espaço" ✅ aprovado
-(Regra 5, contexto de Armazenamento/Config. de Plano). O título anterior
-deste nó (verbo "Limpar" em vez de "Liberar") está proibido como texto
-visível.
+"Acesso rápido"/"Longo prazo" e "Liberar Espaço" são termos aprovados neste contexto (Armazenamento/Config. de Plano).

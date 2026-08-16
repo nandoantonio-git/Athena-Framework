@@ -109,7 +109,7 @@ function Sidebar({
     <nav
       data-slot="sidebar"
       className={cn(
-        "relative flex w-60 flex-col gap-4 rounded-2xl border border-zinc-200 bg-effect-glass-surface-light px-4 pt-1 pb-4 backdrop-blur-md",
+        "relative flex w-72 flex-col gap-4 rounded-2xl border border-zinc-200 bg-effect-glass-surface-light px-4 pt-1 pb-4 backdrop-blur-md",
         className
       )}
       {...props}

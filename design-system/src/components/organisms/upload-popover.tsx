@@ -57,6 +57,17 @@ export interface UploadPopoverProps extends React.ComponentProps<"div"> {
  * seconds left", "IN PROGRESS") — inconsistente com o restante da página,
  * que é em português. Este componente usa a tradução direta ("Enviando N
  * arquivos" etc.), nunca o texto literal do Figma.
+ *
+ * Corrigido em 2026-08-15 (achado do usuário: "a barra de status é o
+ * preenchimento do card") — releitura confirmou uma camada inteira que
+ * faltava: além da barrinha fina de "Em andamento", o card tem um overlay
+ * de fundo (`data-name="Overlay"`, `rgba(107,107,104,0.1)`) que preenche
+ * da esquerda até a % de progresso, atrás de todo o conteúdo — não uma
+ * segunda barra, é o próprio card que "se preenche dinamicamente conforme
+ * status de upload" (descrição Figma verbatim). Estava totalmente ausente
+ * da implementação anterior (só a barrinha existia). Adicionado como
+ * `<div>` absoluto com `width: {percent}%`, atrás do conteúdo (`z-0`
+ * implícito por ordem no DOM).
  */
 function UploadPopover({
   fileCount,
@@ -78,12 +89,18 @@ function UploadPopover({
       data-slot="upload-popover"
       role="status"
       className={cn(
-        "flex w-96 flex-col gap-3 rounded-xl border border-zinc-200 bg-effect-glass-white-70 p-6 shadow-lg backdrop-blur-md",
+        "relative flex w-96 flex-col gap-3 overflow-hidden rounded-xl border border-zinc-200 bg-effect-glass-white-70 p-6 shadow-lg backdrop-blur-md",
         className
       )}
       {...props}
     >
-      <div className="flex items-center justify-between">
+      <div
+        aria-hidden="true"
+        data-slot="upload-popover-fill"
+        className="absolute inset-y-0 left-0 bg-zinc-500/10 transition-[width]"
+        style={{ width: `${clamped}%` }}
+      />
+      <div className="relative flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="relative grid size-6 shrink-0 place-items-center text-brand-teal">
             <svg aria-hidden="true" viewBox="0 0 24 24" className="absolute inset-0 size-6 -rotate-90">
@@ -147,7 +164,7 @@ function UploadPopover({
         </div>
       </div>
       {files.length > 0 ? (
-        <>
+        <div className="relative flex flex-col gap-3">
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between text-[0.625rem] font-bold tracking-wide text-zinc-400 uppercase">
               <span>Em andamento</span>
@@ -170,7 +187,7 @@ function UploadPopover({
               </li>
             ))}
           </ul>
-        </>
+        </div>
       ) : null}
     </div>
   )

@@ -1,0 +1,74 @@
+# ThumbnailLarge — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/molecules/ThumbnailLarge.mdx` em 2026-08-16. Node Figma: `molecule/thumbnail-large`, `1421:19570`.
+
+## Descrição Figma verbatim
+
+*"thumbnail/pre-visualização do arquivo selecionado no painel detalhes
+presente no formato de visualização coluna."*
+
+## Status
+
+✅ aligned (Figma-confirmado, US-023) — protocolo completo da
+Regra 11 aplicado antes de marcar como verificado.
+
+## Re-verificação (3ª passada, 2026-08-12)
+
+`get_design_context` real
+reexecutado no nó `1421:19570` (fileKey `oFp2TLeCG4GJeCOFVhBvjg`); checklist
+item-a-item contra screenshots reais das stories `Default`/`Document`.
+**Achado corrigido nesta passada**: o rótulo `pageLabel` ("Page 1 of 12")
+usava `text-zinc-600` (`#52525b`), divergindo visivelmente do hex literal
+confirmado no Figma para esse texto (`#3e484c`) — que é muito mais próximo
+de `zinc-700` (`#3f3f46`, já usado para o nome do arquivo no mesmo header).
+Corrigido `pageLabel` para `text-zinc-700`, igualando a cor ao nome do
+arquivo como no Figma. Demais itens do checklist (borda `brand-teal-light`,
+fundo `effect-glass-white-36`, ícones de favicon, degradê, dimensões)
+conferem sem divergência.
+
+## Retomada da 12ª passada ativa (2026-08-13)
+
+`get_design_context`
+fresco confirmou que o nome interno do favicon (`"Arquivo 1"`/`"Arquivo 2"`)
+fica recortado dentro da subcamada `favincon/ArchiveFormats` e **não é
+visível** no screenshot Figma. A implementação renderizava esse nome como
+texto visível no header. Corrigido para exibir só o favicon + `"Page 1 of
+12"` nas duas variantes; `fileName` permanece prop compatível, mas não
+altera o visual confirmado.
+
+## Figma (Figma-confirmado)
+
+`get_design_context` no nó `1421:19570` retorna 2 variantes no eixo
+`fileTypeIcon`: `Image`\|`Document`. Header com favicon de tipo
+(`favincon/ArchiveFormats`, `1444:21914`) + `"Page 1 of 12"`, sobre fundo
+`neutral-surface-background` (`#f3f3f3`, aproximado por
+`zinc-100`); corpo com a pré-visualização (imagem real exportada do Figma
+via `download_assets`, não um placeholder inventado) + degradê sutil por
+cima.
+
+## Material Liquid Glass
+
+Fundo do corpo (`effect-glass-white-36`, Figma-confirmado idêntico ao token
+do tema `bg-effect-glass-white-36`) — ver spec completa em
+`Tokens/Materials` (Regra 10).
+
+## Estados (Regra 8)
+
+Nó estático (pré-visualização de arquivo) — sem estados hover/active/
+loading/error documentados no Figma para este componente (gap, Regra 9, não
+inventado). reduced-motion não aplicável (sem animação).
+
+## 🧩 Inferido (Regra 9)
+
+Favicon "dá feedback visual no header do card para o usuário acerca do tipo
+de documento" (descrição verbatim de `favincon/ArchiveFormats`) — glifo
+vidro/gradiente exportado fielmente para os 2 tipos confirmados
+(`Image`/`Document`); outros tipos de arquivo (vídeo, etc.) mencionados na
+descrição não têm variante própria confirmada neste nó, não implementados
+por especulação.
+
+## Terminologia
+
+"Page 1 of 12" é texto Figma-confirmado literal em inglês (mesma
+inconsistência de idioma já registrada para `organism/upload-popover` em
+`docs/conflicts.md`). Nenhum termo da lista proibida (Regra 5) se aplica.

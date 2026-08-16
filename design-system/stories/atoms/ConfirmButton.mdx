@@ -9,66 +9,21 @@ import * as ConfirmButtonStories from './ConfirmButton.stories';
 
 Ícone-botão sem chrome de borda pra **confirmar** uma ação (ex.: aceitar uma sugestão, validar um campo). Par funcional do `ClearButton` — normalmente aparecem juntos (confirmar/cancelar) num mesmo contexto de edição inline.
 
-
-Ícone-botão para funções de confirmar — sem chrome de borda, alvo de clique
-independente do `PushButton`.
-
-**Status: ✅ aligned (estrutura)** · **⚠️ gap de documentação Figma aberto — urgência
-baixa** (`On`/`Idle` não distinguidos, ver `docs/conflicts.md`) —
-nó `1421:17747`, descrição Figma verbatim: *"icone
-usado em funções de confirmar"* (ícone base "check": *check, confirm,
-correct, disable_ios, done, enter, mark, ok, okay, select, tick, yes*).
-
-**Reverificado na 3ª passada de auditoria de ponto-fixo (US-026,
-2026-08-12):** protocolo completo da Regra 11 reaplicado do zero —
-nenhuma divergência nova encontrada.
-
-🔧 **Corrigido na 12ª passada ativa (US-026, 2026-08-13):** `get_design_context`
-fresco reconfirmou o contêiner Figma de 16×16 para o glifo `check`; o
-wrapper compartilhado renderizava o SVG em 20×20. O alvo de toque invisível
-continua 32×32 por acessibilidade, mas o glifo visual agora usa 16×16 e
-`Disabled` default usa opacidade 20%, como no component set.
-
-🔧 **Corrigido em auditoria US-026 (2026-08-11, Regra 11.4):** o botão
-herdava um círculo de fundo cinza no hover/active via `IconActionButton`
-— nenhum estado Figma-confirmado (`Default`/`Idle`/`Clicked`/`Disabled` em
-`Default`/`White`/`Primary`) tem fundo, só o glifo isolado com
-cor/opacidade variando. Elemento inventado removido.
-
 <Canvas of={ConfirmButtonStories.Default} />
 <Controls />
 
-## Regra 1 — não é conflito
+## Variantes de cor
 
-Mesma justificativa de `Atoms/DeleteButton` — achado #11, `figma-inventory.md`.
-
-## Estados
-
-`style` Figma-confirmado: `Default`|`Primary`|`White` — implementado 1:1.
-`state` Figma-confirmado: `On`|`Idle`|`Clicked`|`Disabled`, mesma ressalva
-de `On`/`Idle` não distinguidos (gap, Regra 9).
+`style`: `Default` · `Primary` · `White`.
 
 <Canvas of={ConfirmButtonStories.Primary} />
 <Canvas of={ConfirmButtonStories.White} />
 <Canvas of={ConfirmButtonStories.Disabled} />
 
-Loading/Error: ❌ ausentes no enum `State` do Figma — não inventados.
+## Estados
 
-## Fluid interface (Regra 8)
-
-Mesmo padrão de `DeleteButton`: feedback de press via
-`motion-safe:active:scale-90`, transições CSS nativas interruptíveis.
-reduced-motion não documentado no Figma.
-
-## Material Liquid Glass
-
-Não aplicável.
+`Idle` · `Clicked` (feedback via `scale-90`) · `Disabled`. Sem loading/error.
 
 ## Terminologia
 
-Não renderiza texto visível (`aria-label="Confirmar"`) — não se aplica.
-
-## Fidelidade code-level
-
-Glifo `ConfirmButtonGlyph.svg` exportado do Figma; não usa aproximação por
-`lucide-react`.
+Não renderiza texto visível — `aria-label="Confirmar"`.

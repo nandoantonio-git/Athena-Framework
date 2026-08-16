@@ -37,6 +37,22 @@ const BACKGROUND: Record<SelectStateTheme, Partial<Record<SelectStateStateValue,
  * de 1 confirmados no node (os nomes das variáveis Figma de origem,
  * `--radius-3xl`/`--radius-20`, são um reaproveitamento de nome sem relação
  * com raio — só os valores numéricos 0.32/0.2 são reais).
+ *
+ * Corrigido em 2026-08-15 (achado do usuário, reportado como "check
+ * quebrado" em `ArchiveItem`/`FolderItem`/`ImageItem`/`VideoItem`, que só
+ * compõem este átomo): `select-state-check.svg` tem
+ * `viewBox="0 0 4.3975 3.3525"` e `preserveAspectRatio="none"` — o glifo
+ * forçado num box quadrado (`size-3`) esticava de forma não-uniforme,
+ * distorcendo o check numa forma angular sem semelhança com um check.
+ * Corrigido preservando a proporção real 4.3975:3.3525.
+ *
+ * Ajuste de tamanho em 2026-08-15 (decisão humana, não Figma-confirmado):
+ * o comentário original tratava o check 12px excedendo a caixa do círculo
+ * 8px como intencional ("por design"), mas visualmente ficava sem respiro
+ * nenhum — check colado/estourando a borda. Reduzido pra caber dentro do
+ * círculo com padding interno mínimo (`w-1.5 h-[4.57px]`, ~1px de folga
+ * de cada lado), sobrepondo a leitura anterior por pedido direto do
+ * usuário.
  */
 function SelectState({
   theme = "light",
@@ -66,7 +82,7 @@ function SelectState({
         alt=""
         aria-hidden="true"
         className={cn(
-          "absolute top-1/2 left-1/2 size-3 -translate-x-1/2 -translate-y-1/2",
+          "absolute top-1/2 left-1/2 h-[4.57px] w-1.5 -translate-x-1/2 -translate-y-1/2",
           checkOpacity
         )}
         src={check}

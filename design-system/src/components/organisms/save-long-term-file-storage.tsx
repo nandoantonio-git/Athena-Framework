@@ -49,6 +49,15 @@ export interface SaveLongTermFileStorageProps extends React.ComponentProps<"div"
  * root `w-[700px]`, coluna esquerda `w-[270px]` e close como
  * `atom/CloseButton` exportado; a implementação usava `max-w-2xl`, coluna
  * `w-64` e glifo Lucide `X`.
+ *
+ * Corrigido em 2026-08-15 (achado do usuário: material glass ausente pra
+ * segregar a coluna esquerda) — a coluna de seleção de arquivos usava
+ * `bg-effect-glass-white-70`, o mesmo token do card raiz, ficando
+ * indistinguível do fundo. Trocado para `bg-effect-glass-white-36` +
+ * borda sutil (`border-zinc-200`), mesmo par usado nos painéis internos
+ * de `organism/OrganizePanel/DropZone` e `organism/cleanSpaceStorage`
+ * (Regra 10 — camada -70 pro card externo, -36 pro painel aninhado, ver
+ * `Tokens/Materials`).
  */
 function SaveLongTermFileStorage({
   files,
@@ -80,7 +89,7 @@ function SaveLongTermFileStorage({
       </div>
       <SearchInput className="w-full max-w-none" />
       <div className="flex gap-8">
-        <div className="flex w-[270px] flex-col gap-3 rounded-md bg-effect-glass-white-70 p-3">
+        <div className="flex w-[270px] flex-col gap-3 rounded-md border border-zinc-200 bg-effect-glass-white-36 p-3">
           {files.map((file) => (
             <ArchiveBrowserModalListItem key={file.name} fileName={file.name} meta={file.meta} />
           ))}

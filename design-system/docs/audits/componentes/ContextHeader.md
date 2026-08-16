@@ -1,0 +1,75 @@
+# ContextHeader — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/molecules/ContextHeader.mdx` em 2026-08-16. Node Figma: `molecule/context-header`, `1421:19589`.
+
+## Descrição Figma verbatim
+
+*"header de contexto para dar feedback de quantos itens estão sendo
+selecionados"*.
+
+## Status
+
+✅ aligned (Figma-confirmado, US-023) — protocolo completo da
+Regra 11 aplicado antes de marcar como verificado.
+
+## Reverificado em auditoria de ponto-fixo (12ª passada, 2026-08-13)
+
+`get_design_context` fresco no nó `1421:19589` + screenshot Storybook
+(`Default`/`Collapsed`) comparados elemento-a-elemento — botão limpar, texto
+"X itens selecionado", divisor, 5 ícones de ação e material Liquid Glass
+batem. Achado material desta retomada: a story usava "3 itens selecionados"
+como exemplo, divergindo do literal Figma-confirmado. Corrigido para o texto
+literal. O CONFLICT já registrado (Manrope vs Figtree,
+`docs/conflicts.md`) continua presente e não foi alterado.
+
+## Figma (Figma-confirmado)
+
+`get_design_context` no nó `1421:19589` retorna: botão limpar seleção
+(glifo `clear`, mesmo ícone base de `atom/ClearButton`) + contador de itens
++ divisor vertical + 5 ações (`atom/Icon/ShareFile`, ícone de baixar sem
+nome próprio no Figma, `atom/Icon/FileMoveRight`, `atom/DeleteButton`,
+`atom/Icon/Settings2`).
+
+## Estados (Regra 8)
+
+| Estado | Implementado | Fonte |
+| --- | --- | --- |
+| `expanded` | ✅ (default) | ✅ Figma-confirmado |
+| `collapsed` (altura/opacidade zeradas) | ✅ prop `state` | 🧩 Inferido como saída/recolhimento — ver abaixo |
+| Limpar seleção / ações | ✅ `onClear`/`onShare`/`onDownload`/`onMove`/`onDelete`/`onMoreOptions` | ✅ Figma-confirmado (glifos presentes) |
+
+reduced-motion não documentado no Figma para a transição `collapsed`.
+
+## ⚠️ CONFLICT — Regra 4 (ver `docs/conflicts.md`)
+
+O rótulo do contador (`"X itens selecionado"`) usa `Manrope:Medium` no
+Figma — a Regra 4 trava Figtree como tipografia única do design system.
+Implementado com Figtree (`font-sans`), não Manrope, sem resolver o conflito
+silenciosamente (registrado em `docs/conflicts.md`).
+
+## 🧩 Inferido (Regra 9)
+
+Cor de texto/ícones (`#001f27`, sem token Figma semântico) aproximada por
+`zinc-800` (Regra 3, fallback de rampa Zinc). Ícone de "baixar" não tem nome
+`atom/Icon/*` próprio no Figma (camada `Button` genérica) — glifo real
+exportado via `download_assets` confere com o significado "download"
+(seta para baixo entrando numa bandeja), reaproveitado do `atom/Icon`
+existente (`name="Download"`, já uma cópia fiel de um vetor exportado do
+Figma) em vez de inventar um novo ícone.
+
+## Terminologia
+
+"X itens selecionado" é texto Figma-confirmado literal (inclui a
+inconsistência gramatical do próprio Figma — singular "selecionado" mesmo
+com contagem plural — preservado, Regra 9). Nenhum termo da lista proibida
+(Regra 5) se aplica.
+
+## Fidelidade code-level
+
+Botão "Excluir" reusa o glifo `DeleteButtonGlyph.svg` (mesmo SVG-fonte de
+`atom/DeleteButton`) sem o chrome de botão circular de 32px — no Figma real
+esse ícone aparece como glifo compacto dentro do toolbar, não como o
+`atom/DeleteButton` avulso de 32px usado em outros contextos (ex.:
+`organism/cleanSpaceStorage`). Mesmo tratamento já usado por
+`molecule/nodoContextMenu` para seu próprio ícone de remover (glifo inline,
+não o átomo padded).

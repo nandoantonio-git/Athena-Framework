@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import { PushButton } from "@/components/atoms/push-button"
 import { ArchiveItem } from "@/components/atoms/archive-item"
 import { ImageItem } from "@/components/atoms/image-item"
+import { TagOrgTemplateName } from "@/components/atoms/tag-org-template-name"
 import FolderOrganizeGlyph from "@/assets/icons/FolderOrganize.svg?react"
 import FolderOrganizeActiveGlyph from "@/assets/icons/FolderOrganizeActive.svg?react"
 
@@ -120,12 +121,10 @@ function OrganizePanelDropZone({
       ) : null}
       <div className="relative flex items-center justify-between gap-2">
         <span className="rounded-md bg-zinc-600 px-3 py-1.5 text-[0.8125rem] text-brand-teal-light">{mode}</span>
-        <input
-          type="text"
+        <TagOrgTemplateName
           value={templateName}
           onChange={(event) => onTemplateNameChange?.(event.target.value)}
-          placeholder="Adicionar Nome"
-          className="min-w-0 flex-1 rounded-md bg-zinc-500/40 px-3 py-1.5 text-right text-base text-zinc-900 placeholder:text-zinc-800 focus-visible:outline-none"
+          className="ml-auto text-right"
         />
       </div>
       {isFilled ? (

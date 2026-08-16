@@ -1,0 +1,54 @@
+# FaqInfoCardCollapsed — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/organisms/FaqInfoCardCollapsed.mdx` em 2026-08-16. Node Figma: `1454:22003`.
+
+## Status
+
+✅ aligned — Figma-confirmado nesta US (US-013, releitura pontual de 2026-08-10), nó `1454:22003`, descrição verbatim: "componente info card de FaQ colapsado".
+
+Re-verificado em 2026-08-13 (US-026, 12ª passada ativa): nó re-buscado do zero com `get_design_context` + screenshot Playwright. Achado material corrigido nesta retomada: o Figma confirma que todas as 7 variantes são cards recolhidos; `FirstSteps` mostra só header + descrição em 92px e as demais mostram só header em 72px. A implementação anterior abria `FirstSteps` por padrão e mostrava perguntas. O componente agora nasce recolhido para todos os tópicos, usa largura `927px` e renderiza os SVGs exportados do Figma para os ícones de tópico.
+
+## 7 tópicos (Figma-confirmado)
+
+`FirstSteps`, `Storage`, `LongTermStorage`, `Organization`, `LabelsTags` (Figma: `Labels/Tags`, renomeado para chave JS válida), `Duplicates`, `FrequentIssues` — título, ícone e perguntas/respostas lidos verbatim de `get_design_context`. `FirstSteps` é o único tópico que mostra descrição e botão "Recolher" mesmo recolhido; os outros 6 nascem só com cabeçalho e botão "Expandir".
+
+## "Colapsado" — adaptação de engenharia
+
+O Figma exporta o markup do accordion presente no código de referência, mas o card real fica recortado (`overflow-clip`) a uma altura fixa que só mostra o cabeçalho/descrição inicial. Reproduzir isso literalmente via CSS estático esconderia conteúdo de um leitor de tela sem removê-lo do DOM. Implementado com estado real `expanded` (mesmo resultado visual inicial, botão no cabeçalho alterna visibilidade de verdade) — 🧩 adaptação de engenharia, mais acessível que o `overflow-clip` do Figma sem mudar a intenção visual confirmada.
+
+## Perguntas — accordion real (Regra 8)
+
+Cada pergunta usa `<details>`/`<summary>` nativos — expansível individualmente, com seta (`ChevronDown`) que gira via `group-open:`. Mesmo padrão de item de pergunta reaproveitado por `organism/FAQ/info/Card` (ver `Organisms/FaqInfoCard.mdx`) — texto compartilhado (perguntas idênticas aparecem nos dois organisms para os tópicos que se sobrepõem: `FirstSteps`/`LongTermStorage`).
+
+## Ícones por tópico
+
+Os 7 ícones de tópico usam SVGs exportados diretamente do nó `1454:22003` nesta passada. Os nomes semânticos continuam vindo do tópico, mas o glifo renderizado não é mais uma aproximação Lucide.
+
+## Callouts (Regra 10 não aplicável — não é Liquid Glass)
+
+`LongTermStorage` (2×), `Organization` (1×) e `FrequentIssues` (1×) usam o helper interno `FaqCallout` — tons `info` (ℹ️, `brand-teal-light`/`brand-teal`) e `warning` (⚠, `#fff8e6`/`#fad98c`, hex literal Figma-confirmado, sem token semântico próprio — uso único, não promovido a variável de tema).
+
+## Terminologia (Regra 5)
+
+"Liberar espaço" aparece 2× (tópicos `Storage`, `FrequentIssues`) — dentro do contexto aprovado (página de Armazenamento/FAQ de Armazenamento), sem conflito. Achado de baixa urgência: a resposta de `FrequentIssues` ("Liberar espaço" está desabilitado...) usa a palavra "elegíveis" em prosa corrida ("arquivos duplicados ou elegíveis para guardar no longo prazo") — Regra 5 proíbe "elegível" como rótulo de UI (badge/tag), não como palavra em texto de resposta de FAQ; mantido literal (Figma-confirmado, Regra 9). Registrado em `docs/conflicts.md` para decisão humana se a Regra 5 deve se estender a texto corrido.
+
+## Material Liquid Glass
+
+Fundo `bg-effect-glass-white-50` — ver `Tokens/Materials` (Regra 10).
+
+## Estados (Regra 8)
+
+| Estado | Aplicável? | Nota |
+| --- | --- | --- |
+| Colapsado/Expandido (card) | ✅ | `expanded`, alternado pelo botão do cabeçalho |
+| Aberto/Fechado (por pergunta) | ✅ | `<details>` nativo, primeira pergunta aberta por padrão |
+| Hover/Active (botões) | ✅ | CSS puro + `active:scale-95` no botão do cabeçalho |
+| Disabled/Loading/Error | ❌ Não aplicável | Card informativo estático, sem ação assíncrona |
+
+## Fluid interface (Regra 8)
+
+Seta do accordion gira com `transition-transform` (interruptível); `<details>` nativo já é interruptível pelo navegador. **reduced-motion: não documentado no Figma** — nenhuma variante/nota encontrada nos nós consultados; `motion-safe:` aplicado por padrão de engenharia.
+
+## Fidelidade code-level
+
+100% reproduzível em código — ícones de tópico e chevron usam SVGs exportados do Figma nesta passada.

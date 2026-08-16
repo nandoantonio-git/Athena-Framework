@@ -11,121 +11,35 @@ Barra de progresso de uso de armazenamento, uma por tier. Use a variante
 `Expanded` (segmentada por tipo de arquivo, incluindo a cor "Acesso
 rápido") quando precisar detalhar composição, não só total usado.
 
-**Status: 🆕 undocumented-until-now** — não existia código nem story antes
-desta US. Não citado nominalmente em `AGENTS.md`, mas listado no inventário
-real (`docs/figma-inventory.md`, elementos soltos no canvas) com descrição
-Figma verbatim coletada nesta US.
-
 <Canvas of={StorageBarStories.QuickAccess} />
 <Controls />
 
-## Figma (Figma-confirmado)
+## Props
 
-`get_design_context` no nó `1421:17904` retorna descrição verbatim:
-*"Barra de progresso do armazenamento. Mostra uso por tier (acesso rápido /
-longo prazo). Variantes: type e value (0–100). CSS: ver tokens Storage/\*."*
-
-Eixos confirmados: `Style` (`Primary`\|`Primary Dark`\|`Expanded`\|`Secondary`)
-× `State` (`Empty`\|`HalfFull`\|`Full`\|`StorageBar`). Descrições por
-variante:
-
-| Variante | Descrição Figma verbatim |
-| --- | --- |
-| `Style=Primary` (`Empty`/`HalfFull`/`Full`) | "barras de armazenamento de curto prazo" |
-| `Style=Primary Dark` (`Empty`/`HalfFull`/`Full`) | "barras de armazenamento de longo prazo" |
-| `Style=Expanded` | "barras de armazenamento global, segmentada por tipos de arquivos" |
-
-## Mapeamento de props
-
-`Style=Primary` → prop `tier="quick-access"` (`bg-brand-pink-light`,
-`#e8476a` — 🔧 **corrigido em 2026-08-11, auditoria Regra 11 US-026**:
-`get_design_context` real confirma esse tom em `Empty`/`HalfFull`/`Full`;
-implementação anterior usava `brand-pink-dark` por engano). `Style=Primary
-Dark` → prop `tier="long-term"` (`bg-brand-teal-dark`, 🧩 tom derivado de
-`--brand-teal` via `color-mix`, não o hex Figma-confirmado
-`--brand-primary-dark` — mesma decisão de manter o valor travado da Regra 3
-já registrada em `Tokens/Colors`). `State` (`Empty`/`HalfFull`/`Full`) mapeia
-para a prop contínua `value` (0–100), confirmada pela descrição Figma
-("Variantes: type e value (0–100)") em vez dos 3 estados discretos.
+- `tier="quick-access"` — barra rosa, uso de curto prazo
+- `tier="long-term"` — barra teal escuro, uso de longo prazo
+- `value` — 0–100, preenchimento proporcional
 
 <Canvas of={StorageBarStories.Empty} />
 <Canvas of={StorageBarStories.Full} />
 
-## `Style=Expanded` (implementado na US-009)
+## Variante segmentada (`StorageBarExpanded`)
 
 <Canvas of={StorageBarStories.Expanded} />
 
-A variante segmentada por tipo de arquivo usa `Brand/Theme/Pink/Dark`
-(`--brand-pink-dark`) e `Brand/Theme/Pink/Light` (`--brand-pink-light`) como
-cor de **dado** — decisão humana de 2026-08-10 (Regra 3 atualizada): rosa
-deixa de ser "só branding" e vira a cor semântica oficial da categoria
-**"Acesso rápido"**. Implementada como componente separado
-`StorageBarExpanded` (não uma prop de `StorageBar`, já que a anatomia é
-distinta — N segmentos lado a lado, não um preenchimento único), prop
-`segments: { tier, value }[]`.
+Componente separado (`StorageBarExpanded`, prop `segments: { tier, value }[]`)
+que mostra N segmentos lado a lado em vez de um preenchimento único —
+usa 2 tons de teal (categoria "Longo prazo") e 2 tons de rosa (categoria
+"Acesso rápido"). O rosa é a cor semântica oficial da categoria "Acesso
+rápido" no design system.
 
-`get_design_context` no nó `1421:17907` confirma 4 segmentos na amostra real
-do Figma — 2 tons de teal (`--brand-primary-default` `#007e96`,
-`--brand-primary-dark` `#1a5e6e`) e 2 tons de rosa
-(`Brand/Theme/Pink/Light` `#e8476a`, `Brand/Theme/Pink/Dark` `#b5254a`).
-🧩 **Inferido** (Regra 9): a leitura confirma as 4 cores e que 2 são rosa
-(categoria "Acesso rápido") e 2 são teal (categoria "Longo prazo"), mas não
-confirma pixel-a-pixel a ordem/largura de cada segmento nem o significado
-exato dos 2 tons dentro de cada tier (o export retornou posicionamento
-absoluto inconsistente, herdado do artboard maior que agrupa as 9 variantes
-de `StorageBar`) — o componente mapeia por ordem de ocorrência do `tier` no
-array `segments` (1º = tom base, 2º = tom escuro/forte), não por um tipo de
-arquivo nomeado.
+## Estados
 
-## Estados (Regra 8)
-
-`StorageBar` é um elemento de **exibição estática** (`role="progressbar"`),
-não interativo — não recebe foco, clique ou input do usuário.
-
-| Estado | Aplicável? | Nota |
-| --- | --- | --- |
-| Default | ✅ | Preenchimento proporcional a `value`, cor por `tier` |
-| Hover/Active/Disabled | ❌ Não aplicável | Elemento não interativo |
-| Loading | ❌ Não aplicável | `value` é síncrono via prop |
-| Error | ❌ Não aplicável | Não valida input |
-
-## Fluid interface (Regra 8)
-
-- **Transição de valor**: `transition-[width]` anima a mudança de `value`
-  entre renders — 🧩 inferido, sem confirmação de easing/duração no Figma.
-- **reduced-motion**: **não documentado no Figma** — nenhuma variável
-  encontrada no nó consultado; a transição de largura não é suprimida por
-  `prefers-reduced-motion` no componente atual (gap, mesmo padrão de nota
-  de outros componentes desta camada).
-
-## Material Liquid Glass
-
-Não aplicável — preenchimento sólido (`brand-teal`/`brand-teal-dark` sobre
-trilho `zinc-500/20`), sem uso do material "Liquid Glass" nas variantes
-`Primary`/`Primary Dark` implementadas.
+`StorageBar` é um elemento de exibição estática (`role="progressbar"`),
+não interativo — não recebe foco, clique ou input do usuário. O
+preenchimento anima suavemente quando `value` muda.
 
 ## Terminologia
 
-Não renderiza texto próprio (barra pura) — o rótulo do tier (ex.: "Acesso
-rápido") é responsabilidade do componente/tela que a envolve, não deste
-componente. Nenhum termo proibido aplicável.
-
-## Fidelidade code-level
-
-Componente 100% reproduzível em código — sem vetores customizados. Fallback
-de imagem estática não se aplica.
-
-## 3ª auditoria de ponto-fixo (2026-08-12, US-026, pass 3)
-
-`get_design_context` re-executado ao vivo nos nós `1421:17904` (barra
-única) e `1421:17907` (`Style=Expanded`, segmentada). Checklist item a
-item contra o screenshot renderizado das 5 stories (`quick-access`,
-`long-term`, `empty`, `full`, `expanded`): cor de preenchimento
-`tier="quick-access"` = `brand-pink-light` (`#e8476a`) ✅, `tier="long-term"`
-= `brand-teal-dark` (`#1a5e6e`) ✅, trilho `bg-zinc-500/20` ✅, altura 4px
-✅, ordem/tom dos 4 segmentos do `Expanded` (teal, teal-dark, pink-dark,
-pink-light) ✅ — todos confirmados batendo com a resposta fresca do Figma e
-sem sinal de regressão do achado da 2ª auditoria (a ordem clara→escuro de
-`quick-access` em `TIER_SHADES` permanece invertida de propósito em relação
-a `long-term`, exatamente como corrigido em 2026-08-11/12). **Nenhuma
-divergência nova encontrada — componente permanece 100% alinhado.**
+Não renderiza texto próprio — o rótulo do tier (ex.: "Acesso rápido") é
+responsabilidade do componente/tela que a envolve.

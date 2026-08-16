@@ -7,63 +7,19 @@ import * as KeepButtonStories from './KeepButton.stories';
 
 ## Uso
 
-Ícone-botão sem chrome de borda pra a ação de **guardar em longo prazo** um arquivo — usado em fluxos de arquivamento/organização onde a ação principal já é outra (ex. dentro de uma linha de arquivo).
-
-
-Ícone-botão para guardar em longo prazo — sem chrome de borda, alvo de
-clique independente do `PushButton`.
-
-**Status: ✅ aligned (estrutura)** · **⚠️ gap de documentação Figma aberto — urgência
-baixa** (`On`/`Idle` não distinguidos, ver `docs/conflicts.md`) —
-nó `1421:17793`, descrição Figma verbatim: *"icone
-usado em funções de guardar em longo prazo"*.
-
-🔧 **Corrigido em auditoria US-026 (2026-08-11, Regra 11.4):** mesmo
-achado de `ConfirmButton`/`DeleteButton` — círculo de fundo cinza
-inventado no hover/active removido (nenhum estado Figma-confirmado tem
-fundo, só o glifo 16×16 dentro do container 20×20 variando cor/opacidade).
-
-🔧 **Corrigido em auditoria US-026 pass12 (2026-08-13, Regra 11):**
-`get_design_context` fresco confirma glifo visual de 16×16 dentro do
-container 20×20. A implementação herdava `size-5` do wrapper compartilhado;
-agora passa `iconClassName="size-4"` e mantém o alvo invisível de 32×32.
+Ícone-botão sem chrome de borda pra a ação de **guardar em longo prazo** um arquivo — usado em fluxos de arquivamento/organização onde a ação principal já é outra (ex. dentro de uma linha de arquivo). Alvo de clique independente do `PushButton`.
 
 <Canvas of={KeepButtonStories.Default} />
 <Controls />
-
-## Regra 1 — não é conflito
-
-Mesma justificativa de `Atoms/DeleteButton` — achado #11, `figma-inventory.md`.
-
-## Estados
-
-`style` Figma-confirmado: `Default`|`Primary`|`White` — implementado 1:1.
-`state` Figma-confirmado: `On`|`Idle`|`Clicked`|`Disabled`, mesma ressalva
-de `On`/`Idle` não distinguidos (gap, Regra 9).
 
 <Canvas of={KeepButtonStories.Primary} />
 <Canvas of={KeepButtonStories.White} />
 <Canvas of={KeepButtonStories.Disabled} />
 
-Loading/Error: ❌ ausentes no enum `State` do Figma — não inventados.
+## Estados
 
-## Fluid interface (Regra 8)
-
-Mesmo padrão de `DeleteButton`: feedback de press via
-`motion-safe:active:scale-90`, transições CSS nativas interruptíveis.
-reduced-motion não documentado no Figma.
-
-## Material Liquid Glass
-
-Não aplicável.
+`style`: `Default` · `Primary` · `White`. `state`: `On`/`Idle` · `Clicked` · `Disabled`. Sem loading/error.
 
 ## Terminologia
 
-Não renderiza texto visível (`aria-label="Guardar em longo prazo"` — termo
-aprovado na lista travada, Regra 5) — checagem OK.
-
-## Fidelidade code-level
-
-Glifo `KeepButtonGlyph.svg` — vetor real exportado do Figma. Tamanho visual
-16×16 dentro do container 20×20 Figma-confirmado; alvo de toque 32×32 é
-extensão de acessibilidade do código.
+Não renderiza texto visível (`aria-label="Guardar em longo prazo"` — termo aprovado na lista travada, Regra 5).

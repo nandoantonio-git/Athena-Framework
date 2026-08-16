@@ -30,10 +30,14 @@ export interface FaqFastLinksProps extends React.ComponentProps<"div"> {
  * Padding do frame raiz Figma-confirmado (releitura US-026 pass20): só
  * `py-24px`, sem padding horizontal (`px`) — texto/ícones ocupam a largura
  * cheia de 158px. Uma correção anterior (pass14) havia adicionado `px-4`
- * por engano; removida aqui por não ter correspondência no Figma real, e
- * porque estreitava a área de texto justo o bastante pra fazer as traduções
- * PT (mais longas que os rótulos originais em inglês) quebrarem em 2 linhas
+ * (16px) por engano; removida por não ter correspondência no Figma real, e
+ * porque estreitava a área de texto o bastante pra fazer as traduções PT
+ * (mais longas que os rótulos originais em inglês) quebrarem em 2 linhas
  * sem necessidade.
+ *
+ * `px-1` (4px) adicionado em 2026-08-15 (decisão humana, não é achado
+ * Figma) — respiro visual pequeno o bastante pra não reintroduzir a quebra
+ * de linha das traduções PT.
  *
  * Ícones exportados de verdade do Figma via `download_assets` (não
  * aproximação `lucide-react`) — `MenuBook`/`Forum`/`Slideshow` em
@@ -44,7 +48,7 @@ function FaqFastLinks({ links = DEFAULT_LINKS, className, ...props }: FaqFastLin
     <div
       data-slot="faq-fast-links"
       className={cn(
-        "flex w-[158px] flex-col items-start gap-4 rounded-3xl py-6 shadow-[0px_2px_4px_rgba(9,9,11,0.08)]",
+        "flex w-[158px] flex-col items-start gap-4 rounded-3xl px-1 py-6 shadow-[0px_2px_4px_rgba(9,9,11,0.08)]",
         className
       )}
       {...props}

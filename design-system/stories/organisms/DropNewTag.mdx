@@ -7,54 +7,20 @@ import * as DropNewTagStories from './DropNewTag.stories';
 
 ## Uso
 
-Painel de criação de etiqueta nova (nome + cor). Abre a partir da ação "+ Nova Etiqueta" nos dropdowns de etiquetagem (`Label`/`DropdownSelectLabel`).
-
-
-**Status: ✅ aligned** — Figma-confirmado, nó `1444:21624`, descrição
-verbatim: *"ao clicar em nova etiqueta abre essa área de output onde você
-pode inserir o rotulo desejado e a respectiva cor."* Compõe
-`celule/TagColor` (`1444:21979`, descrição: *"painel onde é possivel
-selecionar a cor do rótulo/etiqueta. pre-selecionada padrao é a verde."*) —
-6 cores Figma-confirmadas no nó (success/primary/primary-dark/pink/danger/
-warning). **Re-verificado 2026-08-12 (passe 3, ponto-fixo)**: ordem e
-hex das 6 cores conferidos 1:1 contra o nó fresco (success `#096`,
-primary `#007e96`, primary-dark `#1a5e6e`, pink `#e8476a`, danger
-`#bc3426`, warning `#c38418`); verde pré-selecionado com anel de foco
-azul confirmado via screenshot ampliado. Nenhuma divergência encontrada.
+Painel de criação de etiqueta nova (nome + cor). Abre a partir da ação "+ Nova Etiqueta" nos dropdowns de etiquetagem (`Label`/`DropdownSelectLabel`). Compõe `celule/TagColor`, com 6 cores disponíveis (verde é a pré-selecionada por padrão).
 
 <Canvas of={DropNewTagStories.Default} />
 <Controls />
 
-## Composição (Regra 10) e gap de reuso
+## Estados
 
-`atom/Tag` segue **não implementado** como átomo próprio (gap já
-registrado em `docs/conflicts.md`, US-005) — os swatches de cor deste
-componente são reimplementados localmente (`<button>` + cor de fundo), não
-uma composição de um átomo existente. Se `atom/Tag` for implementado numa
-US futura, este componente deve passar a reusá-lo em vez de reimplementar.
+- Cor selecionada — anel de foco visual no swatch escolhido
+- Default: verde pré-selecionado
 
-## Conflito de variantes (Regra 1)
+## Material
 
-Nenhum `PushButton` nesta composição — só input de texto e swatches de
-cor.
-
-## Estados e fluid interface (Regra 8)
-
-| Estado | Implementado |
-| --- | --- |
-| Cor selecionada | ✅ prop `color`, `aria-checked` + anel de foco visual |
-| Default (verde pré-selecionado) | ✅ Figma-confirmado ("pre-selecionada padrao é a verde") |
-| Disabled/Loading/Error | Não documentado no Figma |
-
-**reduced-motion**: não documentado no Figma; sem animação própria.
-
-## Material Liquid Glass
-
-Fundo usa `bg-effect-glass-white-70` + `backdrop-blur-md` — ver
-`Tokens/Materials` (Regra 10), confirmado no código-fonte do nó (contexto
-do menu pai `organism/dropdownMenu`, mesmo gradiente glass).
+Fundo com o material Liquid Glass — ver [Tokens/Materials](../tokens/Materials.mdx).
 
 ## Terminologia
 
-Nenhum termo proibido; "Nome da etiqueta" é placeholder de input, conteúdo
-gerado pelo usuário.
+Nenhum termo proibido; "Nome da etiqueta" é placeholder de input, conteúdo gerado pelo usuário.

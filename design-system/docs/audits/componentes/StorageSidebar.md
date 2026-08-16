@@ -1,0 +1,39 @@
+# StorageSidebar — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/organisms/StorageSidebar.mdx` em 2026-08-16. Node Figma: `1421:19167`.
+
+## Status
+
+✅ aligned (estrutura) — reverificado 3ª passada (US-026, 2026-08-12). Figma-confirmado, nó `1421:19167`, descrição verbatim: *"componente da sidebar onde possibilita visualizar o status de curto prazo(corrente) ou longo prazo. botoes para página de gerir espaço ou para dar upgrade no plano de uso."*
+
+Releitura completa via `get_design_context` fresco no nó standalone (`1421:19167`, tags "Corrente"/"Longo Prazo") e comparação renovada contra a instância embutida em `organism/Sidebar` (`1421:17947`, tags "Acesso Rápido"/"Longo Prazo") — conflito de nomenclatura entre as 2 instâncias do mesmo componente reconfirmado, sem alteração: decisão humana de 2026-08-10 já resolveu para "Acesso rápido"/"Longo prazo" (termos aprovados Regra 5) independentemente de qual das 2 grafias apareça em cada nó Figma; implementação atual já segue essa decisão. Nenhuma mudança de código.
+
+## Regra 5 — resolvida em 2026-08-10 (ver `docs/conflicts.md`)
+
+O arquivo Figma tem 2 variantes concorrentes para o mesmo botão de espaço ("Liberar Espaço" na variante embutida em `organism/Sidebar`, nó `1421:17946`, vs. "Gerir Espaço" nesta variante standalone, nó `1421:19167`). Decisão humana fixou cada rótulo a um contexto: página de Armazenamento/Config. de Plano = "Liberar Espaço" (default deste componente, via prop `manageSpaceLabel`); painel embutido/persistente da Sidebar = "Gerir Espaço" (`organism/Sidebar` sobrescreve o prop ao compor este componente).
+
+Rótulo do segundo botão, "Comprar Espaço", e o tag "Corrente" (em vez de "Acesso rápido") também não constam na lista aprovada da Regra 5 — nem são termos proibidos. Gap de terminologia de urgência baixa, registrado em `docs/conflicts.md`. Este componente usa "Acesso rápido"/"Longo prazo" (termos aprovados) para as tags, já que ambas as grafias apareceram em variantes distintas do mesmo widget no Figma (achado de inconsistência, não decisão de produto a resolver aqui).
+
+## Composição (Regra 10)
+
+| Peça | Origem |
+| --- | --- |
+| `molecule/StorageBar` | `Molecules/StorageBar` (US-005) |
+| `atom/PushButton` (`variant="neutral"`/`"primary"`) | `Atoms/PushButton` |
+| `organism/sidebar-toggle` | Este mesmo commit (US-006) |
+
+## Estados (Regra 8)
+
+| Estado | Implementado |
+| --- | --- |
+| Expanded/Collapsed | ✅ prop `expanded`, delega a `SidebarToggle` |
+| Hover/Active dos botões | ✅ herdado do `PushButton` |
+| Disabled/Loading/Error | Não aplicável — sem ação assíncrona própria |
+
+## Material Liquid Glass
+
+Não aplicável — preenchimento sólido nos botões (`bg-zinc-50`/`bg-brand-teal`).
+
+## Fidelidade code-level
+
+100% reproduzível em código, reaproveitando peças já implementadas.

@@ -10,8 +10,10 @@ export interface PlanSelectionPlan {
   id: string
   name: string
   storageLabel: string
-  price: string
-  priceSuffix: string
+  /** Preço exibido quando `interval="monthly"`. */
+  monthlyPrice: string
+  /** Preço exibido quando `interval="annual"` (cobrança anual, valor total do ano). */
+  annualPrice: string
   isCurrent?: boolean
   actionLabel?: string
 }
@@ -26,9 +28,9 @@ export interface PlanSelectionProps extends React.ComponentProps<"div"> {
 }
 
 const DEFAULT_PLANS: PlanSelectionPlan[] = [
-  { id: "starter", name: "Starter", storageLabel: "1 TB", price: "$30", priceSuffix: "/yr", actionLabel: "Downgrade" },
-  { id: "pro", name: "Pro", storageLabel: "5 TB", price: "$120", priceSuffix: "/yr", isCurrent: true },
-  { id: "max", name: "Max", storageLabel: "10 TB", price: "$200", priceSuffix: "/yr", actionLabel: "Upgrade" },
+  { id: "starter", name: "Starter", storageLabel: "1 TB", monthlyPrice: "$3", annualPrice: "$30", actionLabel: "Downgrade" },
+  { id: "pro", name: "Pro", storageLabel: "5 TB", monthlyPrice: "$12", annualPrice: "$120", isCurrent: true },
+  { id: "max", name: "Max", storageLabel: "10 TB", monthlyPrice: "$20", annualPrice: "$200", actionLabel: "Upgrade" },
 ]
 
 /**
@@ -115,7 +117,10 @@ function PlanSelection({
       </div>
 
       <div className="flex w-full items-start gap-3">
-        {plans.map((plan) => (
+        {plans.map((plan) => {
+          const price = interval === "monthly" ? plan.monthlyPrice : plan.annualPrice
+          const priceSuffix = interval === "monthly" ? "/mo" : "/yr"
+          return (
           <div
             key={plan.id}
             className={cn(
@@ -131,8 +136,8 @@ function PlanSelection({
             <p className="text-base font-semibold text-zinc-950">{plan.name}</p>
             <p className="text-[0.8125rem] text-zinc-500">{plan.storageLabel}</p>
             <p className="flex items-baseline gap-0.5">
-              <span className="text-[1.375rem] font-bold text-zinc-950">{plan.price}</span>
-              <span className="text-[0.8125rem] text-zinc-500">{plan.priceSuffix}</span>
+              <span className="text-[1.375rem] font-bold text-zinc-950">{price}</span>
+              <span className="text-[0.8125rem] text-zinc-500">{priceSuffix}</span>
             </p>
             {plan.isCurrent ? (
               <span className="flex items-center gap-1 text-[0.8125rem] font-medium text-brand-teal">
@@ -149,7 +154,8 @@ function PlanSelection({
               </PushButton>
             )}
           </div>
-        ))}
+          )
+        })}
       </div>
 
       <div className="h-px w-full bg-zinc-200" />

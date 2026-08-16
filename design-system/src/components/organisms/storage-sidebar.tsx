@@ -70,10 +70,10 @@ function StorageSidebar({
             </div>
           </div>
           <div className="flex items-center gap-3 px-2">
-            <PushButton variant="neutral" className="h-8 flex-1 px-3 text-xs" onClick={onManageSpace}>
+            <PushButton variant="neutral" className="h-8 flex-1 px-3 text-xs whitespace-nowrap" onClick={onManageSpace}>
               {manageSpaceLabel}
             </PushButton>
-            <PushButton variant="primary" className="h-8 flex-1 px-3 text-xs" onClick={onBuySpace}>
+            <PushButton variant="primary" className="h-8 flex-1 px-3 text-xs whitespace-nowrap" onClick={onBuySpace}>
               Comprar Espaço
             </PushButton>
           </div>

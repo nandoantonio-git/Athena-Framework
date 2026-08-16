@@ -1,8 +1,9 @@
 import * as React from "react"
-import { Check, FileArchive, FileText } from "lucide-react"
+import { Check, FileArchive } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { StorageTierBadge, type StorageTier } from "@/components/atoms/storage-tier-badge"
+import FileGlyph from "@/assets/icons/CleanSpaceFileGlyph.svg?react"
 
 const ARCHIVE_EXTENSIONS = ["zip", "rar", "7z", "tar", "gz"]
 
@@ -77,11 +78,11 @@ function CleanSpaceListSelection({
       >
         {selected ? <Check aria-hidden="true" strokeWidth={2.5} className="size-3 text-white" /> : null}
       </button>
-      <span className="flex size-8 shrink-0 items-center justify-center rounded-[10.4px] bg-[rgba(43,127,255,0.1)]">
+      <span className="flex size-8 shrink-0 items-center justify-center rounded-[10.4px]">
         {isArchiveFile(name) ? (
           <FileArchive aria-hidden="true" className="size-4 text-[#2b7fff]" />
         ) : (
-          <FileText aria-hidden="true" className="size-4 text-[#2b7fff]" />
+          <FileGlyph aria-hidden="true" className="h-[23px] w-[21px]" />
         )}
       </span>
       <div className="min-w-0 flex-1">

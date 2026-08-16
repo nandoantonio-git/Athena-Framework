@@ -9,70 +9,11 @@ import * as FolderItemStories from './FolderItem.stories';
 
 Linha/card compacto pra representar **uma pasta** dentro de uma lista de arquivos — mesma anatomia de `ArchiveItem`/`ImageItem`/`VideoItem`, com os mesmos 5 estados de seleção/interação.
 
-
-**Status: ✅ aligned (Figma-confirmado, US-017)** — protocolo completo da
-Regra 11 aplicado antes de marcar como verificado.
-
-**Reverificado na 3ª passada de auditoria de ponto-fixo (US-026,
-2026-08-12):** protocolo completo da Regra 11 reaplicado do zero —
-nenhuma divergência nova encontrada.
-
 <Canvas of={FolderItemStories.Idle} />
 <Controls />
 
-## Figma (Figma-confirmado)
-
-Descrição verbatim: *"Simbolo para representar pastas. Suporta seleção e
-badge de tier. Variantes: state e tier."* Mesma família visual/API de
-`atom/ArchiveItem` — ver lá a nota sobre o eixo `tier` mencionado na
-descrição ser um gap documentado (Regra 9), não uma prop real.
-
 <Canvas of={FolderItemStories.AllStates} />
 
-## Composição (diferente de ArchiveItem)
+## Estados
 
-Ao contrário de `ArchiveItem` (base + overlay separados), cada estado de
-`FolderItem` no Figma já é uma imagem própria com o efeito de glass
-bake-ado (`Group8`=idle, `Group9`=hover, `Group10`=pressed,
-`Group11`=disabled, `Group12`/`Group15`=default/static — dobrados em
-`idle`, mesma justificativa de duplicação interna de autoria já documentada
-em `ArchiveItem.mdx`, e `Group13`/`Group14`=selected/selected-hover).
-
-## Correção US-026 pass12: `selected-pressed`
-
-Releitura fresca via `get_design_context` em 2026-08-13 confirmou que
-`selected-pressed` tem composição própria (`Union` + 2 `Rectangle`s).
-Correção aplicada nesta passada: a aproximação anterior com `selected` +
-`brightness-90` foi substituída por um SVG real exportado do subnó
-`1440:24356`, removendo apenas artefatos de canvas do export.
-
-## Checklist elemento-a-elemento (Regra 11)
-
-| Elemento Figma | Implementado | Fonte |
-| --- | --- | --- |
-| Glifo idle/hover/pressed/disabled | ✅ 4 assets reais próprios | ✅ Figma-confirmado |
-| Glifo selected/selected-hover | ✅ 2 assets reais próprios | ✅ Figma-confirmado |
-| Glifo selected-pressed | ✅ asset real próprio | ✅ Figma-confirmado |
-| Badge de seleção (canto inferior direito) | ✅ `<SelectState />` composto | ✅ Figma-confirmado (reuso de `atom/SelectState`) |
-| Nome abaixo do glifo | ✅ `text-[0.625rem]`, cor secundária/terciária conforme estado | ✅ Figma-confirmado |
-
-## Estados (Regra 8)
-
-| Estado | Implementado | Fonte |
-| --- | --- | --- |
-| Idle | ✅ | ✅ Figma-confirmado |
-| Hover | ✅ | ✅ Figma-confirmado |
-| Pressed/Active | ✅ | ✅ Figma-confirmado |
-| Disabled | ✅ | ✅ Figma-confirmado |
-| Selected / Selected-Hover | ✅ | ✅ Figma-confirmado |
-| Selected-Pressed | ✅ | ✅ Figma-confirmado |
-| Loading/Error | ❌ Não aplicável | Glifo de item estático |
-
-## Fluid interface (Regra 8)
-
-Sem nota de `reduced-motion` visível no Figma. Transição de estado
-instantânea, controlada externamente via prop `state`.
-
-## Material Liquid Glass
-
-Bevel/glow já bake-ado nos assets exportados — sem composição CSS própria.
+`Idle` · `Hover` · `Pressed` · `Disabled` · `Selected` · `Selected-Hover` · `Selected-Pressed`. Sem loading/error — é um glifo de item estático.

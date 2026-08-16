@@ -7,83 +7,15 @@ import * as TagOrgTemplateNameStories from './TagOrgTemplateName.stories';
 
 ## Uso
 
-Tag com o **nome do template** de organização, em 2 estados: preenchida (nome real) ou placeholder (template ainda sem nome) — usada junto de `TagOrgMode` nos fluxos de organização.
-
-
-**Status: ✅ aligned (Figma-confirmado, US-018)** — protocolo completo da
-Regra 11 aplicado: `get_design_context` real no node, screenshot Figma
-comparado elemento-a-elemento contra o Storybook renderizado via Playwright.
-
-**Reverificado em 2026-08-12 (US-026, 3ª passada de auditoria de
-ponto-fixo)** — `get_design_context` refeito do zero, nenhuma divergência
-nova encontrada.
-
-**Reverificado em 2026-08-13 (US-026, 12ª passada ativa)** —
-`get_design_context` fresco confirmou largura hug-content do texto.
-Divergência encontrada e corrigida: o `<input>` renderizava com largura
-intrínseca padrão do browser, maior que a pílula Figma; agora usa
-`field-sizing: content` para manter input real com largura de conteúdo.
+Tag com o nome do template de organização, em 2 estados: preenchida (nome real) ou placeholder (template ainda sem nome) — usada junto de `TagOrgMode` nos fluxos de organização.
 
 <Canvas of={TagOrgTemplateNameStories.Placeholder} />
 <Controls />
 
-## Figma (Figma-confirmado)
+## Anatomia
 
-Descrição verbatim: *"Badge presente no sandbox de organização, tem a
-possibilidade de input do nome desejado da organização."* Usado ao lado de
-`atom/TagOrgMode` em `organism/OrganizeFreeModeCanvas`.
+É um `<input type="text">` real, não um texto estático — o usuário digita o nome do template diretamente no chip. Placeholder padrão: "Adicionar Nome".
 
-## `<input>` real, não texto estático
+## Estados
 
-A descrição do Figma confirma explicitamente a capacidade de edição
-("possibilidade de input") — implementado como `<input type="text">` real
-em vez de um `<span>` estático, mantendo o visual idêntico ao único estado
-exportado pelo `get_design_context` (placeholder "Adicionar Nome"). Nenhum
-estado adicional (focus/erro) foi inventado além do necessário para
-acessibilidade (ver seção Estados).
-
-## Cor (Regra 3)
-
-Fundo `effect-overlay-secondary` (`rgba(107,107,104,0.45)`) reusa o token
-já existente `--brand-secondary-light` (`#6b6b68`, mesmo RGB) via
-modificador de opacidade Tailwind (`bg-brand-secondary-light/45`) — sem
-literal novo. Texto `neutral-text-primary` (`#09090b`) bate exatamente com
-`zinc-950` (mesmo precedente de `atom/StorageTierBadge`).
-
-## Tipografia
-
-Figtree Regular `16px` (`Type/Body/MD`) — no piso obrigatório da Regra 4,
-sem exceção necessária. `text-base font-normal`.
-
-## Dimensões (Figma-confirmado)
-
-Altura `36px` (`h-9`), padding `12px`/`6px` (`px-3 py-1.5`), raio `8px`
-(`rounded-md`).
-
-## Checklist elemento-a-elemento (Regra 11)
-
-| Elemento Figma | Implementado | Fonte |
-| --- | --- | --- |
-| Pílula com fundo `rgba(107,107,104,.45)` | ✅ `bg-brand-secondary-light/45` | ✅ Figma-confirmado |
-| Texto placeholder "Adicionar Nome" | ✅ `placeholder="Adicionar Nome"` | ✅ Figma-confirmado |
-| Cor de texto `#09090b`, 16px Figtree Regular | ✅ `text-zinc-950 text-base font-normal` | ✅ Figma-confirmado |
-| Padding `12px`/`6px`, raio `8px`, altura `36px`, largura hug-content | ✅ `px-3 py-1.5 rounded-md h-9 [field-sizing:content]` | ✅ Figma-confirmado |
-
-## Estados (Regra 8)
-
-| Estado | Implementado | Fonte |
-| --- | --- | --- |
-| Default (placeholder) | ✅ | ✅ Figma-confirmado |
-| Preenchido | ✅ (`value`/`defaultValue`) | 🧩 Inferido — comportamento nativo de `<input>`, não uma variante visual separada no Figma |
-| Focus | ✅ `focus-visible:ring` | 🧩 Inferido — affordance de acessibilidade padrão do projeto (mesmo tratamento de `molecule/SearchInput`), não Figma-confirmado |
-| Disabled/Loading/Error | ❌ Não implementado | Sem eixo correspondente no Figma nem necessidade de produto confirmada |
-
-## Material Liquid Glass
-
-Não aplicável — preenchimento de cor sólida translúcida simples, sem uso do
-material "Liquid Glass" (Regra 10).
-
-## Fidelidade code-level
-
-Componente 100% reproduzível em código — sem vetores customizados, sem
-asset exportado.
+`placeholder` (vazio) · `preenchido` (com valor) · `focus`

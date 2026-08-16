@@ -1,0 +1,38 @@
+# SidebarToggle — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/organisms/SidebarToggle.mdx` em 2026-08-16. Node Figma: `1421:19118`.
+
+## Status
+
+⚠️ NON-CLEAN — achado corrigido na 12ª passada ativa (US-026, 2026-08-13). Figma-confirmado, nó `1421:19118`, descrição verbatim: *"aba de expandir/colapsar aba de armazenamento da sidebar"*. Label "Armazenamento" Figma-confirmado. Estados Figma-confirmados (`Idle`|`Hover`|`Pressed`) e eixo `isExpanded` (`true`|`false`) agora têm stories estáticas auditáveis: `Expanded`, `Collapsed`, `ExpandedHover`, `ExpandedPressed`, `CollapsedHover` e `CollapsedPressed`.
+
+Releitura completa via `get_design_context` fresco (matriz 6 estados Idle/Hover/Pressed × collapsed/expanded) + screenshots Playwright reais achou cobertura insuficiente: só `Expanded`/`Collapsed` estavam congelados. Corrigido nesta passagem com a prop `state`, preservando `hover:`/`active:` nativos para uso real.
+
+Corrigido em auditoria Regra 11 (US-026): screenshot Playwright real comparado contra `get_design_context` mostrou o ícone de nuvem à esquerda do label completamente ausente em todas as linhas/estados. Adicionado com `lucide-react`'s `Cloud` (o nó Figma usa um SFSymbol sem `systemName` anotado — vetor não exportável nó-a-nó, glifo confirmado só pelo screenshot). Propaga automaticamente para `organism/storage-sidebar`, que compõe este componente.
+
+## Composição
+
+Usado dentro de `organism/storage-sidebar` (US-006) — não redocumenta nada de US-004/005, é peça nova desta camada.
+
+## Conflito de variantes (Regra 1)
+
+Não é um botão de ação de fluxo — é um disclosure trigger. Nenhum `button/primary`|`secondary`|`destructive` envolvido.
+
+## Estados e fluid interface (Regra 8)
+
+| Estado | Implementado |
+| --- | --- |
+| Idle | ✅ default |
+| Hover | ✅ `hover:bg-zinc-100` + story estática |
+| Pressed | ✅ `active:bg-zinc-200` + story estática |
+| Disabled/Loading/Error | Não aplicável — disclosure simples, sem estado assíncrono |
+
+Chevron gira via `transition-transform` (CSS nativo, interruptível, reverte a partir do valor atual). **reduced-motion**: não documentado no Figma; rotação é instantânea o suficiente (sem keyframes) para não exigir `motion-safe`.
+
+## Material Liquid Glass
+
+Não aplicável.
+
+## Terminologia
+
+"Armazenamento" — não é um dos termos da lista travada (Regra 5), mas também não é termo proibido; é o nome literal Figma-confirmado da seção.

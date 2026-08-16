@@ -1,0 +1,70 @@
+# Notification — histórico de auditoria
+
+Espelha o conteúdo removido de `stories/molecules/Notification.mdx` em 2026-08-16. Node Figma: `molecule/Notification`, `1439:19748`.
+
+## Status
+
+✅ aligned (Figma-confirmado, US-023) — protocolo completo da
+Regra 11 aplicado antes de marcar como verificado: `get_design_context` real
+no nó, screenshot renderizado conferido elemento a elemento contra a
+resposta do Figma.
+
+Distinto de `molecule/popover/Notification` (`1421:19626` — ver
+`Molecules/PopoverNotification`), que é a versão com 6 variantes de
+popover.
+
+## Releitura de 2026-08-12 (pass 3, 3ª auditoria de ponto-fixo)
+
+`get_design_context` reexecutado no nó `1439:19748` — achado e corrigido um
+divergência de token de raio: o wrapper usava `rounded-2xl`
+(`--radius-2xl`) mas o Figma especifica literalmente
+`var(--radius-xl,16px)` para o cantos do card. Corrigido para `rounded-xl`
+em `notification.tsx` (wrapper + camada de glass). Restante do checklist
+(título 16px, timestamp 11px, `atom/CloseButton`, miniatura opcional)
+reconferido sem novas divergências.
+
+## Figma (Figma-confirmado)
+
+`get_design_context` no nó `1439:19748` retorna: botão de fechar
+(`atom/CloseButton`, canto superior direito), título "Arquivo adicionado"
+(`Type/Body/MD`, 16px Figtree) e, alinhado à direita, timestamp "now"
+(`Subheadline/Regular`, 11px) — eixo `showImage` opcional acrescenta uma
+miniatura 32×32 abaixo do timestamp.
+
+## Material Liquid Glass
+
+Camada única confirmada no Figma como 2 camadas ("Fill + Shadow" + "Glass
+Effect") — ver spec completa em `Tokens/Materials` (Regra 10). Aproximado
+aqui por `bg-effect-glass-white-36` + sombra `Effect/Shadow/LG`
+(`0px 8px 40px rgba(0,0,0,0.12)`, Figma-confirmado), mesma simplificação de
+camada única já usada em `molecule/nodoContextMenu`.
+
+## Estados (Regra 8)
+
+| Estado | Implementado | Fonte |
+| --- | --- | --- |
+| Fechar (`X`) | ✅ prop `onClose` | ✅ Figma-confirmado (`atom/CloseButton`) |
+| Miniatura opcional | ✅ prop `showImage` | ✅ Figma-confirmado (eixo `showImage`) |
+
+Sem estados hover/active/loading/error documentados no Figma para este nó
+(gap, Regra 9 — não inventado). reduced-motion não documentado.
+
+## 🧩 Inferido (Regra 9)
+
+Timestamp (`neutral-text-disabled`, `#ccced6`) não bate exatamente com
+nenhum degrau da rampa Zinc — aproximado por `zinc-300` (gap geral já
+registrado em `docs/conflicts.md`, tabela "Paleta neutra").
+
+## Terminologia
+
+"Arquivo adicionado"/"now" são texto Figma-confirmado (literal, "now" em
+inglês mesmo no restante em português — mesmo padrão de inconsistência de
+idioma já registrado para `organism/upload-popover` em `docs/conflicts.md`).
+Nenhum termo da lista proibida (Regra 5) se aplica.
+
+## Fidelidade code-level
+
+`atom/CloseButton` (`1421:19008`, Figma-confirmado) extraído como átomo
+compartilhado — usado também em `molecule/popover/Notification`. Miniatura
+opcional usa a imagem de exemplo real exportada do Figma
+(`download_assets`, não um placeholder inventado).

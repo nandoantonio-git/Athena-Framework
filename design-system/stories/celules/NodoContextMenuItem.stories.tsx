@@ -34,7 +34,28 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Placeholder: Story = {}
+export const Placeholder: Story = {
+  render: (args) => {
+    function Controlled() {
+      const [expanded, setExpanded] = useState(false)
+      const [value, setValue] = useState<string | undefined>(undefined)
+      return (
+        <NodoContextMenuItem
+          {...args}
+          options={["Tamanho", "Data", "Tipo"]}
+          expanded={expanded}
+          onExpandedChange={setExpanded}
+          value={value}
+          onValueChange={(v) => {
+            setValue(v)
+            setExpanded(false)
+          }}
+        />
+      )
+    }
+    return <Controlled />
+  },
+}
 
 export const Filled: Story = {
   args: { value: "Tamanho" },

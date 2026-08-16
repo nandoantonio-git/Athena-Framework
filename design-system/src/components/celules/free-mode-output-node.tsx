@@ -33,6 +33,15 @@ export interface FreeModeOutputNodeProps extends React.ComponentProps<"div"> {
  * Figma, mas `h-[68px] overflow-hidden` corta as linhas de estatística —
  * reproduzido aqui literal (não é um variant "sem estatísticas", é um
  * corte visual, conforme o node real).
+ *
+ * "Prévia de arquivos" ganhou interação real em 2026-08-15 (decisão
+ * humana, feature nova — não Figma-confirmada, Regra 9): o Figma só
+ * confirma o corte estático em 34.5px (linha do cabeçalho + chevron,
+ * lista sempre invisível); o usuário pediu uma mini dropdown list de
+ * verdade pra visualizar a prévia. Inferido a partir do mesmo padrão de
+ * expand/collapse já usado em `celule/DropListItem`/
+ * `celule/nodoContextMenuItem` (clique no cabeçalho alterna estado local,
+ * chevron gira 180°, altura passa de fixa pra `fit-content`).
  */
 function FreeModeOutputNode({
   variant = "default",
@@ -45,6 +54,7 @@ function FreeModeOutputNode({
   ...props
 }: FreeModeOutputNodeProps) {
   const isCompact = variant === "compact"
+  const [previewExpanded, setPreviewExpanded] = React.useState(false)
   return (
     <div
       data-slot="free-mode-output-node"
@@ -79,11 +89,24 @@ function FreeModeOutputNode({
           <span className="text-[0.6875rem] leading-[16.5px] text-zinc-500">Regras aplicadas</span>
           <span className="text-[0.6875rem] leading-[16.5px] font-semibold text-zinc-700">{rulesCount}</span>
         </div>
-        <div className="mt-3 flex h-[34.5px] w-full flex-col overflow-hidden rounded-[10.4px] border border-zinc-200 bg-white/60 p-[9px]">
-          <div className="flex items-center justify-between">
+        <div
+          className={cn(
+            "mt-3 flex w-full flex-col overflow-hidden rounded-[10.4px] border border-zinc-200 bg-white/60 p-[9px] transition-[height]",
+            previewExpanded ? "h-fit" : "h-[34.5px]"
+          )}
+        >
+          <button
+            type="button"
+            onClick={() => setPreviewExpanded((expanded) => !expanded)}
+            aria-expanded={previewExpanded}
+            className="flex w-full cursor-pointer items-center justify-between"
+          >
             <span className="text-[0.6875rem] leading-[16.5px] font-semibold text-zinc-700">Prévia de arquivos</span>
-            <PreviewChevronGlyph aria-hidden="true" className="size-3" />
-          </div>
+            <PreviewChevronGlyph
+              aria-hidden="true"
+              className={cn("size-3 shrink-0 transition-transform", previewExpanded && "rotate-180")}
+            />
+          </button>
           <ul className="mt-2 flex w-full flex-col gap-1">
             {fileNames.map((name) => (
               <li key={name} className="text-[0.625rem] leading-[15px] text-zinc-500">

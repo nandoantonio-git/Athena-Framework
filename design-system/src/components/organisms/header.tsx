@@ -81,7 +81,7 @@ function Header({ page = "navbar", searchProps, onOrganize, onSave, className, .
           <PushButton variant="primary" icon={ICONS.Organize} onClick={onOrganize}>
             Organizar
           </PushButton>
-          <PushButton variant="primary" icon={ICONS.Bookmark} onClick={onSave}>
+          <PushButton variant="primary" icon={ICONS.Keep} onClick={onSave}>
             Guardar
           </PushButton>
         </div>
