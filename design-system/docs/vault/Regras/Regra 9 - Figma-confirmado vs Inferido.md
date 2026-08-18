@@ -24,9 +24,9 @@ Quando o Figma não confirma algo (ex. um valor exato, um comportamento), o cód
 
 Achado real: uma correção anterior (pass14) tinha adicionado `px-4` ao `FaqFastLinks` por engano. Uma releitura fresca (pass20) mostrou que o Figma real **não tem** padding horizontal nenhum — a leitura mais recente sempre vence sobre um "aligned" anterior, mesmo que pareça contraintuitivo. Ver [[Sessão 2026-08-15]].
 
-## Auditoria de cobertura (Sessão 2026-08-15)
+## Auditoria de cobertura (Sessão 2026-08-15, contagem refeita em 2026-08-16)
 
-83 dos 87 arquivos de componente citam "Figma-confirmado" — os 4 exceções são primitivos internos sem node Figma próprio (`ui/button`, `IconActionButton`) ou nodes onde o Figma genuinamente não tinha descrição preenchida, registrado como tal em vez de inventada.
+85 dos 87 arquivos de componente citam "Figma-confirmado" (`grep -rl "Figma-confirmado" src/components --include="*.tsx"`, denominador exclui `tokens/color-swatch.tsx`, utilitário de doc sem node Figma próprio) — as 2 exceções reais são `ui/button.tsx` e `atom/IconActionButton`, primitivos internos sem node Figma próprio.
 
 ## Ver também
 

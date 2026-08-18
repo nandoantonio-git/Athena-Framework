@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { DropdownSelectGroupByItem } from "../../src/components/atoms/dropdown-select-group-by-item"
 
 const meta = {
-  title: "Atoms/DropdownSelectGroupByItem",
+  title: "Atoms/DropdownSelectGroupBy/Item",
   component: DropdownSelectGroupByItem,
   parameters: {
     layout: "centered",

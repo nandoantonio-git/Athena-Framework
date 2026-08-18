@@ -3,17 +3,17 @@ import { X, Info } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { PushButton } from "@/components/atoms/push-button"
-import { ButtonAdd } from "@/components/atoms/button-add"
-import { NodoContextMenuItem } from "@/components/celules/nodo-context-menu-item"
-import NodoContextMenuFilter from "@/assets/icons/NodoContextMenuFilter.svg?react"
+import { AddButton } from "@/components/atoms/add-button"
+import { NodeContextMenuItem } from "@/components/cells/node-context-menu-item"
+import NodeContextMenuFilter from "@/assets/icons/NodeContextMenuFilter.svg?react"
 
-export type NodoContextMenuLogicalOperator = "and" | "or"
+export type NodeContextMenuLogicalOperator = "and" | "or"
 
-export interface NodoContextMenuProps extends React.ComponentProps<"div"> {
+export interface NodeContextMenuProps extends React.ComponentProps<"div"> {
   /** Eixo `state` do Figma: `FloatingInfoPanel` (linha de condição preenchida, sem erro) \| `State3` (linha nova em `wrongInput` + aviso). */
   state?: "floating-info-panel" | "state-3"
-  logicalOperator?: NodoContextMenuLogicalOperator
-  onLogicalOperatorChange?: (operator: NodoContextMenuLogicalOperator) => void
+  logicalOperator?: NodeContextMenuLogicalOperator
+  onLogicalOperatorChange?: (operator: NodeContextMenuLogicalOperator) => void
   onRemoveCondition?: () => void
   onAddRule?: () => void
   onDiscard?: () => void
@@ -43,7 +43,7 @@ export interface NodoContextMenuProps extends React.ComponentProps<"div"> {
  * `DropdownSelectGroupBy`/`ViewModeToggle`); registrado em
  * `docs/conflicts.md`.
  */
-function NodoContextMenu({
+function NodeContextMenu({
   state = "floating-info-panel",
   logicalOperator = "and",
   onLogicalOperatorChange,
@@ -53,11 +53,11 @@ function NodoContextMenu({
   onSave,
   className,
   ...props
-}: NodoContextMenuProps) {
+}: NodeContextMenuProps) {
   const isError = state === "state-3"
   return (
     <div
-      data-slot="nodo-context-menu"
+      data-slot="node-context-menu"
       data-state={state}
       className={cn("relative w-[393px] overflow-hidden rounded-[2.375rem] shadow-[0_8px_20px_rgba(0,0,0,0.12)]", className)}
       {...props}
@@ -65,14 +65,14 @@ function NodoContextMenu({
       <div aria-hidden="true" className="absolute inset-0 rounded-[2.375rem] bg-effect-glass-white-50 mix-blend-screen" />
       <div className="relative flex flex-col gap-3 px-6 py-2.5">
         <div className="flex items-center gap-2">
-          <NodoContextMenuFilter aria-hidden="true" className="h-[15.193px] w-[15.111px]" />
+          <NodeContextMenuFilter aria-hidden="true" className="h-[15.193px] w-[15.111px]" />
           <span className="text-sm font-bold text-zinc-700">Filtro</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <NodoContextMenuItem label="Atributo" value="Tamanho" />
-          <NodoContextMenuItem label="Operação" value="Maior que" />
-          <NodoContextMenuItem label="Valor..." value="1.0 GB" hasChevron={false} />
+          <NodeContextMenuItem label="Atributo" value="Tamanho" />
+          <NodeContextMenuItem label="Operação" value="Maior que" />
+          <NodeContextMenuItem label="Valor..." value="1.0 GB" hasChevron={false} />
           <button
             type="button"
             aria-label="Remover condição"
@@ -110,13 +110,13 @@ function NodoContextMenu({
 
         <div className="flex flex-col gap-1.5 pt-1">
           <div className="flex items-center gap-2">
-            <NodoContextMenuItem label="Atributo" error={isError} options={["Tamanho", "Data", "Tipo"]} />
-            <NodoContextMenuItem
+            <NodeContextMenuItem label="Atributo" error={isError} options={["Tamanho", "Data", "Tipo"]} />
+            <NodeContextMenuItem
               label="Operação"
               error={isError}
               options={["> Maior", "< Menor", ">= Maior igual", "<= Menor igual", "=Igual", "!=Diferente"]}
             />
-            <NodoContextMenuItem label="Valor..." error={isError} hasChevron={false} />
+            <NodeContextMenuItem label="Valor..." error={isError} hasChevron={false} />
           </div>
           {isError ? (
             <p className="flex items-center gap-1 text-[0.6875rem] text-destructive">
@@ -126,8 +126,8 @@ function NodoContextMenu({
           ) : null}
         </div>
 
-        <ButtonAdd label="Adicionar Regra" onClick={onAddRule} className="w-full" />
-        {isError ? <ButtonAdd label="Adicionar Regra" onClick={onAddRule} className="w-full" /> : null}
+        <AddButton label="Adicionar Regra" onClick={onAddRule} className="w-full" />
+        {isError ? <AddButton label="Adicionar Regra" onClick={onAddRule} className="w-full" /> : null}
 
         <div className="flex items-center justify-end gap-4 border-t border-zinc-300 py-3">
           <PushButton variant="neutral" className="h-8 px-4 text-xs" onClick={onDiscard}>
@@ -142,4 +142,4 @@ function NodoContextMenu({
   )
 }
 
-export { NodoContextMenu }
+export { NodeContextMenu }

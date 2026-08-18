@@ -1,21 +1,21 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
-import * as ButtonAddStories from './ButtonAdd.stories';
+import * as AddButtonStories from './AddButton.stories';
 
-<Meta of={ButtonAddStories} />
+<Meta of={AddButtonStories} />
 
-# ButtonAdd (Figma: `atom/buttonAdd`, `1421:20509`)
+# AddButton (Figma: `atom/buttonAdd`, `1421:20509`)
 
 ## Uso
 
 Botão de ação aditiva (contorno + glifo `+`) usado em 2 fluxos reais: adicionar arquivos no fluxo de guardar em longo prazo, e adicionar regras de filtro no menu contextual do canvas de organização. Rótulo muda por contexto (`Adicionar Arquivos`/`Adicionar Regra`) — sempre passe o texto certo pro fluxo em que está sendo usado.
 
-<Canvas of={ButtonAddStories.Default} />
-<Canvas of={ButtonAddStories.AllStates} />
+<Canvas of={AddButtonStories.Default} />
+<Canvas of={AddButtonStories.AllStates} />
 <Controls />
 
-<Canvas of={ButtonAddStories.AdicionarArquivos} />
-<Canvas of={ButtonAddStories.AdicionarRegra} />
-<Canvas of={ButtonAddStories.Disabled} />
+<Canvas of={AddButtonStories.AdicionarArquivos} />
+<Canvas of={AddButtonStories.AdicionarRegra} />
+<Canvas of={AddButtonStories.Disabled} />
 
 ## Estados
 

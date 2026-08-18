@@ -37,11 +37,19 @@ const DEFAULT_PLANS: PlanSelectionPlan[] = [
  * organism/planSelection (`1454:25057`) — Figma-confirmado: "card onde o
  * usuário escolhe o plano desejado". Tela de Configurações de Plano
  * mencionada na decisão de terminologia da Regra 5 (2026-08-10) — ver
- * `docs/conflicts.md` para o achado: este nó **não contém** nenhum botão
- * "Liberar Espaço"/`isDestructive` (gestão de assinatura/plano, não de
- * arquivos), diferente do presumido ao travar a Regra 5.
+ * `docs/conflicts.md` para o achado original: este nó **não contém** nenhum
+ * botão "Liberar Espaço"/`isDestructive` (gestão de assinatura/plano, não de
+ * arquivos), diferente do presumido ao travar a Regra 5. A ponte real entre
+ * as duas telas é o botão "Comprar Espaço" de `molecule/StorageStatus`
+ * (`scope="global"`), que leva daqui pra lá — não o contrário. Regra 5
+ * corrigida em 2026-08-18 (decisão humana) pra refletir essa direção.
  *
- * Botões "Downgrade"/"Upgrade"/"Editar pagamento" usam
+ * Botão do rodapé renomeado de "Editar pagamento" pra **"Editar plano"**
+ * em 2026-08-18 — Figma-confirmado (usuário atualizou o node `1454:25054`
+ * ao vivo, releitura via `get_metadata` confirma o texto novo). Serve de
+ * âncora pra edição de plano/forma de pagamento (`onManageBilling`).
+ *
+ * Botões "Downgrade"/"Upgrade"/"Editar plano" usam
  * `atom/PushButton` (`variant="neutral"`, Regra 1 — nenhum
  * `button/primary`\|`secondary` separado). Card do plano corrente reusa o
  * mesmo par de tokens `border-brand-teal`/`bg-brand-teal-light` já usado
@@ -169,7 +177,7 @@ function PlanSelection({
           onClick={onManageBilling}
           className="h-auto shrink-0 rounded-md px-4 py-2 text-sm"
         >
-          Editar pagamento
+          Editar plano
         </PushButton>
       </div>
     </div>

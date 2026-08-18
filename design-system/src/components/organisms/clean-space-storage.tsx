@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 import { PushButton } from "@/components/atoms/push-button"
 import { CloseButton } from "@/components/atoms/close-button"
 import { type StorageTier } from "@/components/atoms/storage-tier-badge"
-import { CleanSpaceListSelection } from "@/components/celules/clean-space-list-selection"
+import { CleanSpaceListSelection } from "@/components/cells/clean-space-list-selection"
 
 export interface CleanSpaceLargeFile {
   name: string

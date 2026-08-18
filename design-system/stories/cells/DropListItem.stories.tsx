@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { DropListItem } from "../../src/components/celules/drop-list-item"
+import { DropListItem } from "../../src/components/cells/drop-list-item"
 
 const meta = {
-  title: "Celules/DropListItem",
+  title: "Cells/DropListItem",
   component: DropListItem,
   parameters: {
     layout: "centered",

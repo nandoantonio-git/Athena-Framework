@@ -43,7 +43,7 @@ export interface ReviewItem {
   onDelete?: () => void
 }
 
-export interface DialogTemplateReviewModalProps extends React.ComponentProps<"div"> {
+export interface TemplateReviewModalProps extends React.ComponentProps<"div"> {
   items: ReviewItem[]
   onCancel?: () => void
   onContinue?: () => void
@@ -77,7 +77,7 @@ const SEVERITY_META: Record<ReviewSeverity, { label: string; icon: typeof AlertT
  * além do confirmado (o 1º item começa expandido, os demais colapsados,
  * espelhando a composição "Default" do Figma).
  */
-function DialogTemplateReviewModal({ items, onCancel, onContinue, className, ...props }: DialogTemplateReviewModalProps) {
+function TemplateReviewModal({ items, onCancel, onContinue, className, ...props }: TemplateReviewModalProps) {
   const [expanded, setExpanded] = React.useState<Set<string>>(
     () => new Set(items.filter((item) => item.children?.length).slice(0, 1).map((item) => item.name))
   )
@@ -91,7 +91,7 @@ function DialogTemplateReviewModal({ items, onCancel, onContinue, className, ...
   }
   return (
     <div
-      data-slot="dialog-template-review-modal"
+      data-slot="template-review-modal"
       role="dialog"
       aria-label="Revisar Organização"
       className={cn(
@@ -214,4 +214,4 @@ function DialogTemplateReviewModal({ items, onCancel, onContinue, className, ...
   )
 }
 
-export { DialogTemplateReviewModal }
+export { TemplateReviewModal }

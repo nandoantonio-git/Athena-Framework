@@ -7,7 +7,7 @@ import * as PlanSelectionStories from './PlanSelection.stories';
 
 ## Uso
 
-Card de seleção/gestão de plano de assinatura (ciclo mensal/anual, forma de pagamento). Use na página de Configurações de Plano — este card é inteiramente sobre gestão de assinatura (planos, cobrança, forma de pagamento); não tem relação com o fluxo de armazenamento nem inclui um botão "Liberar Espaço".
+Card de seleção/gestão de plano de assinatura (ciclo mensal/anual, forma de pagamento). Use na página de Configurações de Plano — este card não inclui um botão "Liberar Espaço" (esse fluxo mora em `molecule/StorageStatus`, `scope="global"`); a ponte entre as duas telas é o botão "Comprar Espaço" de lá pra cá, não o contrário (Regra 5, corrigida em 2026-08-18).
 
 <Canvas of={PlanSelectionStories.Default} />
 <Controls />
@@ -18,9 +18,9 @@ Card de seleção/gestão de plano de assinatura (ciclo mensal/anual, forma de p
 - Badge de status da assinatura ("Active") + data da próxima cobrança
 - Toggle "Monthly"/"Annual"
 - Cards de plano: "Starter" (1 TB, botão "Downgrade"), "Pro" (badge "Current", 5 TB, indicador "✓ Active"), "Max" (10 TB, botão "Upgrade")
-- Rodapé com texto sobre o portal de pagamento + botão "Editar pagamento"
+- Rodapé com texto sobre o portal de pagamento + botão "Editar plano" (renomeado de "Editar pagamento" em 2026-08-18, Figma-confirmado)
 
-Botões "Downgrade"/"Upgrade"/"Editar pagamento" usam `atom/PushButton` (`variant="neutral"`) — nenhum botão deste nó usa `isDestructive` (não há ação destrutiva nesta tela).
+Botões "Downgrade"/"Upgrade"/"Editar plano" usam `atom/PushButton` (`variant="neutral"`) — nenhum botão deste nó usa `isDestructive` (não há ação destrutiva nesta tela).
 
 ## Cores
 

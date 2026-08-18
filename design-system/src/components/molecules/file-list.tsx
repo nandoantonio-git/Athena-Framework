@@ -63,6 +63,15 @@ export interface FileListProps extends React.ComponentProps<"div"> {
  * com o `<span>{fileName}</span>` da própria linha. Desligado sempre — o
  * micro-nome só faz sentido no ícone usado sozinho (grid), nunca composto
  * dentro de uma linha que já mostra o nome.
+ *
+ * Corrigido em 2026-08-18 (varredura de interatividade real, achado da
+ * sessão de 2026-08-15 estendido ao catálogo): hover/pressed só mudavam de
+ * aparência via a prop `state` controlada externamente, sem nenhuma classe
+ * `hover:`/`active:` real — uma linha consumida sem controle explícito de
+ * `state` nunca reagia ao mouse de verdade, mesmo padrão de bug já corrigido
+ * em `atom/CloseButton`. Adicionadas classes `hover:`/`active:` reais
+ * (interação de mouse funciona sem prop nenhuma); a prop `state` continua
+ * funcionando por cima pra fixar um estado estático nas stories.
  */
 function FileList({
   fileName,
@@ -82,9 +91,10 @@ function FileList({
       data-format={format}
       data-state={state}
       className={cn(
-        "flex w-full items-center gap-4 rounded-lg px-3 py-2 transition-colors",
+        "flex w-full cursor-pointer items-center gap-4 rounded-lg px-3 py-2 transition-colors",
+        "hover:bg-zinc-100 active:bg-brand-teal-light",
         isSm ? "max-w-[560px]" : "max-w-[1025px]",
-        state === "hover" && "cursor-pointer bg-zinc-100",
+        state === "hover" && "bg-zinc-100",
         state === "pressed" && "bg-brand-teal-light",
         className
       )}

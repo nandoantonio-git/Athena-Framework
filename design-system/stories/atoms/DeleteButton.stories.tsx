@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { DeleteButton } from "../../src/components/atoms/delete-button"
 
 const meta = {
-  title: "Atoms/DeleteButton",
+  title: "Atoms/IconButton/Delete",
   component: DeleteButton,
   parameters: {
     layout: "centered",

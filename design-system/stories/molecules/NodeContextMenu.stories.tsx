@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { NodoContextMenu } from "../../src/components/molecules/nodo-context-menu"
+import { NodeContextMenu } from "../../src/components/molecules/node-context-menu"
 
 const meta = {
-  title: "Molecules/NodoContextMenu",
-  component: NodoContextMenu,
+  title: "Molecules/NodeContextMenu",
+  component: NodeContextMenu,
   parameters: {
     layout: "centered",
     design: { type: 'figma', url: 'https://www.figma.com/design/oFp2TLeCG4GJeCOFVhBvjg/KanDrive?node-id=1440-23821' },
@@ -24,7 +24,7 @@ const meta = {
       </div>
     ),
   ],
-} satisfies Meta<typeof NodoContextMenu>
+} satisfies Meta<typeof NodeContextMenu>
 
 export default meta
 type Story = StoryObj<typeof meta>

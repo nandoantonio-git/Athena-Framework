@@ -41,7 +41,7 @@ const CARDS: { method: OrganizationMethod; eyebrow: string; title: string; descr
   },
 ]
 
-export interface DialogSaveOrganizationModalProps extends React.ComponentProps<"div"> {
+export interface SaveOrganizationModalProps extends React.ComponentProps<"div"> {
   selected?: OrganizationMethod
   onMethodSelect?: (method: OrganizationMethod) => void
   onCancel?: () => void
@@ -66,17 +66,17 @@ export interface DialogSaveOrganizationModalProps extends React.ComponentProps<"
  * de cada card (asset de imagem exportado do Figma), agora incluída via
  * `src/assets/illustrations/`.
  */
-function DialogSaveOrganizationModal({
+function SaveOrganizationModal({
   selected,
   onMethodSelect,
   onCancel,
   onContinue,
   className,
   ...props
-}: DialogSaveOrganizationModalProps) {
+}: SaveOrganizationModalProps) {
   return (
     <div
-      data-slot="dialog-save-organization-modal"
+      data-slot="save-organization-modal"
       role="dialog"
       aria-label="Escolher método de organização"
       className={cn(
@@ -134,4 +134,4 @@ function DialogSaveOrganizationModal({
   )
 }
 
-export { DialogSaveOrganizationModal }
+export { SaveOrganizationModal }

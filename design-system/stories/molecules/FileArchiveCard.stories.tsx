@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { FileArchiveCard } from "../../src/components/molecules/file-archive-card"
 
 const meta = {
-  title: "Molecules/FileArchive",
+  title: "Molecules/FileArchiveCard",
   component: FileArchiveCard,
   parameters: {
     layout: "centered",

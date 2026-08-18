@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { ButtonAdd } from "../../src/components/atoms/button-add"
+import { AddButton } from "../../src/components/atoms/add-button"
 
 const meta = {
-  title: "Atoms/ButtonAdd",
-  component: ButtonAdd,
+  title: "Atoms/AddButton",
+  component: AddButton,
   parameters: {
     layout: "centered",
     design: { type: 'figma', url: 'https://www.figma.com/design/oFp2TLeCG4GJeCOFVhBvjg/KanDrive?node-id=1421-20509' },
@@ -16,7 +16,7 @@ const meta = {
     label: "Adicionar",
     disabled: false,
   },
-} satisfies Meta<typeof ButtonAdd>
+} satisfies Meta<typeof AddButton>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -28,7 +28,7 @@ export const AllStates: Story = {
   render: (args) => (
     <div className="flex flex-col gap-2 rounded-lg bg-[var(--neutral-surface-background,#f3f3f3)] p-5">
       {(["idle", "hover", "clicked", "disabled"] as const).map((state) => (
-        <ButtonAdd key={state} {...args} state={state} />
+        <AddButton key={state} {...args} state={state} />
       ))}
     </div>
   ),

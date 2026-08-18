@@ -2,7 +2,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { PushButton } from "@/components/atoms/push-button"
-import { ButtonAdd } from "@/components/atoms/button-add"
+import { AddButton } from "@/components/atoms/add-button"
 import { Icon } from "@/components/atoms/icon"
 import { CloseButton } from "@/components/atoms/close-button"
 import { SearchInput } from "@/components/molecules/search-input"
@@ -93,7 +93,7 @@ function SaveLongTermFileStorage({
           {files.map((file) => (
             <ArchiveBrowserModalListItem key={file.name} fileName={file.name} meta={file.meta} />
           ))}
-          <ButtonAdd label="Adicionar arquivos" onClick={onAddFiles} className="w-full border-zinc-200" />
+          <AddButton label="Adicionar arquivos" onClick={onAddFiles} className="w-full border-zinc-200" />
         </div>
         <div className="flex flex-1 flex-col gap-3">
           <div className="flex flex-wrap gap-2">

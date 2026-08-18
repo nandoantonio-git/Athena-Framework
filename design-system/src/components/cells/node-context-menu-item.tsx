@@ -3,7 +3,7 @@ import { ChevronDownIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-export interface NodoContextMenuItemProps
+export interface NodeContextMenuItemProps
   extends Omit<React.ComponentProps<"div">, "onChange"> {
   /** Placeholder mostrado quando não há `value` selecionado (ex.: "Atributo", "Valor..."). */
   label: string
@@ -29,7 +29,7 @@ const WIDTH_BY_KIND = {
   interval: "w-[116px]",
 } as const
 
-function inferKind(label: string, hasChevron: boolean): NonNullable<NodoContextMenuItemProps["kind"]> {
+function inferKind(label: string, hasChevron: boolean): NonNullable<NodeContextMenuItemProps["kind"]> {
   if (label === "Operação") return "condition"
   if (label === "Intervalo") return "interval"
   if (label === "Data") return "date"
@@ -54,7 +54,7 @@ function inferKind(label: string, hasChevron: boolean): NonNullable<NodoContextM
  * fora de escopo de uma pílula de catálogo (a description do Figma já
  * remete a um componente de calendário externo, não a este nó).
  */
-function NodoContextMenuItem({
+function NodeContextMenuItem({
   label,
   kind,
   hasChevron = true,
@@ -68,7 +68,7 @@ function NodoContextMenuItem({
   disabled,
   className,
   ...props
-}: NodoContextMenuItemProps) {
+}: NodeContextMenuItemProps) {
   const visualKind = kind ?? inferKind(label, hasChevron)
   const filled = value !== undefined
   const widthClassName = WIDTH_BY_KIND[visualKind]
@@ -76,7 +76,7 @@ function NodoContextMenuItem({
   const expandedSurfaceClassName = "border-zinc-500 bg-zinc-600 text-zinc-300"
   return (
     <div
-      data-slot="nodo-context-menu-item"
+      data-slot="node-context-menu-item"
       data-kind={visualKind}
       data-expanded={expanded || undefined}
       className={cn(
@@ -90,7 +90,7 @@ function NodoContextMenuItem({
     >
       <button
         type="button"
-        data-slot="nodo-context-menu-item-trigger"
+        data-slot="node-context-menu-item-trigger"
         aria-expanded={hasChevron ? expanded : undefined}
         disabled={disabled}
         onClick={() => hasChevron && onExpandedChange?.(!expanded)}
@@ -114,14 +114,14 @@ function NodoContextMenuItem({
       </button>
       {hasChevron && expanded && options && options.length > 0 ? (
         <ul
-          data-slot="nodo-context-menu-item-list"
+          data-slot="node-context-menu-item-list"
           className="flex w-full flex-col py-1"
         >
           {options.map((option) => (
             <li key={option}>
               <button
                 type="button"
-                data-slot="nodo-context-menu-item-option"
+                data-slot="node-context-menu-item-option"
                 aria-current={option === selectedOption || option === value}
                 onClick={() => onValueChange?.(option)}
                 className={cn(
@@ -139,4 +139,4 @@ function NodoContextMenuItem({
   )
 }
 
-export { NodoContextMenuItem }
+export { NodeContextMenuItem }

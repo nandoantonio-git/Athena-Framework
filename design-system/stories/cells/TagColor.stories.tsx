@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { useState } from "react"
 
-import { TagColor, type TagColorName } from "../../src/components/celules/tag-color"
+import { TagColor, type TagColorName } from "../../src/components/cells/tag-color"
 
 const meta = {
-  title: "Celules/TagColor",
+  title: "Cells/TagColor",
   component: TagColor,
   parameters: {
     layout: "centered",

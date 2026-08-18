@@ -4,15 +4,15 @@ tags: [design-system, moc]
 
 # Camadas Atômicas
 
-O catálogo tem **84 componentes** em 4 camadas, espelhando a hierarquia real do arquivo Figma (não uma taxonomia atômica pura de livro-texto — ver a ressalva sobre `celules` abaixo).
+O catálogo tem **84 componentes** em 4 camadas, espelhando a hierarquia real do arquivo Figma (não uma taxonomia atômica pura de livro-texto — ver a ressalva sobre `cells` abaixo).
 
 ```mermaid
 graph TD
     Tokens[Tokens: Cor/Tipografia/Espaçamento/Liquid Glass] --> Atoms
-    Atoms[Atoms — 29] --> Celules[Celules — 10]
+    Atoms[Atoms — 29] --> Cells[Cells — 10]
     Atoms --> Molecules[Molecules — 22]
-    Celules --> Molecules
-    Celules --> Organisms[Organisms — 23]
+    Cells --> Molecules
+    Cells --> Organisms[Organisms — 23]
     Molecules --> Organisms
 ```
 
@@ -20,17 +20,17 @@ graph TD
 
 Elementos indivisíveis: botões de ícone (`CloseButton`, `ClearButton`, `KeepButton`...), badges (`TypeLabel`, `StorageTierBadge`, `TagOrgMode`), o [[PushButton]] único. Ver `stories/atoms/`.
 
-## Celules (10)
+## Cells (10)
 
-**Não é typo** — nome vem literalmente do Figma (`celule/...`). Peças de composição intermediárias que não são nem um átomo isolado nem uma molécula completa: `Callout`, `TagColor`, `DropListItem`, a família `FreeMode/*` do canvas de organização (`FreeModeItemNode`, `FreeModeOutputNode`, `FreeModeButtons`, `FreeModeListItem`), `NodoContextMenuItem`, `PagesLead`, `CleanSpaceListSelection`.
+Renomeada de "Celules" em 2026-08-18 (alinhamento semântico em inglês) — **o nome do código muda, mas não é typo continuar vendo `celule/...` nas citações Figma abaixo**: esse prefixo vem literalmente do arquivo Figma fonte (`docs/figma-inventory.md`, achado #7) e é preservado como citação (Regra 9), mesmo com a camada de código agora chamada `cells`. Peças de composição intermediárias que não são nem um átomo isolado nem uma molécula completa: `Callout`, `TagColor`, `DropListItem`, a família `OrganizeFreeModeCanvas/*` do canvas de organização (`ItemNode`, `OutputNode`, `Buttons`, `ListItem`), `NodeContextMenuItem`, `PageLead`, `CleanSpaceListSelection`.
 
 ## Molecules (22)
 
-Composições funcionais reutilizáveis: [[SearchInput]], `Label`, `FileArchive`, [[FileList]], `FolderCard`, `Notification`/`PopoverNotification`, `DropdownSelectGroupBy`/`DropdownSelectLabel`, [[StorageStatus]], `StorageBar`, `ViewModeToggle`.
+Composições funcionais reutilizáveis: [[SearchInput]], `Label`, `FileArchiveCard`, [[FileList]], `FolderCard`, `Notification`/`PopoverNotification`, `DropdownSelectGroupBy`/`DropdownSelectLabel`, [[StorageStatus]], `StorageBar`, `ViewModeToggle`.
 
 ## Organisms (23)
 
-Composições de tela/fluxo completo: [[Header]], [[Sidebar]], [[CleanSpaceStorage]], `ArchiveBrowserModal`, `DialogTemplateReviewModal`, [[OrganizeFreeModeCanvas]], `SaveLongTermFileStorage`, [[PlanSelection]], [[UploadPopover]], a família `Faq*`.
+Composições de tela/fluxo completo: [[Header]], [[Sidebar]], [[CleanSpaceStorage]], `ArchiveBrowserModal`, `TemplateReviewModal`, [[OrganizeFreeModeCanvas]], `SaveLongTermFileStorage`, [[PlanSelection]], [[UploadPopover]], a família `Faq/*`.
 
 ## Regra de composição (Regra 10)
 

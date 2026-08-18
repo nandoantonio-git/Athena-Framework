@@ -1,7 +1,7 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { TagColor, type TagColorName } from "@/components/celules/tag-color"
+import { TagColor, type TagColorName } from "@/components/cells/tag-color"
 
 export type { TagColorName }
 

@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { DialogTemplateReviewModal } from "../../src/components/organisms/dialog-template-review-modal"
+import { TemplateReviewModal } from "../../src/components/organisms/template-review-modal"
 
 const meta = {
-  title: "Organisms/DialogTemplateReviewModal",
-  component: DialogTemplateReviewModal,
+  title: "Organisms/TemplateReviewModal",
+  component: TemplateReviewModal,
   parameters: { layout: "centered", design: { type: 'figma', url: 'https://www.figma.com/design/oFp2TLeCG4GJeCOFVhBvjg/KanDrive?node-id=1431-20397' } },
   args: {
     items: [
@@ -32,7 +32,7 @@ const meta = {
       },
     ],
   },
-} satisfies Meta<typeof DialogTemplateReviewModal>
+} satisfies Meta<typeof TemplateReviewModal>
 
 export default meta
 type Story = StoryObj<typeof meta>

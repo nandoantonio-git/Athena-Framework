@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { FaqInfoCard } from "../../src/components/organisms/faq-info-card"
 
 const meta = {
-  title: "Organisms/FaqInfoCard",
+  title: "Organisms/Faq/InfoCard",
   component: FaqInfoCard,
   parameters: {
     layout: "padded",

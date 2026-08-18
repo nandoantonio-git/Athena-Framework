@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { FreeModeListItem } from "../../src/components/celules/free-mode-list-item"
+import { FreeModeListItem } from "../../src/components/cells/free-mode-list-item"
 
 const meta = {
-  title: "Celules/FreeModeListItem",
+  title: "Cells/OrganizeFreeModeCanvas/ListItem",
   component: FreeModeListItem,
   parameters: {
     layout: "centered",

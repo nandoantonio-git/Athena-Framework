@@ -50,8 +50,8 @@ Full mechanics, env vars, and directory layout are documented in the root `READM
 
 Stack: React 19 + TypeScript + Tailwind CSS v4 + shadcn/ui (Radix primitives + CVA), Storybook 10 (CSF3 + MDX), Vite 8. Deployed to Vercel as a static Storybook build (`vercel.json`: `build-storybook` → `storybook-static/`).
 
-- `src/components/{atoms,celules,molecules,organisms,ui}/` — component implementations, kebab-case filenames. `celules` is a real, intentional layer between atoms and molecules (not a typo, not folded into either) — see `AGENTS.md`.
-- `stories/{atoms,celules,molecules,organisms}/` — one `.stories.tsx` (CSF3) + one `.mdx` per component, mirroring `src/components/`. `stories/tokens/` holds MDX-only design token docs (`Colors`, `Typography`, `Spacing`, `Materials`, `unused`).
+- `src/components/{atoms,cells,molecules,organisms,ui}/` — component implementations, kebab-case filenames. `cells` (renamed from `celules` 2026-08-18 for semantic-English alignment) is a real, intentional layer between atoms and molecules (not a typo, not folded into either) — see `AGENTS.md`. Figma's own layer prefix for these components remains the literal `celule/` (Figma-confirmed, untranslated) — see `AGENTS.md` Regras críticas and `docs/figma-inventory.md`.
+- `stories/{atoms,cells,molecules,organisms}/` — one `.stories.tsx` (CSF3) + one `.mdx` per component, mirroring `src/components/`. `stories/tokens/` holds MDX-only design token docs (`Colors`, `Typography`, `Spacing`, `Materials`, `unused`).
 - `docs/` — living project docs: `figma-inventory.md` (Figma page inventory), `conflicts.md` (Figma-vs-locked-decision conflict log), `checkpoints.md` (per-layer checkpoints), `terminology-audit.md`, `audits/` (dated audit reports — check for the most recent one before starting new work; a later audit can invalidate an earlier "clean" verdict).
 
 ### Mandatory verification protocol before marking any component verified/aligned (AGENTS.md Regra 11)

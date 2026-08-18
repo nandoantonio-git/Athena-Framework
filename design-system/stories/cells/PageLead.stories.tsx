@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { PagesLead } from "../../src/components/celules/pages-lead"
+import { PageLead } from "../../src/components/cells/page-lead"
 
 const meta = {
-  title: "Celules/PagesLead",
-  component: PagesLead,
+  title: "Cells/PageLead",
+  component: PageLead,
   parameters: {
     layout: "centered",
     design: { type: 'figma', url: 'https://www.figma.com/design/oFp2TLeCG4GJeCOFVhBvjg/KanDrive?node-id=1439-17048' },
@@ -13,7 +13,7 @@ const meta = {
     title: "Armazenamento",
     caption: "Gerencie seu armazenamento",
   },
-} satisfies Meta<typeof PagesLead>
+} satisfies Meta<typeof PageLead>
 
 export default meta
 type Story = StoryObj<typeof meta>

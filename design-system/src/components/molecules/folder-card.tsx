@@ -46,6 +46,13 @@ const DEFAULT_FILE_NAMES = ["Arquivo 1", "Arquivo 2", "Arquivo 3"] as const
  * `atom/ArchiveItem` e `atom/ImageItem` já existem como átomos
  * Figma-confirmados; o card agora os compõe diretamente em vez de manter
  * thumbnails parciais ou placeholder `lucide-react`.
+ *
+ * Corrigido em 2026-08-18 (varredura de interatividade real): o fundo do
+ * toggle "Pasta" só mudava via a prop `state` controlada externamente, sem
+ * classe `hover:` real — mesmo padrão de bug já corrigido em
+ * `atom/CloseButton`/`molecule/FileList`. Adicionada `hover:bg-[#71717a33]`
+ * real; a prop `state` continua funcionando por cima pra fixar um estado
+ * estático nas stories.
  */
 function FolderCard({
   label = "Pasta",
@@ -75,6 +82,7 @@ function FolderCard({
           onClick={onToggleExpanded}
           className={cn(
             "flex items-center gap-2 rounded-md px-2 py-1 text-base text-brand-teal-dark",
+            "hover:bg-[#71717a33]",
             state === "hover" && "bg-[#71717a33]",
             state === "selected" && "bg-brand-teal-light"
           )}

@@ -8,8 +8,6 @@ Fonte completa: `design-system/docs/conflicts.md` (39 linhas registradas, maiori
 
 ## 🔴 Alta urgência
 
-**[[PlanSelection]] × [[Regra 5 - Terminologia|Regra 5]]** — a Regra 5 presume um botão "Liberar Espaço" na página de Configurações de Plano; o Figma real não tem esse link em lugar nenhum do node. Decisão pendente: corrigir a Regra 5, ou o Figma está com um gap real.
-
 **Formato de nome dos tokens ([[Regra 2 - Nomenclatura de Tokens|Regra 2]])** — Figma usa `var(--categoria-papel-valor)` (kebab-case), não `cor/categoria/papel/valor-semântico`. A tradução na documentação é uma camada de abstração, não o nome literal.
 
 ## 🟡 Média urgência
@@ -28,6 +26,7 @@ Fonte completa: `design-system/docs/conflicts.md` (39 linhas registradas, maiori
 - `atom/Icon/SpatialAudioOff` é visualmente um ícone de pessoa/avatar, não de mudo — nome de camada não bate com o conteúdo no próprio Figma.
 - `organism/Header` — "Organizar" não está na lista aprovada nem proibida da Regra 5 (gap de cobertura, não violação).
 - Estados `Focused`/`Typing` do `SearchBar` (SF Pro, azul Apple) — ver [[SearchInput]].
+- **Sem teste automatizado** — gate real é só `tsc --noEmit` + `build-storybook`; `addon-vitest`/Playwright instalados, nunca usados. Registrado 2026-08-18 como débito explícito de handoff, não lacuna escondida.
 
 ## Ver também
 

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { KeepButton } from "../../src/components/atoms/keep-button"
 
 const meta = {
-  title: "Atoms/KeepButton",
+  title: "Atoms/IconButton/Keep",
   component: KeepButton,
   parameters: {
     layout: "centered",

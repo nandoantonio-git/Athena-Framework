@@ -40,7 +40,7 @@ Ver [[Regra 11 - Protocolo de Verificação]] pro histórico completo (isso exis
 
 ## Padrão de "componentes com descrição capturada"
 
-83 dos 87 arquivos de componente citam "Figma-confirmado" no JSDoc — sempre que o Figma tinha um campo de descrição preenchido, foi capturado **verbatim**, nunca parafraseado (Regra 9). Auditado explicitamente na [[Sessão 2026-08-15]].
+85 dos 87 arquivos de componente citam "Figma-confirmado" no JSDoc — sempre que o Figma tinha um campo de descrição preenchido, foi capturado **verbatim**, nunca parafraseado (Regra 9). As 2 exceções são `ui/button.tsx` e `atom/IconActionButton`, primitivos internos sem node Figma próprio (o denominador de 87 exclui `tokens/color-swatch.tsx`, um utilitário de doc interno, não um componente do catálogo). Contagem real refeita em 2026-08-16 via `grep -rl "Figma-confirmado" src/components --include="*.tsx"`. Auditado explicitamente na [[Sessão 2026-08-15]].
 
 ## Ver também
 

@@ -2,7 +2,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-export interface PagesLeadProps extends React.ComponentProps<"div"> {
+export interface PageLeadProps extends React.ComponentProps<"div"> {
   title: string
   caption?: string
 }
@@ -15,13 +15,13 @@ export interface PagesLeadProps extends React.ComponentProps<"div"> {
  * default — cada página injeta seu próprio H1 real; `caption` default é o
  * valor Figma-confirmado da instância amostrada ("Armazenamento").
  */
-function PagesLead({ title, caption = "Gerencie seu armazenamento", className, ...props }: PagesLeadProps) {
+function PageLead({ title, caption = "Gerencie seu armazenamento", className, ...props }: PageLeadProps) {
   return (
-    <div data-slot="pages-lead" className={cn("flex flex-col justify-between gap-1", className)} {...props}>
+    <div data-slot="page-lead" className={cn("flex flex-col justify-between gap-1", className)} {...props}>
       <h1 className="text-[2.5rem] leading-none font-bold text-black">{title}</h1>
       <p className="text-sm text-zinc-500">{caption}</p>
     </div>
   )
 }
 
-export { PagesLead }
+export { PageLead }

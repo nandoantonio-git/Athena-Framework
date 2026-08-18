@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { Callout } from "../../src/components/celules/callout"
+import { Callout } from "../../src/components/cells/callout"
 
 const meta = {
-  title: "Celules/Callout",
+  title: "Cells/Callout",
   component: Callout,
   parameters: {
     layout: "centered",

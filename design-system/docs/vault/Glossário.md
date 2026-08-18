@@ -12,12 +12,13 @@ Terminologia do domínio Kandrive — ver [[Regra 5 - Terminologia]] pra regra c
 | --- | --- |
 | Acesso rápido | Categoria de armazenamento de curto prazo |
 | Longo prazo | Categoria de armazenamento arquivado |
-| Guardar | Ação de arquivar em longo prazo |
-| Arquivar | idem |
+| Guardar | Ação **específica** de mover arquivos pro longo prazo. Ex.: "Guardar é a ação de mover um arquivo do acesso rápido para o longo prazo." (FAQ real, `faq-info-card-collapsed.tsx`) |
+| Arquivar | Pattern **geral** de organização/agrupamento de arquivos — processo mais amplo, do qual "Guardar" é uma ação específica. **Nunca sinônimo de "Guardar"** — ver [[Regra 5 - Terminologia]] |
 | Pronto para guardar | Status de arquivo elegível pra arquivamento |
 | Ver duplicados | Ação de detecção de duplicados |
 | Gerir Espaço | Termo aprovado **só na [[Sidebar]]** |
 | Liberar Espaço | Termo aprovado **só em Armazenamento/Config. de Plano** |
+| Comprar Espaço | Botão de upgrade de plano, `organism/storage-sidebar` (Figma-confirmado, node `1421:19167`) |
 
 ## Proibidos como texto visível
 

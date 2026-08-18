@@ -19,7 +19,7 @@ Vault de documentação viva do **kandrive-design-system** — o design system S
 
 ## Design System
 
-- [[Camadas Atômicas]] — atoms → celules → molecules → organisms
+- [[Camadas Atômicas]] — atoms → cells → molecules → organisms
 - [[Fonte Figma]] — onde tudo isso vem
 - [[Tokens de Cor]]
 - [[Tipografia]]
@@ -35,6 +35,8 @@ As regras abaixo são a "constituição" do projeto — qualquer achado do Figma
 - [[Regra 4 - Tipografia e Acessibilidade]]
 - [[Regra 5 - Terminologia]]
 - [[Regra 6 - Segmentação de Armazenamento]]
+- [[Regra 7 - Gaps Conhecidos]]
+- [[Regra 8 - Fluid Interface]]
 - [[Regra 9 - Figma-confirmado vs Inferido]]
 - [[Regra 10 - Liquid Glass]]
 - [[Regra 11 - Protocolo de Verificação]]
@@ -59,7 +61,7 @@ Ver [[Camadas Atômicas]] pro catálogo completo (84 componentes). Notas própri
 | Métrica | Valor |
 | --- | --- |
 | User stories concluídas | 26 / 26 |
-| Componentes no catálogo | 84 (29 atoms, 10 celules, 22 molecules, 23 organisms) |
+| Componentes no catálogo | 84 (29 atoms, 10 cells, 22 molecules, 23 organisms) |
 | Estados/variantes renderizáveis | 276+ |
 | Conflitos registrados (histórico) | 39 linhas, maioria resolvida — ver [[Conflitos Abertos]] |
 | Gate de validação | `tsc --noEmit` + `build-storybook` |

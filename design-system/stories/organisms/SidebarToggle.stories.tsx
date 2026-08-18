@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { SidebarToggle } from "../../src/components/organisms/sidebar-toggle"
 
 const meta = {
-  title: "Organisms/SidebarToggle",
+  title: "Organisms/Sidebar/Toggle",
   component: SidebarToggle,
   parameters: { layout: "centered", design: { type: 'figma', url: 'https://www.figma.com/design/oFp2TLeCG4GJeCOFVhBvjg/KanDrive?node-id=1421-19118' } },
   argTypes: {

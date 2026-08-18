@@ -11,11 +11,11 @@ tags: [componente, organism]
 
 ## Composição
 
-Duas seções: "Arquivos grandes" (lista via [[CleanSpaceListSelection|celule CleanSpaceListSelection]], reusada — Regra 10) e "Arquivos duplicados" (prévia ilustrativa, com badge "Prévia" indicando que a detecção de fato ainda não existe).
+Duas seções: "Arquivos grandes" (lista via `CleanSpaceListSelection` (cell) — sem nota própria no vault, ver [[Camadas Atômicas]] e `stories/cells/CleanSpaceListSelection.mdx`, reusada — Regra 10) e "Arquivos duplicados" (prévia ilustrativa, com badge "Prévia" indicando que a detecção de fato ainda não existe).
 
 ## Ícones de arquivo — atualizados em 2026-08-15
 
-Trocados de aproximação `lucide-react` pro glifo real exportado do Figma (`favincon/ArchiveFormats`, node `1444:21914`) — cartão gradiente teal com 3 linhas brancas. A celule `CleanSpaceListSelection` recebeu o fix; `cleanSpaceStorage` cascateou automaticamente por reusar a mesma peça.
+Trocados de aproximação `lucide-react` pro glifo real exportado do Figma (`favincon/ArchiveFormats`, node `1444:21914`) — cartão gradiente teal com 3 linhas brancas. A cell `CleanSpaceListSelection` recebeu o fix; `cleanSpaceStorage` cascateou automaticamente por reusar a mesma peça.
 
 ## Gatilhos — 2 termos, 1 modal
 

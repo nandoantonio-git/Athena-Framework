@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { DropdownSelectLabelItem } from "../../src/components/atoms/dropdown-select-label-item"
 
 const meta = {
-  title: "Atoms/DropdownSelectLabelItem",
+  title: "Atoms/DropdownSelectLabel/Item",
   component: DropdownSelectLabelItem,
   parameters: {
     layout: "centered",

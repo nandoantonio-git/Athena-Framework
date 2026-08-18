@@ -3,12 +3,12 @@ import { Plus } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-export type ButtonAddState = "idle" | "hover" | "clicked" | "disabled"
+export type AddButtonState = "idle" | "hover" | "clicked" | "disabled"
 
-export interface ButtonAddProps extends React.ComponentProps<"button"> {
+export interface AddButtonProps extends React.ComponentProps<"button"> {
   label?: string
   /** Congela o estado visual Figma para auditoria/Storybook; consumidores reais podem omitir. */
-  state?: ButtonAddState
+  state?: AddButtonState
 }
 
 /**
@@ -26,20 +26,20 @@ export interface ButtonAddProps extends React.ComponentProps<"button"> {
  * (US-016) — antes o botão "Adicionar arquivos" duplicava essa mesma
  * anatomia inline.
  */
-function ButtonAdd({
+function AddButton({
   label = "Adicionar",
   state = "idle",
   className,
   disabled,
   children,
   ...props
-}: ButtonAddProps) {
+}: AddButtonProps) {
   const isDisabled = disabled || state === "disabled"
 
   return (
     <button
       type="button"
-      data-slot="button-add"
+      data-slot="add-button"
       data-state={state}
       disabled={isDisabled}
       className={cn(
@@ -59,4 +59,4 @@ function ButtonAdd({
   )
 }
 
-export { ButtonAdd }
+export { AddButton }

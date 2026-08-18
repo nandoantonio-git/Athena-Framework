@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { PlusButton } from "../../src/components/atoms/plus-button"
 
 const meta = {
-  title: "Atoms/PlusButton",
+  title: "Atoms/IconButton/Plus",
   component: PlusButton,
   parameters: {
     layout: "centered",

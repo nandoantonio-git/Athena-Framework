@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { CloseButton } from "../../src/components/atoms/close-button"
 
 const meta = {
-  title: "Atoms/CloseButton",
+  title: "Atoms/IconButton/Close",
   component: CloseButton,
   parameters: {
     layout: "centered",

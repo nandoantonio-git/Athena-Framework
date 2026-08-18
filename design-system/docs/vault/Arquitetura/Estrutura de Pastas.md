@@ -21,14 +21,14 @@ Athena-Framework/                    # raiz — scaffold Ralph Loop
     │
     ├── src/components/
     │   ├── atoms/                   # 29 componentes
-    │   ├── celules/                 # 10 — camada real entre atom e molecule
+    │   ├── cells/                   # 10 — camada real entre atom e molecule (renomeada de celules em 2026-08-18)
     │   ├── molecules/               # 22
     │   ├── organisms/               # 23
     │   ├── tokens/                  # ColorSwatch/ColorPalette (paleta visual)
     │   └── ui/                      # primitivos shadcn (não usados diretamente pelo produto)
     │
     ├── stories/
-    │   ├── atoms/, celules/, molecules/, organisms/   # 1 .stories.tsx + 1 .mdx por componente
+    │   ├── atoms/, cells/, molecules/, organisms/   # 1 .stories.tsx + 1 .mdx por componente
     │   └── tokens/                  # Colors.mdx, Typography.mdx, Spacing.mdx, Materials.mdx, unused.mdx
     │
     ├── src/assets/
@@ -53,9 +53,9 @@ Athena-Framework/                    # raiz — scaffold Ralph Loop
 
 `kebab-case` pro código-fonte (`push-button.tsx`), `PascalCase` pras stories/docs (`PushButton.stories.tsx`, `PushButton.mdx`) — espelhando 1:1 o nome do componente.
 
-## `celules` não é typo
+## `cells` (renomeada de `celules`) não é typo
 
-É uma camada real e intencional entre atoms e molecules — nome vem literalmente do Figma (`celule/...`), não uma categoria inventada. Ver [[Camadas Atômicas]].
+É uma camada real e intencional entre atoms e molecules. O nome do código foi renomeado de `celules` pra `cells` em 2026-08-18 (alinhamento semântico em inglês); as citações Figma continuam usando o prefixo literal `celule/...` (Regra 9 — não traduzido), já que é assim que o arquivo fonte nomeia essas camadas. Não é uma categoria inventada. Ver [[Camadas Atômicas]].
 
 ## Ver também
 

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { FaqFastLinks } from "../../src/components/organisms/faq-fast-links"
 
 const meta = {
-  title: "Organisms/FaqFastLinks",
+  title: "Organisms/Faq/FastLinks",
   component: FaqFastLinks,
   parameters: {
     layout: "padded",

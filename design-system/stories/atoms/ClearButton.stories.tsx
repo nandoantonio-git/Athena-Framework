@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { ClearButton } from "../../src/components/atoms/clear-button"
 
 const meta = {
-  title: "Atoms/ClearButton",
+  title: "Atoms/IconButton/Clear",
   component: ClearButton,
   parameters: {
     layout: "centered",

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { StorageStatusCurrent } from "../../src/components/molecules/storage-status-current"
 
 const meta = {
-  title: "Molecules/StorageStatusCurrent",
+  title: "Molecules/StorageStatus/Current",
   component: StorageStatusCurrent,
   parameters: {
     layout: "padded",

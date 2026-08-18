@@ -3,10 +3,10 @@ import { Filter, Plus, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { PushButton } from "@/components/atoms/push-button"
-import { FreeModeItemNode } from "@/components/celules/free-mode-item-node"
-import { FreeModeListItem, type FreeModeListItemOperation } from "@/components/celules/free-mode-list-item"
-import { FreeModeOutputNode } from "@/components/celules/free-mode-output-node"
-import { FreeModeButtons } from "@/components/celules/free-mode-buttons"
+import { FreeModeItemNode } from "@/components/cells/free-mode-item-node"
+import { FreeModeListItem, type FreeModeListItemOperation } from "@/components/cells/free-mode-list-item"
+import { FreeModeOutputNode } from "@/components/cells/free-mode-output-node"
+import { FreeModeButtons } from "@/components/cells/free-mode-buttons"
 
 const ADD_NODE_OPERATIONS: readonly FreeModeListItemOperation[] = [
   "juncao",
@@ -21,7 +21,7 @@ const ADD_NODE_OPERATIONS: readonly FreeModeListItemOperation[] = [
 /**
  * Conectores tracejados do canvas — elemento Figma-confirmado no nó
  * `1439:16906`. Implementados como overlay absoluto porque as curvas
- * pertencem ao canvas composto, não às celules individuais.
+ * pertencem ao canvas composto, não às cells individuais.
  */
 function FreeModeConnectors() {
   return (

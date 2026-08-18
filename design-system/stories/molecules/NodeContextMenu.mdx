@@ -1,9 +1,9 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
-import * as NodoContextMenuStories from './NodoContextMenu.stories';
+import * as NodeContextMenuStories from './NodeContextMenu.stories';
 
-<Meta of={NodoContextMenuStories} />
+<Meta of={NodeContextMenuStories} />
 
-# NodoContextMenu (Figma: `molecule/nodoContextMenu`, `1440:23821`)
+# NodeContextMenu (Figma: `molecule/nodoContextMenu`, `1440:23821`)
 
 ## Uso
 
@@ -12,7 +12,7 @@ Organização em Modo Livre. Abre ao selecionar um `FreeModeItemNode` — não
 é um menu de contexto genérico de clique-direito. Possibilita criar filtro
 e operações condicionais sobre o nó selecionado.
 
-<Canvas of={NodoContextMenuStories.Default} />
+<Canvas of={NodeContextMenuStories.Default} />
 <Controls />
 
 ## Anatomia
@@ -21,8 +21,8 @@ Título "Filtro" com ícone + linha de condição preenchida + toggle lógico
 "E"/"OU" entre condições + segunda linha de condição (nova regra) + botão
 "Adicionar Regra" + rodapé com "Descartar Mudanças"/"Salvar Mudanças".
 
-<Canvas of={NodoContextMenuStories.WrongInput} />
-<Canvas of={NodoContextMenuStories.LogicalOr} />
+<Canvas of={NodeContextMenuStories.WrongInput} />
+<Canvas of={NodeContextMenuStories.LogicalOr} />
 
 ## Estado de erro
 

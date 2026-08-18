@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { useState } from "react"
 
-import { CleanSpaceListSelection } from "../../src/components/celules/clean-space-list-selection"
+import { CleanSpaceListSelection } from "../../src/components/cells/clean-space-list-selection"
 
 const meta = {
-  title: "Celules/CleanSpaceListSelection",
+  title: "Cells/CleanSpaceListSelection",
   component: CleanSpaceListSelection,
   parameters: {
     layout: "centered",
